@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  PUBLISHER
+}
+
+model Publisher {
+  id        Int      @id @default(autoincrement())
+  name      String
+  password  String
+  email     String   @unique
+  role      Role     @default(PUBLISHER) // All of em are publishers, some of em are admins
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  shifts    ShiftPublisher[]
+  responsibleShifts Shift[] @relation("ShiftResponsable")
+}
+
+model Shift {
+  id            Int      @id @default(autoincrement())
+  status        String
+  date          DateTime
+  place         String?
+  cartId        Int?
+  scheduleId    Int
+  responsableId Int? 
+
+  schedule   Schedule         @relation(fields: [scheduleId], references: [id])
+  cart       Cart?            @relation(fields: [cartId], references: [id])
+  publishers ShiftPublisher[]
+  responsable Publisher? @relation("ShiftResponsable", fields: [responsableId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Schedule {
+  id        Int      @id @default(autoincrement())
+  startTime DateTime
+  endTime   DateTime
+
+  shifts Shift[]
+}
+
+model Cart {
+  id     Int        @id @default(autoincrement())
+  number Int
+  shifts Shift[]
+  zones  CartZone[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ShiftPublisher {
+  shiftId     Int
+  publisherId Int
+
+  shift     Shift     @relation(fields: [shiftId], references: [id])
+  publisher Publisher @relation(fields: [publisherId], references: [id])
+
+  @@id([shiftId, publisherId])
+}
+
+model Zone {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+
+  carts     CartZone[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartZone {
+  cartId Int
+  zoneId Int
+
+  cart Cart @relation(fields: [cartId], references: [id])
+  zone Zone @relation(fields: [zoneId], references: [id])
+
+  @@id([cartId, zoneId])
+}
+
