@@ -5,4 +5,3 @@ const prisma = new PrismaClient();
 export const findPublisherByEmail = async (email) => {
   return await prisma.publisher.findUnique({ where: { email } });
 };
-f

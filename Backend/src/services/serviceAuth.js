@@ -1,8 +1,10 @@
 // src/services/authService.js
 import bcrypt from "bcrypt";
+import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import * as AuthRepo from "../Repositories/authRepository.js";
 
+const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
 
 export const login = async (email, password) => {
@@ -20,3 +22,32 @@ export const login = async (email, password) => {
 
   return { token, publisher };
 };
+
+export const register = async ({ email, password, name }) => {
+  const existingUser = await prisma.publisher.findUnique({ where: { email } });
+
+  if (existingUser) throw new Error("El usuario ya existe");
+  const hashedPassword = await bcrypt.hash(password, 10)
+
+  
+  const user = await prisma.publisher.create({
+    data:{
+      email,
+      password:hashedPassword,
+      name
+    },
+  })
+
+//CREATE JWT TOKEN
+  const token = jwt.sign(
+    { id: user.id, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
+  );
+
+//HIDE PASSWORD IN THE JSON
+   const { password: _, ...userWithoutPassword } = user;
+  return { token, user: userWithoutPassword };
+};
+
+  
