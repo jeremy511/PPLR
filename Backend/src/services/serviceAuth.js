@@ -8,7 +8,9 @@ const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
 
 export const login = async (email, password) => {
+  
   const publisher = await AuthRepo.findPublisherByEmail(email);
+
   if (!publisher) throw new Error("Usuario no encontrado");
 
   const isMatch = await bcrypt.compare(password, publisher.password);
@@ -27,27 +29,24 @@ export const register = async ({ email, password, name }) => {
   const existingUser = await prisma.publisher.findUnique({ where: { email } });
 
   if (existingUser) throw new Error("El usuario ya existe");
-  const hashedPassword = await bcrypt.hash(password, 10)
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-  
   const user = await prisma.publisher.create({
-    data:{
+    data: {
       email,
-      password:hashedPassword,
-      name
+      password: hashedPassword,
+      name,
     },
-  })
+  });
 
-//CREATE JWT TOKEN
+  //CREATE JWT TOKEN
   const token = jwt.sign(
     { id: user.id, email: user.email },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
 
-//HIDE PASSWORD IN THE JSON
-   const { password: _, ...userWithoutPassword } = user;
+  //HIDE PASSWORD IN THE JSON
+  const { password: _, ...userWithoutPassword } = user;
   return { token, user: userWithoutPassword };
 };
-
-  
