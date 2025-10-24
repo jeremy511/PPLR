@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
+import Skeleton from "react-loading-skeleton";
 import {
   Card,
   CardAction,
@@ -15,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginSchema } from "@/schemas/auth";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const { login } = useAuth();
@@ -24,28 +26,21 @@ function Login() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [generalError, setGeneralError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setGeneralError("");
-    setFieldErrors({});
     setLoading(true);
+    setGeneralError("");
 
-    try {
-      const success = await login(email, password); // retorna true o false
-
-      if (!success) {
-        console.log(success);
-        setGeneralError("Credenciales inválidas");
-      } else {
-        // Redirigir después del login
-// usa react-router-dom o similar
-      }
-    } catch (err) {
-      setGeneralError("Error de conexión");
-    } finally {
-      setLoading(false);
+    const success = await login(email, password);
+    if (success) {
+      navigate("/dashboard");
+    } else {
+      setGeneralError("Credenciales inválidas");
     }
+    setLoading(false);
   };
 
   return (
@@ -143,7 +138,7 @@ function Login() {
               <div className="grid gap-2">
                 <Label htmlFor="account" className="justify-center font-bold">
                   No tienes una cuenta?
-                  <Button variant="link" className="text-blue-500 font-bold">
+                  <Button variant="link" className="text-blue-500 font-bold" onClick={() => navigate("/register")}>
                     Registrate
                   </Button>
                 </Label>

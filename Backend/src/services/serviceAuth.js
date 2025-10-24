@@ -48,5 +48,5 @@ export const register = async ({ email, password, name }) => {
 
   //HIDE PASSWORD IN THE JSON
   const { password: _, ...userWithoutPassword } = user;
-  return { token, user: userWithoutPassword };
+  return { publisher: userWithoutPassword };
 };

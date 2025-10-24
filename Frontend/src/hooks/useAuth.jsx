@@ -10,31 +10,49 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Verificar sesión al montar
   useEffect(() => {
-    getProfile()
-      .then((data) => setUser(data.publisher))
-      .catch(() => setUser(null));
+    (async () => {
+      try {
+        const data = await getProfile();
+        setUser(data.publisher || null);
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
-const login = async (email, password) => {
-  try {
-    const data = await loginApi(email, password);
-    setUser(data.publisher);
-    return true; // ✅ Retorna true si el login fue exitoso
-  } catch (err) {
-    return false; // ❌ Retorna false si hubo error
-  }
-};
-
+  const login = async (email, password) => {
+    try {
+      setError(null);
+      const data = await loginApi(email, password); // loginApi ya retorna JSON
+      console.log("DATA EN USEAUTH:", data);
+      if (!data) return false;
+      if (!data.publisher) return false;
+      setUser(data.publisher);
+      return true;
+    } catch (err) {
+      console.error("ERROR EN LOGIN USEAUTH:", err);
+      setError("Credenciales inválidas o error de conexión");
+      return false;
+    }
+  };
 
   const logout = async () => {
-    await logoutApi();
-    setUser(null);
+    try {
+      await logoutApi();
+    } finally {
+      setUser(null);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, error, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

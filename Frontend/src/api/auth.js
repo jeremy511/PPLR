@@ -6,11 +6,13 @@ export const login = async (email, password) => {
   const res = await fetch(`${API_URL}/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    credentials: "include", // NECESARIO para cookies
+    credentials: "include",
     body: JSON.stringify({ email, password }),
   });
-  if (!res.ok) throw new Error("Error en login");
-  return res.json();
+
+  if (!res.ok) return false;
+  const data = await res.json();
+  return data;
 };
 
 export const logout = async () => {
@@ -28,3 +30,4 @@ export const getProfile = async () => {
   if (!res.ok) throw new Error("No autenticado");
   return res.json();
 };
+
