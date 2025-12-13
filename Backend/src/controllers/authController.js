@@ -1,7 +1,6 @@
 // src/controllers/authController.js
 import * as AuthService from "../services/serviceAuth.js";
 
-
 export const loginController = async (req, res) => {
   const { email, password } = req.body;
 
@@ -17,13 +16,12 @@ export const loginController = async (req, res) => {
     res.cookie("token", result.token, {
       httpOnly: true, // evita acceso desde JS
       secure: process.env.NODE_ENV === "production", // solo HTTPS en prod
-      sameSite: "strict", // previene CSRF
+      sameSite: "lax", // previene CSRF
       maxAge: 60 * 60 * 1000, // 1 hora
     });
 
     // Mandar JSON con info del usuario y opcionalmente el token
     res.json({
-
       publisher: publisherWithoutPassword,
     });
   } catch (err) {

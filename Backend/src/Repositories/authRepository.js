@@ -1,6 +1,4 @@
-// src/repositories/authRepository.js
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import prisma from "../lib/prisma.js";
 
 export const findPublisherByEmail = async (email) => {
   return await prisma.publisher.findUnique({ where: { email } });

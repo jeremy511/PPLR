@@ -5,9 +5,8 @@
       "name": "Debug React (Vite) in Chrome",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:5174",
-      "webRoot": "${workspaceFolder}/src",
-      "breakOnLoad": true
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/src"
     }
   ]
 }

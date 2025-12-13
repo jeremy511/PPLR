@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
@@ -19,7 +19,7 @@ import { loginSchema } from "@/schemas/auth";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const { login } = useAuth();
+  const { login, user, loading: authLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -28,6 +28,11 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (user && !authLoading) {
+      navigate("/dashboard");
+    }
+  }, [user, authLoading, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,6 +46,11 @@ function Login() {
       setGeneralError("Credenciales inválidas");
     }
     setLoading(false);
+  };
+
+    
+   const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:3000/api/auth/google";
   };
 
   return (
@@ -130,6 +140,7 @@ function Login() {
               <Button
                 variant="outline"
                 className="w-full flex items-center gap-2"
+                 onClick={handleGoogleLogin}
               >
                 <FcGoogle className="w-8 h-8" />
                 <span className="text-base">Login with Google</span>
@@ -138,7 +149,11 @@ function Login() {
               <div className="grid gap-2">
                 <Label htmlFor="account" className="justify-center font-bold">
                   No tienes una cuenta?
-                  <Button variant="link" className="text-blue-500 font-bold" onClick={() => navigate("/register")}>
+                  <Button
+                    variant="link"
+                    className="text-blue-500 font-bold"
+                    onClick={() => navigate("/register")}
+                  >
                     Registrate
                   </Button>
                 </Label>

@@ -1,6 +1,6 @@
 // src/api/auth.js
 const API_URL = "http://localhost:3000/api/auth";
-const PROTECTED_API = "http://localhost:3000/api/protected";
+const PROTECTED_API = "http://localhost:3000/api/auth";
 
 export const login = async (email, password) => {
   const res = await fetch(`${API_URL}/login`, {
@@ -30,4 +30,3 @@ export const getProfile = async () => {
   if (!res.ok) throw new Error("No autenticado");
   return res.json();
 };
-

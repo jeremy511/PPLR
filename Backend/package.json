@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "jest": "^30.2.0",
     "standard": "17.1.2"
   },
   "eslintConfig": {
@@ -19,10 +20,10 @@
   },
   "dependencies": {
     "@prisma/client": "^6.14.0",
-    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "express": "5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "next-auth": "^4.24.11",
+    "mime-db": "^1.54.0",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "prisma": "6.15.0"

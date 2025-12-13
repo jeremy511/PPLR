@@ -1,6 +1,8 @@
 import React from "react";
+import { useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
 
-const Dashboard = () => {
+export default function Dashboard() {  
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       {/* Header */}
@@ -64,4 +66,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+

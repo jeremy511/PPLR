@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     (async () => {
       try {
         const data = await getProfile();
-        setUser(data.publisher || null);
+        setUser(data.user || null);
       } catch {
         setUser(null);
       } finally {
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       setError(null);
-      const data = await loginApi(email, password); // loginApi ya retorna JSON
+      const data = await loginApi(email, password);
       console.log("DATA EN USEAUTH:", data);
       if (!data) return false;
       if (!data.publisher) return false;
@@ -51,8 +51,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const checkAuth = async () => {
+    try {
+      const data = await getProfile();
+      setUser(data.user || null);
+    } catch {
+      setUser(null);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, error, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, loading, error, login, logout, checkAuth }}
+    >
       {children}
     </AuthContext.Provider>
   );
