@@ -18,8 +18,10 @@ export const AuthProvider = ({ children }) => {
     (async () => {
       try {
         const data = await getProfile();
+        console.log("PERFIL DESDE EL BACKEND:", data);
         setUser(data.user || null);
-      } catch {
+      } catch (err) {
+        console.error("ERROR AL OBTENER PERFIL:", err);
         setUser(null);
       } finally {
         setLoading(false);
@@ -31,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       const data = await loginApi(email, password);
-      console.log("DATA EN USEAUTH:", data);
+      console.log("LOGIN DESDE EL BACKEND:", data);
       if (!data) return false;
       if (!data.publisher) return false;
       setUser(data.publisher);
@@ -54,8 +56,10 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = async () => {
     try {
       const data = await getProfile();
+      console.log("CHECK AUTH DESDE EL BACKEND:", data);
       setUser(data.user || null);
-    } catch {
+    } catch (err) {
+      console.error("ERROR EN CHECK AUTH:", err);
       setUser(null);
     }
   };

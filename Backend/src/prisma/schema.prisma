@@ -18,6 +18,14 @@ enum Role {
   PUBLISHER
 }
 
+enum ShiftStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+
 model Publisher {
   id        Int      @id @default(autoincrement())
   name      String

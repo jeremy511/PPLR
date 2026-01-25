@@ -1,14 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
-import Skeleton from "react-loading-skeleton";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,16 +14,30 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginSchema } from "@/schemas/auth";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 function Login() {
   const { login, user, loading: authLoading } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
-  const [fieldErrors, setFieldErrors] = useState({});
   const [generalError, setGeneralError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const form = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   useEffect(() => {
     if (user && !authLoading) {
@@ -34,12 +45,11 @@ function Login() {
     }
   }, [user, authLoading, navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (values) => {
     setLoading(true);
     setGeneralError("");
 
-    const success = await login(email, password);
+    const success = await login(values.email, values.password);
     if (success) {
       navigate("/dashboard");
     } else {
@@ -48,8 +58,7 @@ function Login() {
     setLoading(false);
   };
 
-    
-   const handleGoogleLogin = () => {
+  const handleGoogleLogin = () => {
     window.location.href = "http://localhost:3000/api/auth/google";
   };
 
@@ -72,94 +81,85 @@ function Login() {
         </CardHeader>
 
         <CardContent>
-          {errors.length > 0 && (
-            <ul className="mb-4 rounded border border-red-400 bg-red-50 p-3 text-red-700 list-disc list-inside">
-              {errors.map((error, idx) => (
-                <li key={idx}>{error}</li>
-              ))}
-            </ul>
-          )}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-            {/* Error general */}
-            {generalError && (
-              <div className="mb-4 rounded border border-red-400 bg-red-50 p-3 text-red-700">
-                {generalError}
-              </div>
-            )}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
+              {/* Error general */}
+              {generalError && (
+                <div className="mb-4 rounded border border-red-400 bg-red-50 p-3 text-red-700">
+                  {generalError}
+                </div>
+              )}
 
-            {/* Errores por campo */}
-            {Object.keys(fieldErrors).length > 0 && (
-              <div className="mb-4 rounded border border-red-400 bg-red-50 p-3 text-red-700">
-                {Object.entries(fieldErrors).map(([field, messages]) => (
-                  <div key={field} className="mb-2">
-                    <strong className="capitalize">{field}:</strong>
-                    <ul className="list-disc list-inside ml-4">
-                      {messages.map((msg, idx) => (
-                        <li key={idx}>{msg}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                value={email}
-                type="email" // <-- fix aquí
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Email" type="email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Contraseña</Label>
-                <a
-                  href="#"
-                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-center">
+                      <FormLabel>Contraseña</FormLabel>
+                      <a
+                        href="#"
+                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                      >
+                        Olvidaste tu Contraseña?
+                      </a>
+                    </div>
+                    <FormControl>
+                      <Input
+                        placeholder="Contraseña"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex flex-col gap-2">
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Cargando..." : "Entrar"}
+                </Button>
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="w-full flex items-center gap-2"
+                  onClick={handleGoogleLogin}
                 >
-                  Olvidaste tu Contraseña?
-                </a>
-              </div>
-              <Input
-                value={password}
-                id="password"
-                type="password"
-                placeholder="Contraseña"
-                required
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+                  <FcGoogle className="w-8 h-8" />
+                  <span className="text-base">Login with Google</span>
+                </Button>
 
-            <div className="flex flex-col gap-2">
-              <Button type="submit" className="w-full">
-                {loading ? "Cargando..." : "Entrar"}
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full flex items-center gap-2"
-                 onClick={handleGoogleLogin}
-              >
-                <FcGoogle className="w-8 h-8" />
-                <span className="text-base">Login with Google</span>
-              </Button>
-
-              <div className="grid gap-2">
-                <Label htmlFor="account" className="justify-center font-bold">
-                  No tienes una cuenta?
-                  <Button
-                    variant="link"
-                    className="text-blue-500 font-bold"
-                    onClick={() => navigate("/register")}
-                  >
-                    Registrate
-                  </Button>
-                </Label>
+                <div className="grid gap-2">
+                  <Label htmlFor="account" className="justify-center font-bold">
+                    No tienes una cuenta?
+                    <Button
+                      variant="link"
+                      className="text-blue-500 font-bold"
+                      onClick={() => navigate("/register")}
+                      type="button"
+                    >
+                      Registrate
+                    </Button>
+                  </Label>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>

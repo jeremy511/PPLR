@@ -114,7 +114,51 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Page Loader */
+.loader {
+  width: 120px;
+  height: 20px;
+  background:
+    radial-gradient(circle 10px, #4f46e5 95%, #0000) right /calc(200% + 20px) 100%,
+    linear-gradient(#4f46e5 0 0) center/100% 6px;
+  background-repeat: no-repeat;
+  -webkit-mask: radial-gradient(circle 4px, #0000 93%, #000) right/calc(200% + 20px) 100%;
+  mask: radial-gradient(circle 4px, #0000 93%, #000) right/calc(200% + 20px) 100%;
+  animation: l6 1s infinite linear;
+}
+
+@keyframes l6 {
+  100% {
+    background-position: left;
+    -webkit-mask-position: left;
+    mask-position: left
+  }
+}
+
+/* Protected Route Loader */
+.protected-loader {
+  height: 30px;
+  aspect-ratio: 6;
+  --c: #0000 64%, #e55146 66% 98%, #0000 101%;
+  background:
+    radial-gradient(35% 146% at 50% 159%, var(--c)) 0 0,
+    radial-gradient(35% 146% at 50% -59%, var(--c)) 25% 100%;
+  background-size: calc(100%/3) 50%;
+  background-repeat: repeat-x;
+  clip-path: inset(0 100% 0 0);
+  animation: l2 1s infinite linear;
+}
+
+@keyframes l2 {
+
+  90%,
+  to {
+    clip-path: inset(0)
   }
 }

@@ -28,13 +28,10 @@ export default function initGoogleAuth() {
           });
         }
 
-        const token = jwt.sign(
-          { id: user.id, email: user.email },
-          JWT_SECRET,);
-      
         return done(null, {
           id: user.id,
           email: user.email,
+          name: user.name,
         });
       }
     )

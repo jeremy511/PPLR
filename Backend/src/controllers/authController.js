@@ -38,3 +38,13 @@ export const registerController = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+export const logoutController = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+  });
+  res.json({ message: "Sesión cerrada exitosamente" });
+};

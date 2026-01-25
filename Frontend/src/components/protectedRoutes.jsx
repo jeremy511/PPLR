@@ -6,9 +6,10 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <p className="text-center mt-10">
-        Cargando...
-      </p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 gap-4">
+        <div className="protected-loader" />
+        <p className="text-gray-500 font-medium animate-pulse">Cargando</p>
+      </div>
     );
   }
 

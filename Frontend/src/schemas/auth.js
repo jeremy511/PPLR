@@ -6,7 +6,14 @@ export const loginSchema = z.object({
     .string()
     .min(1, "El email es obligatorio")
     .email("El email debe ser válido"),
+  password: z.string().min(1, "La contraseña es obligatoria"),
+});
 
+export const registerSchema = z.object({
+  email: z
+    .string()
+    .min(1, "El email es obligatorio")
+    .email("El email debe ser válido"),
   password: z
     .string()
     .min(8, "La contraseña debe tener al menos 8 caracteres")

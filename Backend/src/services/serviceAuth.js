@@ -16,7 +16,7 @@ export const login = async (email, password) => {
   if (!isMatch) throw new Error("Contraseña incorrecta");
 
   const token = jwt.sign(
-    { id: publisher.id, role: publisher.role, email: publisher.email },
+    { id: publisher.id, role: publisher.role, email: publisher.email, name: publisher.name },
     JWT_SECRET,
     { expiresIn: "1h" }
   );
