@@ -8,7 +8,8 @@ import { PORT } from "./config.js";
 import authRoutes from "./routes/authRoutes.js";
 import protectedRoutes from "./routes/authRoutes.js";
 import initGoogleAuth from "./routes/googleAuth.js";
-import shiftRoutes from "./routes/Shift.js";
+import shiftRoutes from "./routes/shift.js";
+import zoneRoutes from "./routes/zoneRoutes.js";
 
 // 1) load env
 dotenv.config();
@@ -40,6 +41,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/api/shifts", shiftRoutes);
+app.use("/api/zones", zoneRoutes);
 
 app.listen(PORT, () => {
   console.log(`Bienvenidos al himalaya ${PORT}`);

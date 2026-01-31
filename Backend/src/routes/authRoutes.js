@@ -2,16 +2,16 @@
 import passport from "passport";
 import express from "express";
 import jwt from "jsonwebtoken";
-import { loginController, registerController, logoutController } from "../controllers/authController.js";
+import { loginController, registerController, logoutController, getAllPublishers } from "../controllers/authController.js";
+import { adminMiddleware, authMiddleware } from "../Middleware/authMiddleware.js";
 import { validateSchema } from "../Middleware/validateMiddleware.js";
 import { registerSchema, loginSchema } from "../validations/authValidations.js";
-import { authMiddleware } from "../Middleware/authMiddleware.js";
 
-import { FRONTEND_URL, JWT_SECRET } from "../config.js";
+import { JWT_SECRET } from "../config.js";
 import prisma from "../lib/prisma.js";
 
-
 const router = express.Router();
+
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -19,6 +19,7 @@ router.get(
     session: false,
   })
 );
+
 router.get(
   "/google/callback",
   passport.authenticate("google", {
@@ -46,6 +47,7 @@ router.get(
 router.post("/login", validateSchema(loginSchema), loginController);
 router.post("/register", validateSchema(registerSchema), registerController);
 router.post("/logout", logoutController);
+
 router.get("/me", authMiddleware, async (req, res) => {
   try {
     const user = await prisma.publisher.findUnique({
@@ -71,5 +73,7 @@ router.get("/me", authMiddleware, async (req, res) => {
     res.status(500).json({ error: "Error al obtener el perfil" });
   }
 });
+
+router.get("/publishers", authMiddleware, adminMiddleware, getAllPublishers);
 
 export default router;

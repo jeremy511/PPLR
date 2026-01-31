@@ -24,17 +24,32 @@ export const login = async (email, password) => {
   return { token, publisher };
 };
 
-export const register = async ({ email, password, name }) => {
+export const register = async ({ email, password, name, birthdate, gender }) => {
   const existingUser = await prisma.publisher.findUnique({ where: { email } });
 
   if (existingUser) throw new Error("El usuario ya existe");
   const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Age calculation
+  let calculatedAge = 0;
+  if (birthdate) {
+    const birth = new Date(birthdate);
+    const now = new Date();
+    calculatedAge = now.getFullYear() - birth.getFullYear();
+    const m = now.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) {
+        calculatedAge--;
+    }
+  }
 
   const user = await prisma.publisher.create({
     data: {
       email,
       password: hashedPassword,
       name,
+      birthdate: birthdate ? new Date(birthdate) : null,
+      gender: gender || "MALE",
+      age: calculatedAge || 18, // Default fallback if birthdate missing or error
     },
   });
 
@@ -47,5 +62,16 @@ export const register = async ({ email, password, name }) => {
 
   //HIDE PASSWORD IN THE JSON
   const { password: _, ...userWithoutPassword } = user;
-  return { publisher: userWithoutPassword };
+  return { publisher: userWithoutPassword, token };
+};
+
+export const getAllPublishers = async () => {
+    return prisma.publisher.findMany({
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true
+        }
+    });
 };

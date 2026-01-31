@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth"; 
+import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 
 export const title = "Signup Form";
@@ -35,6 +35,10 @@ const formSchema = z.object({
     .regex(/[A-Z]/, "Debe contener al menos una mayúscula")
     .regex(/[a-z]/, "Debe contener al menos una minúscula")
     .regex(/[0-9]/, "Debe contener al menos un número"),
+  birthdate: z.string().min(1, { message: "La fecha de nacimiento es requerida." }),
+  gender: z.enum(["MALE", "FEMALE"], {
+    required_error: "Selecciona tu sexo.",
+  }),
   terms: z.boolean().refine((val) => val === true, {
     message: "Debes aceptar los términos y condiciones.",
   }),
@@ -51,6 +55,8 @@ const Register = () => {
       fullName: "",
       email: "",
       password: "",
+      birthdate: "",
+      gender: "MALE",
       terms: false,
     },
   });
@@ -65,6 +71,8 @@ const Register = () => {
           name: values.fullName,
           email: values.email,
           password: values.password,
+          birthdate: values.birthdate,
+          gender: values.gender,
         }),
       });
 
@@ -152,6 +160,42 @@ const Register = () => {
                 </FormItem>
               )}
             />
+
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="birthdate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nacimiento</FormLabel>
+                    <FormControl>
+                      <Input type="date" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sexo</FormLabel>
+                    <FormControl>
+                      <select
+                        {...field}
+                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                      >
+                        <option value="MALE">Hombre</option>
+                        <option value="FEMALE">Mujer</option>
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}

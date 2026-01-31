@@ -1,7 +1,17 @@
-const API_URL = "http://localhost:3000/api/shifts";
+const API_URL = "http://localhost:3000/api";
 
-export const getShifts = async () => {
-  const res = await fetch(API_URL, {
+export const getShifts = async (zoneId, startDate, endDate) => {
+  let url = `${API_URL}/shifts`;
+  const params = new URLSearchParams();
+  if (zoneId) params.append("zoneId", zoneId);
+  if (startDate) params.append("startDate", startDate);
+  if (endDate) params.append("endDate", endDate);
+  
+  if (params.toString()) {
+    url += `?${params.toString()}`;
+  }
+
+  const res = await fetch(url, {
     method: "GET",
     credentials: "include",
   });
@@ -10,7 +20,7 @@ export const getShifts = async () => {
 };
 
 export const joinShift = async (shiftId) => {
-  const res = await fetch(`${API_URL}/${shiftId}/join`, {
+  const res = await fetch(`${API_URL}/shifts/${shiftId}/join`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -23,7 +33,7 @@ export const joinShift = async (shiftId) => {
 };
 
 export const leaveShift = async (shiftId) => {
-  const res = await fetch(`${API_URL}/${shiftId}/leave`, {
+  const res = await fetch(`${API_URL}/shifts/${shiftId}/leave`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -35,16 +45,25 @@ export const leaveShift = async (shiftId) => {
   return res.json();
 };
 
-export const createShift = async (startTime, endTime) => {
-  const res = await fetch(API_URL, {
+export const createShift = async (startTime, endTime, zoneId) => {
+  const res = await fetch(`${API_URL}/shifts`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ startTime, endTime }),
+    body: JSON.stringify({ startTime, endTime, zoneId }),
     credentials: "include",
   });
   if (!res.ok) {
     const error = await res.json();
     throw new Error(error.error || "Error al crear el turno");
   }
+  return res.json();
+};
+
+export const getZones = async () => {
+  const res = await fetch(`${API_URL}/zones`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error("Error al obtener zonas");
   return res.json();
 };

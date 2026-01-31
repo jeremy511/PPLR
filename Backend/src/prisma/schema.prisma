@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
 enum Role {
   ADMIN
   PUBLISHER
@@ -31,30 +36,50 @@ model Publisher {
   name      String
   password  String
   email     String   @unique
-  role      Role     @default(PUBLISHER) // All of em are publishers, some of em are admins
+  role      Role     @default(PUBLISHER)
+  gender    Gender   @default(MALE)
+  age       Int      @default(30)
+  birthdate DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   shifts    ShiftPublisher[]
   responsibleShifts Shift[] @relation("ShiftResponsable")
+
+  @@index([email])
 }
 
 model Shift {
   id            Int      @id @default(autoincrement())
-  status        String
+  status        ShiftStatus @default(PENDING)
   date          DateTime
   place         String?
   cartId        Int?
   scheduleId    Int
+  zoneId        Int?
   responsableId Int? 
 
-  schedule   Schedule         @relation(fields: [scheduleId], references: [id])
-  cart       Cart?            @relation(fields: [cartId], references: [id])
-  publishers ShiftPublisher[]
+  schedule    Schedule         @relation(fields: [scheduleId], references: [id])
+  cart        Cart?            @relation(fields: [cartId], references: [id])
+  zone        Zone?            @relation(fields: [zoneId], references: [id])
+  publishers  ShiftPublisher[]
   responsable Publisher? @relation("ShiftResponsable", fields: [responsableId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([date])
+  @@index([zoneId, date])
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  action      String   // e.g., 'REMOVE_PARTICIPANT', 'CANCEL_SHIFT'
+  adminId     Int
+  publisherId Int?     // Targeted publisher (if applicable)
+  shiftId     Int?     // Affected shift
+  reason      String   // Mandatory reason
+  createdAt   DateTime @default(now())
 }
 
 model Schedule {
@@ -78,6 +103,7 @@ model Cart {
 model ShiftPublisher {
   shiftId     Int
   publisherId Int
+  createdAt   DateTime @default(now())
 
   shift     Shift     @relation(fields: [shiftId], references: [id])
   publisher Publisher @relation(fields: [publisherId], references: [id])
@@ -91,6 +117,7 @@ model Zone {
   description String?
 
   carts     CartZone[]
+  shifts    Shift[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }

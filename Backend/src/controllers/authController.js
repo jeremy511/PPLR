@@ -30,9 +30,9 @@ export const loginController = async (req, res) => {
 };
 
 export const registerController = async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, birthdate, gender } = req.body;
   try {
-    const result = await AuthService.register({ email, password, name });
+    const result = await AuthService.register({ email, password, name, birthdate, gender });
     res.status(201).json(result);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -47,4 +47,13 @@ export const logoutController = (req, res) => {
     path: "/",
   });
   res.json({ message: "Sesión cerrada exitosamente" });
+};
+
+export const getAllPublishers = async (req, res) => {
+  try {
+    const publishers = await AuthService.getAllPublishers();
+    res.json(publishers);
+  } catch (err) {
+    res.status(500).json({ error: "Error al obtener los publicadores" });
+  }
 };
