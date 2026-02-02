@@ -27,11 +27,11 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side="left" className="w-[300px] sm:w-[400px]">
         <SheetHeader className="mb-6">
-            <SheetTitle className="text-left">
-                <Label className="font-bold text-3xl text-red-600">PPLR</Label>
-            </SheetTitle>
+          <SheetTitle className="text-left">
+            <Label className="font-bold text-3xl text-red-600">PPLR</Label>
+          </SheetTitle>
         </SheetHeader>
-        <nav className="flex flex-col gap-4">
+        <nav className="flex flex-col gap-4 px-4">
           <Link
             to="/dashboard"
             onClick={() => setOpen(false)}

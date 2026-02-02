@@ -5,5 +5,6 @@ export const {
   FRONTEND_URL = "http://localhost:5173",
   JWT_SECRET = "supersecret",
   GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET
+  GOOGLE_CLIENT_SECRET,
+  RESEND_API_KEY
 } = process.env;

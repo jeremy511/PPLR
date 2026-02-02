@@ -45,25 +45,39 @@ export const leaveShift = async (shiftId) => {
   return res.json();
 };
 
-export const createShift = async (startTime, endTime, zoneId) => {
+export const createShift = async (startTime, endTime, zoneId, date) => {
   const res = await fetch(`${API_URL}/shifts`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ startTime, endTime, zoneId }),
+    body: JSON.stringify({ startTime, endTime, zoneId, date }),
     credentials: "include",
   });
   if (!res.ok) {
     const error = await res.json();
-    throw new Error(error.error || "Error al crear el turno");
+    throw new Error(error.details || error.error || "Error al crear el turno");
   }
   return res.json();
 };
 
-export const getZones = async () => {
-  const res = await fetch(`${API_URL}/zones`, {
+export const getZones = async (includeHidden = false) => {
+  let url = `${API_URL}/zones`;
+  if (includeHidden) {
+    url += "?includeHidden=true";
+  }
+  
+  const res = await fetch(url, {
     method: "GET",
     credentials: "include",
   });
   if (!res.ok) throw new Error("Error al obtener zonas");
+  return res.json();
+};
+
+export const getMyShifts = async () => {
+  const res = await fetch(`${API_URL}/shifts/my-shifts`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error("Error al obtener tus turnos");
   return res.json();
 };

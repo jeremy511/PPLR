@@ -19,10 +19,12 @@ export default function initGoogleAuth() {
         let user = await prisma.publisher.findUnique({ where: { email } });
 
         if (!user) {
+          const { given_name, family_name } = profile._json;
           user = await prisma.publisher.create({
             data: {
               email,
-              name: profile.displayName,
+              firstName: given_name || profile.displayName.split(" ")[0] || "User",
+              lastName: family_name || profile.displayName.split(" ").slice(1).join(" ") || "",
               password: "",
             },
           });
@@ -31,7 +33,9 @@ export default function initGoogleAuth() {
         return done(null, {
           id: user.id,
           email: user.email,
-          name: user.name,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role
         });
       }
     )

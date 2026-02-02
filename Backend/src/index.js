@@ -3,13 +3,16 @@ import passport from "passport";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import helmet from "helmet";
 
 import { PORT } from "./config.js";
 import authRoutes from "./routes/authRoutes.js";
-import protectedRoutes from "./routes/authRoutes.js";
 import initGoogleAuth from "./routes/googleAuth.js";
 import shiftRoutes from "./routes/shift.js";
 import zoneRoutes from "./routes/zoneRoutes.js";
+
+import logger from "./utils/logger.js";
+import errorHandler from "./Middleware/errorHandler.js";
 
 // 1) load env
 dotenv.config();
@@ -17,15 +20,22 @@ dotenv.config();
 const app = express();
 
 // 2) middlewares
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
   })
 );
+
+// Request logging via pino (optional, can also use pino-http)
+app.use((req, res, next) => {
+  logger.info({ method: req.method, url: req.url }, "Incoming Request");
+  next();
+});
 
 // 3) init google strategy
 initGoogleAuth();
@@ -39,10 +49,22 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-app.use("/api/protected", protectedRoutes);
 app.use("/api/shifts", shiftRoutes);
 app.use("/api/zones", zoneRoutes);
 
+// Global Error Handler
+app.use(errorHandler);
+
 app.listen(PORT, () => {
-  console.log(`Bienvenidos al himalaya ${PORT}`);
+  logger.info(`Bienvenidos al himalaya ${PORT}`);
 });
+
+process.on("uncaughtException", (err) => {
+  logger.fatal(err, "UNCAUGHT EXCEPTION! 💥 Shutting down...");
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (err) => {
+  logger.error(err, "UNHANDLED REJECTION! 💥");
+});
+

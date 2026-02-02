@@ -20,18 +20,21 @@ export function ZoneSelector({ zones, selectedZoneId, onSelect }) {
                 <DropdownMenuTrigger asChild>
                     <Button
                         variant="outline"
-                        className="w-full h-11 justify-between rounded-xl px-4 border-gray-200 bg-white shadow-sm hover:bg-gray-50 text-gray-700 font-semibold group transition-all duration-310"
+                        className="w-full h-11 justify-between rounded-xl px-4 border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground text-foreground font-semibold group transition-all duration-310"
                     >
                         <div className="flex items-center gap-2.5 overflow-hidden">
-                            <div className="bg-indigo-50 p-1.5 rounded-lg group-hover:bg-indigo-100 transition-colors">
-                                <MapPin className="h-4 w-4 text-indigo-500" />
+                            <div
+                                className="p-1.5 rounded-lg transition-colors"
+                                style={{ backgroundColor: currentZone.color || "#6366f1", color: "white" }}
+                            >
+                                <MapPin className="h-4 w-4" />
                             </div>
                             <span className="truncate text-sm">{currentZone.name}</span>
                         </div>
-                        <ChevronDown className="h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
+                        <ChevronDown className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" className="w-[--radix-dropdown-menu-trigger-width] rounded-xl p-1.5 shadow-lg border-gray-100">
+                <DropdownMenuContent align="center" className="w-[--radix-dropdown-menu-trigger-width] rounded-xl p-1.5 shadow-lg border-border bg-popover text-popover-foreground">
                     {zones.map((zone) => (
                         <DropdownMenuItem
                             key={zone.id}
@@ -39,15 +42,18 @@ export function ZoneSelector({ zones, selectedZoneId, onSelect }) {
                             className={cn(
                                 "flex items-center justify-between rounded-lg px-3 py-2.5 cursor-pointer transition-colors",
                                 selectedZoneId === zone.id
-                                    ? "bg-indigo-50 text-indigo-600 font-bold focus:bg-indigo-50 focus:text-indigo-600"
-                                    : "text-gray-600 focus:bg-gray-50 focus:text-gray-900"
+                                    ? "bg-accent text-accent-foreground font-bold"
+                                    : "text-foreground focus:bg-accent focus:text-accent-foreground"
                             )}
                         >
                             <div className="flex items-center gap-3">
-                                <MapPin className={cn("h-4 w-4", selectedZoneId === zone.id ? "text-indigo-500" : "text-gray-400")} />
+                                <div
+                                    className="h-3 w-3 rounded-full shrink-0"
+                                    style={{ backgroundColor: zone.color || "#6366f1" }}
+                                />
                                 <span className="text-sm">{zone.name}</span>
                             </div>
-                            {selectedZoneId === zone.id && <Check className="h-4 w-4 text-indigo-600 shrink-0" />}
+                            {selectedZoneId === zone.id && <Check className="h-4 w-4 shrink-0" style={{ color: zone.color || "#6366f1" }} />}
                         </DropdownMenuItem>
                     ))}
                 </DropdownMenuContent>

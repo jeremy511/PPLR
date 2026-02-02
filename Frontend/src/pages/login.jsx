@@ -13,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginSchema } from "@/schemas/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -49,11 +49,11 @@ function Login() {
     setLoading(true);
     setGeneralError("");
 
-    const success = await login(values.email, values.password);
+    const { success, message } = await login(values.email, values.password);
     if (success) {
       navigate("/dashboard");
     } else {
-      setGeneralError("Credenciales inválidas");
+      setGeneralError(message || "Credenciales inválidas");
     }
     setLoading(false);
   };
@@ -63,8 +63,8 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <Card className="w-full max-w-sm">
+    <div className="flex-grow bg-background flex flex-col items-center justify-center p-4">
+      <Card className="w-full max-w-md border-border/40 shadow-xl bg-card/50 backdrop-blur-sm">
         <CardHeader>
           <Label
             htmlFor="account"
@@ -111,12 +111,12 @@ function Login() {
                   <FormItem>
                     <div className="flex items-center">
                       <FormLabel>Contraseña</FormLabel>
-                      <a
-                        href="#"
-                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                      <Link
+                        to="/forgot-password"
+                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline text-indigo-600 font-medium"
                       >
-                        Olvidaste tu Contraseña?
-                      </a>
+                        ¿Olvidaste tu Contraseña?
+                      </Link>
                     </div>
                     <FormControl>
                       <Input

@@ -33,7 +33,9 @@ enum ShiftStatus {
 
 model Publisher {
   id        Int      @id @default(autoincrement())
-  name      String
+  firstName String
+  lastName  String
+  phone     String?
   password  String
   email     String   @unique
   role      Role     @default(PUBLISHER)
@@ -45,6 +47,28 @@ model Publisher {
 
   shifts    ShiftPublisher[]
   responsibleShifts Shift[] @relation("ShiftResponsable")
+  resetTokens PasswordResetToken[]
+
+  @@index([email])
+}
+
+model PasswordResetToken {
+  id          Int      @id @default(autoincrement())
+  token       String   @unique
+  expiresAt   DateTime
+  publisherId Int
+  publisher   Publisher @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@index([token])
+}
+
+model RegistrationOTP {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 
   @@index([email])
 }
@@ -115,6 +139,11 @@ model Zone {
   id          Int     @id @default(autoincrement())
   name        String
   description String?
+  color       String  @default("#6366f1") // Indigo-500 default
+  active      Boolean @default(true)
+  location    String?
+  warehouse   String?
+  instructions String?
 
   carts     CartZone[]
   shifts    Shift[]

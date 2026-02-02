@@ -1,13 +1,15 @@
 // src/controllers/authController.js
 import * as AuthService from "../services/serviceAuth.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { UnauthorizedError, ValidationError, AppError } from "../utils/errors.js";
 
-export const loginController = async (req, res) => {
+export const loginController = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const result = await AuthService.login(email, password);
     if (!result.publisher) {
-      return res.status(401).json({ error: "Usuario no encontrado" });
+      throw new UnauthorizedError("Usuario no encontrado");
     }
 
     const { password: _, ...publisherWithoutPassword } = result.publisher;
@@ -17,29 +19,31 @@ export const loginController = async (req, res) => {
       httpOnly: true, // evita acceso desde JS
       secure: process.env.NODE_ENV === "production", // solo HTTPS en prod
       sameSite: "lax", // previene CSRF
-      maxAge: 60 * 60 * 1000, // 1 hora
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días para coincidir con el JWT
+      path: "/", // accesible en toda la app
     });
 
-    // Mandar JSON con info del usuario y opcionalmente el token
+    // Mandar JSON con info del usuario
     res.json({
       publisher: publisherWithoutPassword,
     });
   } catch (err) {
-    res.status(401).json({ error: err.message });
+    if (err instanceof AppError) throw err;
+    throw new UnauthorizedError(err.message);
   }
-};
+});
 
-export const registerController = async (req, res) => {
-  const { email, password, name, birthdate, gender } = req.body;
+export const registerController = asyncHandler(async (req, res) => {
+  const { email, password, firstName, lastName, phone, birthdate, gender, otpCode } = req.body;
   try {
-    const result = await AuthService.register({ email, password, name, birthdate, gender });
+    const result = await AuthService.register({ email, password, firstName, lastName, phone, birthdate, gender, otpCode });
     res.status(201).json(result);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    throw new ValidationError(err.message);
   }
-};
+});
 
-export const logoutController = (req, res) => {
+export const logoutController = asyncHandler(async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -47,13 +51,95 @@ export const logoutController = (req, res) => {
     path: "/",
   });
   res.json({ message: "Sesión cerrada exitosamente" });
-};
+});
 
-export const getAllPublishers = async (req, res) => {
-  try {
-    const publishers = await AuthService.getAllPublishers();
-    res.json(publishers);
-  } catch (err) {
-    res.status(500).json({ error: "Error al obtener los publicadores" });
+export const getAllPublishers = asyncHandler(async (req, res) => {
+  const publishers = await AuthService.getAllPublishers();
+  res.json(publishers);
+});
+
+export const deletePublisherController = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const idInt = parseInt(id);
+  if (isNaN(idInt)) {
+    throw new ValidationError("ID inválido");
   }
-};
+  await AuthService.deletePublisher(idInt);
+  res.json({ message: "Usuario eliminado correctamente" });
+});
+
+export const updatePublisherRoleController = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+  try {
+    const updatedUser = await AuthService.updatePublisherRole(id, role);
+    res.json(updatedUser);
+  } catch (err) {
+    throw new ValidationError(err.message);
+  }
+});
+
+export const updatePublisherController = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+  
+  try {
+    const updatedUser = await AuthService.updatePublisher(id, data);
+    const { password: _, ...userWithoutPassword } = updatedUser;
+    res.json(userWithoutPassword);
+  } catch (err) {
+    throw new ValidationError("Error al actualizar usuario: " + err.message);
+  }
+});
+
+export const forgotPasswordController = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  try {
+    const result = await AuthService.requestPasswordReset(email);
+    res.json(result);
+  } catch (err) {
+    throw new ValidationError(err.message);
+  }
+});
+
+export const resetPasswordController = asyncHandler(async (req, res) => {
+    try {
+        const { token, newPassword } = req.body;
+        const result = await AuthService.resetPasswordWithToken(token, newPassword);
+        res.status(200).json(result);
+    } catch (error) {
+        throw new ValidationError(error.message);
+    }
+});
+
+export const requestOTPController = asyncHandler(async (req, res) => {
+    try {
+        const { email } = req.body;
+        const result = await AuthService.requestOTP(email);
+        res.status(200).json(result);
+    } catch (error) {
+        throw new ValidationError(error.message);
+    }
+});
+
+export const updateProfileController = asyncHandler(async (req, res) => {
+  const { id } = req.user; // Obtener ID del usuario autenticado
+  const { firstName, lastName, phone, birthdate, gender } = req.body;
+
+  try {
+    // Solo permitimos actualizar campos seguros, ignorando role, email, password, etc. por esta vía
+    // Reutilizamos updatePublisher pero con un objeto filtrado
+    const updatedUser = await AuthService.updatePublisher(id, {
+      firstName,
+      lastName,
+      phone,
+      birthdate,
+      gender
+    });
+
+    const { password: _, ...userWithoutPassword } = updatedUser;
+    res.json(userWithoutPassword);
+  } catch (err) {
+    throw new ValidationError("Error al actualizar perfil");
+  }
+});

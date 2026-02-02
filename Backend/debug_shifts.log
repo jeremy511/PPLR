@@ -1,0 +1,709 @@
+--- getAllShifts HIT at 2026-02-01T02:48:14.847Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T02:48:14.853Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T02:48:35.509Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769911083,"exp":1769914683}
+--- getUserShifts HIT at 2026-02-01T02:48:35.971Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769911083,"exp":1769914683}
+--- getAllShifts HIT at 2026-02-01T02:48:54.245Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T02:49:14.696Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769911083,"exp":1769914683}
+--- getUserShifts HIT at 2026-02-01T02:49:15.101Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769911083,"exp":1769914683}
+--- getUserShifts HIT at 2026-02-01T02:49:22.077Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getUserShifts HIT at 2026-02-01T02:49:22.326Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getUserShifts HIT at 2026-02-01T02:57:40.103Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getUserShifts HIT at 2026-02-01T02:57:40.308Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getUserShifts HIT at 2026-02-01T03:00:44.241Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getUserShifts HIT at 2026-02-01T03:00:44.381Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getAllShifts HIT at 2026-02-01T03:01:02.751Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T03:01:04.789Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:01:04.947Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getAllShifts HIT at 2026-02-01T03:01:13.988Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T03:01:19.548Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:01:19.805Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:03:48.022Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:03:48.203Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getAllShifts HIT at 2026-02-01T03:03:54.545Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T03:04:02.619Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:04:03.003Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- leaveShift HIT at 2026-02-01T03:05:54.713Z ---
+ShiftId: 1, UserId: 3
+--- getUserShifts HIT at 2026-02-01T03:05:55.822Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- leaveShift HIT at 2026-02-01T03:05:59.437Z ---
+ShiftId: 2, UserId: 3
+--- getUserShifts HIT at 2026-02-01T03:05:59.564Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- joinShift HIT at 2026-02-01T03:06:07.721Z ---
+ShiftId: 9, UserId: 3
+--- getAllShifts HIT at 2026-02-01T03:06:08.572Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T03:06:11.049Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:06:11.234Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- leaveShift HIT at 2026-02-01T03:06:15.795Z ---
+ShiftId: 9, UserId: 3
+--- getUserShifts HIT at 2026-02-01T03:06:16.009Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- leaveShift HIT at 2026-02-01T03:06:24.035Z ---
+ShiftId: 9, UserId: 3
+--- getAllShifts HIT at 2026-02-01T03:06:24.428Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T03:06:27.154Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:06:27.269Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- joinShift HIT at 2026-02-01T03:06:32.030Z ---
+ShiftId: 9, UserId: 3
+--- getAllShifts HIT at 2026-02-01T03:06:33.086Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- joinShift HIT at 2026-02-01T03:06:35.466Z ---
+ShiftId: 11, UserId: 3
+--- getAllShifts HIT at 2026-02-01T03:06:36.011Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T03:06:38.417Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- joinShift HIT at 2026-02-01T03:06:43.650Z ---
+ShiftId: 15, UserId: 3
+--- getAllShifts HIT at 2026-02-01T03:06:44.585Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T03:06:45.537Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:06:45.715Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- leaveShift HIT at 2026-02-01T03:07:00.920Z ---
+ShiftId: 1, UserId: 2
+--- getUserShifts HIT at 2026-02-01T03:07:01.360Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- leaveShift HIT at 2026-02-01T03:07:04.030Z ---
+ShiftId: 4, UserId: 2
+--- getUserShifts HIT at 2026-02-01T03:07:04.142Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- leaveShift HIT at 2026-02-01T03:07:06.348Z ---
+ShiftId: 2, UserId: 2
+--- getUserShifts HIT at 2026-02-01T03:07:06.453Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- leaveShift HIT at 2026-02-01T03:07:12.957Z ---
+ShiftId: 5, UserId: 2
+--- getUserShifts HIT at 2026-02-01T03:07:13.443Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getAllShifts HIT at 2026-02-01T03:07:15.117Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- joinShift HIT at 2026-02-01T03:07:18.045Z ---
+ShiftId: 9, UserId: 2
+--- getAllShifts HIT at 2026-02-01T03:07:18.637Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T03:07:19.596Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getUserShifts HIT at 2026-02-01T03:07:19.752Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getUserShifts HIT at 2026-02-01T03:07:31.522Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:07:31.661Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getAllShifts HIT at 2026-02-01T03:07:39.152Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- leaveShift HIT at 2026-02-01T03:07:41.513Z ---
+ShiftId: 9, UserId: 3
+--- getAllShifts HIT at 2026-02-01T03:07:41.650Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T03:07:43.574Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:07:43.714Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:11:11.422Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:11:12.006Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getAllShifts HIT at 2026-02-01T03:12:59.671Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T03:13:01.984Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- leaveShift HIT at 2026-02-01T03:13:05.772Z ---
+ShiftId: 15, UserId: 3
+--- getAllShifts HIT at 2026-02-01T03:13:05.907Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T03:13:07.504Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T03:13:09.519Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:13:09.712Z ---
+User: {"id":3,"role":"PUBLISHER","email":"maria@example.com","firstName":"María","lastName":"López","iat":1769914862,"exp":1769918462}
+--- getUserShifts HIT at 2026-02-01T03:13:16.351Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getUserShifts HIT at 2026-02-01T03:13:16.482Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getAllShifts HIT at 2026-02-01T03:13:24.691Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T03:13:26.702Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T03:13:28.935Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T03:14:50.275Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getUserShifts HIT at 2026-02-01T03:14:50.678Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getAllShifts HIT at 2026-02-01T03:15:04.198Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T03:17:43.319Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T03:17:46.858Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- createShift HIT at 2026-02-01T03:19:23.289Z ---
+Body: {"startTime":"2026-02-01T11:30:00.000Z","endTime":"2026-02-01T13:30:00.000Z","zoneId":2,"date":"2026-02-01"}, User: 2
+--- getUserShifts HIT at 2026-02-01T03:19:33.458Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getUserShifts HIT at 2026-02-01T03:19:34.036Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769911667,"exp":1770516467}
+--- getAllShifts HIT at 2026-02-01T03:19:44.413Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T03:19:46.643Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- createShift HIT at 2026-02-01T03:19:49.294Z ---
+Body: {"startTime":"2026-02-01T11:30:00.000Z","endTime":"2026-02-01T13:30:00.000Z","zoneId":2,"date":"2026-02-01"}, User: 2
+--- getAllShifts HIT at 2026-02-01T03:20:08.428Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T03:20:11.261Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- createShift HIT at 2026-02-01T03:20:13.482Z ---
+Body: {"startTime":"2026-02-01T11:30:00.000Z","endTime":"2026-02-01T13:30:00.000Z","zoneId":2,"date":"2026-02-01"}, User: 2
+--- createShift HIT at 2026-02-01T03:20:53.410Z ---
+Body: {"startTime":"2026-02-01T11:30:00.000Z","endTime":"2026-02-01T13:30:00.000Z","zoneId":2,"date":"2026-02-01"}, User: 2
+--- createShift HIT at 2026-02-01T03:23:42.179Z ---
+Body: {"startTime":"2026-02-01T11:30:00.000Z","endTime":"2026-02-01T13:30:00.000Z","zoneId":2,"date":"2026-02-01"}, User: 2
+--- getAllShifts HIT at 2026-02-01T03:23:54.632Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T03:24:02.750Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- createShift HIT at 2026-02-01T03:24:14.665Z ---
+Body: {"startTime":"2026-02-01T11:30:00.000Z","endTime":"2026-02-01T13:30:00.000Z","zoneId":2,"date":"2026-02-01"}, User: 2
+--- createShift HIT at 2026-02-01T03:24:21.441Z ---
+Body: {"startTime":"2026-02-01T11:30:00.000Z","endTime":"2026-02-01T13:30:00.000Z","zoneId":2,"date":"2026-02-01"}, User: 2
+--- createShift HIT at 2026-02-01T03:24:34.113Z ---
+Body: {"startTime":"2026-02-01T11:30:00.000Z","endTime":"2026-02-01T13:30:00.000Z","zoneId":2,"date":"2026-02-01"}, User: 2
+--- getAllShifts HIT at 2026-02-01T16:08:28.774Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T16:09:27.992Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:09:28.471Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T16:10:29.172Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T16:10:29.341Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T16:10:36.756Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T16:10:36.907Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T16:11:27.570Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:11:27.911Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T16:11:38.885Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T16:11:41.860Z ---
+Query: {"zoneId":"4","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T16:16:01.437Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T16:20:25.235Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T16:26:21.674Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T16:29:43.021Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:29:43.468Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:29:46.375Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:29:46.550Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T16:29:48.898Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- joinShift HIT at 2026-02-01T16:30:01.424Z ---
+ShiftId: 13, UserId: 2
+--- joinShift HIT at 2026-02-01T16:30:07.266Z ---
+ShiftId: 13, UserId: 2
+--- joinShift HIT at 2026-02-01T16:30:14.152Z ---
+ShiftId: 13, UserId: 2
+--- joinShift HIT at 2026-02-01T16:30:50.016Z ---
+ShiftId: 13, UserId: 2
+--- joinShift HIT at 2026-02-01T16:33:08.459Z ---
+ShiftId: 13, UserId: 2
+--- getAllShifts HIT at 2026-02-01T16:33:09.733Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T16:33:20.132Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T16:33:23.462Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:33:23.581Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:33:28.974Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:33:29.245Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T16:33:37.280Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- joinShift HIT at 2026-02-01T16:33:39.953Z ---
+ShiftId: 8, UserId: 2
+--- getAllShifts HIT at 2026-02-01T16:33:40.715Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T16:33:42.566Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:33:42.723Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:35:07.329Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:35:07.499Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T16:35:17.228Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T16:35:20.100Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- createShift HIT at 2026-02-01T16:35:33.721Z ---
+Body: {"startTime":"2026-02-01T22:00:00.000Z","endTime":"2026-02-01T23:30:00.000Z","zoneId":2,"date":"2026-02-01"}, User: 2
+--- createShift HIT at 2026-02-01T16:35:37.646Z ---
+Body: {"startTime":"2026-02-01T22:00:00.000Z","endTime":"2026-02-01T23:30:00.000Z","zoneId":2,"date":"2026-02-01"}, User: 2
+--- getAllShifts HIT at 2026-02-01T16:43:55.288Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T16:44:11.820Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:44:12.257Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T16:44:37.825Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T16:44:37.974Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T16:44:41.337Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T16:44:41.481Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T18:17:16.216Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T18:17:20.694Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T18:17:20.949Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T18:23:20.846Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T18:23:46.320Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T18:23:46.765Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T18:24:36.571Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T18:24:37.121Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T18:28:25.061Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:32:41.118Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:33:05.904Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:41:44.333Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T18:48:09.010Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T18:48:09.293Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T18:48:10.425Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:48:13.856Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:48:23.059Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:48:28.058Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:48:31.397Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:48:34.948Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- leaveShift HIT at 2026-02-01T18:48:37.233Z ---
+ShiftId: 8, UserId: 2
+--- getAllShifts HIT at 2026-02-01T18:48:37.333Z ---
+Query: {"zoneId":"1","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:48:39.991Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:48:40.395Z ---
+Query: {"zoneId":"1","startDate":"2026-01-19","endDate":"2026-01-25"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:48:40.898Z ---
+Query: {"zoneId":"1","startDate":"2026-01-12","endDate":"2026-01-18"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:48:41.379Z ---
+Query: {"zoneId":"1","startDate":"2026-01-05","endDate":"2026-01-11"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:54:25.841Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:54:29.070Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T18:59:08.998Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T18:59:09.576Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T18:59:13.909Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T18:59:17.117Z ---
+Query: {"zoneId":"1","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:08:09.536Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:12:30.145Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:14:40.104Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:15:24.615Z ---
+Query: {"zoneId":"4","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:19:47.501Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T19:23:39.279Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T19:23:39.992Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T19:25:07.706Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:25:11.615Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- createShift HIT at 2026-02-01T19:25:14.071Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":3,"date":"2026-02-02"}, User: 2
+--- createShift HIT at 2026-02-01T19:25:15.114Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":3,"date":"2026-02-02"}, User: 2
+--- getAllShifts HIT at 2026-02-01T19:25:16.089Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T19:25:18.118Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T19:25:18.322Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T19:26:00.355Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getUserShifts HIT at 2026-02-01T19:26:00.782Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769962108,"exp":1770566908}
+--- getAllShifts HIT at 2026-02-01T19:26:09.585Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:28:37.771Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:30:38.227Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:31:33.648Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:32:43.159Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:33:46.509Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T19:34:09.360Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769974292,"exp":1770579092}
+--- getUserShifts HIT at 2026-02-01T19:34:09.734Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769974292,"exp":1770579092}
+--- getAllShifts HIT at 2026-02-01T19:36:38.395Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:45:52.705Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T19:46:04.944Z ---
+User: {"id":5,"role":"PUBLISHER","email":"jere42my@outlook.com","firstName":"Jeremy","lastName":"Reinoso","iat":1769974898,"exp":1769978498}
+--- getUserShifts HIT at 2026-02-01T19:46:05.268Z ---
+User: {"id":5,"role":"PUBLISHER","email":"jere42my@outlook.com","firstName":"Jeremy","lastName":"Reinoso","iat":1769974898,"exp":1769978498}
+--- getAllShifts HIT at 2026-02-01T19:46:13.715Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:46:23.453Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:46:26.392Z ---
+Query: {"zoneId":"2","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:46:28.501Z ---
+Query: {"zoneId":"4","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:46:32.280Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- joinShift HIT at 2026-02-01T19:46:56.684Z ---
+ShiftId: 18, UserId: 5
+--- getAllShifts HIT at 2026-02-01T19:46:57.695Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T19:47:24.284Z ---
+User: {"id":5,"role":"PUBLISHER","email":"jere42my@outlook.com","firstName":"Jeremy","lastName":"Reinoso","iat":1769974898,"exp":1769978498}
+--- getUserShifts HIT at 2026-02-01T19:47:24.689Z ---
+User: {"id":5,"role":"PUBLISHER","email":"jere42my@outlook.com","firstName":"Jeremy","lastName":"Reinoso","iat":1769974898,"exp":1769978498}
+--- getUserShifts HIT at 2026-02-01T19:48:46.189Z ---
+User: {"id":5,"role":"PUBLISHER","email":"jere42my@outlook.com","firstName":"Jeremy","lastName":"Reinoso","iat":1769974898,"exp":1769978498}
+--- getUserShifts HIT at 2026-02-01T19:48:46.350Z ---
+User: {"id":5,"role":"PUBLISHER","email":"jere42my@outlook.com","firstName":"Jeremy","lastName":"Reinoso","iat":1769974898,"exp":1769978498}
+--- getAllShifts HIT at 2026-02-01T19:48:48.347Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:48:56.395Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getAllShifts HIT at 2026-02-01T19:48:59.801Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T19:49:33.462Z ---
+User: {"id":5,"role":"PUBLISHER","email":"jere42my@outlook.com","firstName":"Jeremy","lastName":"Reinoso","iat":1769974898,"exp":1769978498}
+--- getUserShifts HIT at 2026-02-01T19:49:34.058Z ---
+User: {"id":5,"role":"PUBLISHER","email":"jere42my@outlook.com","firstName":"Jeremy","lastName":"Reinoso","iat":1769974898,"exp":1769978498}
+--- getAllShifts HIT at 2026-02-01T19:49:41.203Z ---
+Query: {"zoneId":"3","startDate":"2026-01-26","endDate":"2026-02-01"}
+User: undefined
+--- getUserShifts HIT at 2026-02-01T19:49:42.712Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769975380,"exp":1770580180}
+--- getUserShifts HIT at 2026-02-01T19:49:42.910Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769975380,"exp":1770580180}
+--- getAllShifts HIT at 2026-02-02T19:04:54.817Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-02T19:05:04.761Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769975380,"exp":1770580180}
+--- getUserShifts HIT at 2026-02-02T19:05:05.309Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1769975380,"exp":1770580180}
+--- getAllShifts HIT at 2026-02-02T19:05:16.697Z ---
+Query: {"zoneId":"2","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- createShift HIT at 2026-02-02T19:05:30.630Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":2}, User: 2
+--- createShift HIT at 2026-02-02T19:05:35.506Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":2}, User: 2
+--- createShift HIT at 2026-02-02T19:05:38.561Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:05:57.786Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:05:59.710Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:06:06.315Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:06:09.288Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:08:16.508Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- getAllShifts HIT at 2026-02-02T19:08:25.907Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:08:29.738Z ---
+Query: {"zoneId":"2","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- createShift HIT at 2026-02-02T19:08:37.861Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:08:46.013Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:08:51.007Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:08:51.788Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:10:20.266Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:10:24.403Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":5}, User: 2
+--- createShift HIT at 2026-02-02T19:10:26.726Z ---
+Body: {"startTime":"2026-02-02T11:30:00.000Z","endTime":"2026-02-02T13:30:00.000Z","zoneId":2,"publisherId":3}, User: 2
+--- createShift HIT at 2026-02-02T19:10:37.381Z ---
+Body: {"startTime":"2026-02-02T20:00:00.000Z","endTime":"2026-02-02T22:00:00.000Z","zoneId":2,"date":"2026-02-02"}, User: 2
+--- getAllShifts HIT at 2026-02-02T19:10:44.709Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:10:47.378Z ---
+Query: {"zoneId":"2","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:10:56.354Z ---
+Query: {"zoneId":"4","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- createShift HIT at 2026-02-02T19:10:59.747Z ---
+Body: {"startTime":"2026-02-02T20:00:00.000Z","endTime":"2026-02-02T22:00:00.000Z","zoneId":4,"date":"2026-02-02"}, User: 2
+--- createShift HIT at 2026-02-02T19:11:10.953Z ---
+Body: {"startTime":"2026-02-02T20:00:00.000Z","endTime":"2026-02-02T22:00:00.000Z","zoneId":4,"publisherId":5}, User: 2
+--- getAllShifts HIT at 2026-02-02T19:11:11.983Z ---
+Query: {"zoneId":"4","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:11:12.283Z ---
+Query: {"zoneId":"4","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+                                                                                                                                           --- getAllShifts HIT at 2026-02-02T19:13:47.011Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:13:51.177Z ---
+Query: {"zoneId":"2","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:13:54.331Z ---
+Query: {"zoneId":"4","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:14:01.235Z ---
+Query: {"zoneId":"2","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:14:01.452Z ---
+Query: {"zoneId":"2","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:14:07.706Z ---
+Query: {"zoneId":"4","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:15:19.671Z ---
+Query: {"zoneId":"4","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-02T19:18:04.462Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1770059626,"exp":1770664426}
+--- getUserShifts HIT at 2026-02-02T19:18:04.928Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1770059626,"exp":1770664426}
+--- getAllShifts HIT at 2026-02-02T19:19:07.768Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:19:10.599Z ---
+Query: {"zoneId":"5","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:27:18.118Z ---
+Query: {"zoneId":"5","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:27:22.757Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-02T19:27:27.569Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1770059626,"exp":1770664426}
+--- getUserShifts HIT at 2026-02-02T19:27:27.867Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1770059626,"exp":1770664426}
+--- getAllShifts HIT at 2026-02-02T19:29:38.788Z ---
+Query: {"zoneId":"2","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:32:34.545Z ---
+Query: {"zoneId":"5","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:33:22.826Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:34:22.130Z ---
+Query: {"zoneId":"4","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:37:10.616Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:37:10.771Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:37:34.884Z ---
+Query: {"zoneId":"2","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:37:41.530Z ---
+Query: {"zoneId":"2","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:37:45.467Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:38:00.263Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getAllShifts HIT at 2026-02-02T19:38:00.418Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined
+--- getUserShifts HIT at 2026-02-02T19:38:26.207Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1770059626,"exp":1770664426}
+--- getUserShifts HIT at 2026-02-02T19:38:26.693Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1770059626,"exp":1770664426}
+--- getUserShifts HIT at 2026-02-02T19:38:39.669Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1770059626,"exp":1770664426}
+--- getUserShifts HIT at 2026-02-02T19:38:40.093Z ---
+User: {"id":2,"email":"jeremyreinoso88@gmail.com","firstName":"Jeremy Josue","lastName":"Reinoso Espinal","role":"ADMIN","iat":1770059626,"exp":1770664426}
+--- getAllShifts HIT at 2026-02-02T19:42:45.310Z ---
+Query: {"zoneId":"3","startDate":"2026-02-02","endDate":"2026-02-08"}
+User: undefined

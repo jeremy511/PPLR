@@ -1,14 +1,15 @@
-// src/services/authService.js
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import prisma from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 import * as AuthRepo from "../Repositories/authRepository.js";
+import { sendPasswordResetEmail, sendRegistrationOTPEmail } from "./serviceEmail.js";
 
 import { JWT_SECRET } from "../config.js";
 
 export const login = async (email, password) => {
-  
-  const publisher = await AuthRepo.findPublisherByEmail(email);
+  const normalizedEmail = email.toLowerCase();
+  const publisher = await AuthRepo.findPublisherByEmail(normalizedEmail);
 
   if (!publisher) throw new Error("Usuario no encontrado");
 
@@ -16,7 +17,13 @@ export const login = async (email, password) => {
   if (!isMatch) throw new Error("Contraseña incorrecta");
 
   const token = jwt.sign(
-    { id: publisher.id, role: publisher.role, email: publisher.email, name: publisher.name },
+    { 
+        id: publisher.id, 
+        role: publisher.role, 
+        email: publisher.email, 
+        firstName: publisher.firstName,
+        lastName: publisher.lastName 
+    },
     JWT_SECRET,
     { expiresIn: "1h" }
   );
@@ -24,8 +31,24 @@ export const login = async (email, password) => {
   return { token, publisher };
 };
 
-export const register = async ({ email, password, name, birthdate, gender }) => {
-  const existingUser = await prisma.publisher.findUnique({ where: { email } });
+export const register = async ({ email, password, firstName, lastName, phone, birthdate, gender, otpCode }) => {
+  const normalizedEmail = email.toLowerCase();
+  
+  // Verify OTP
+  const storedOTP = await prisma.registrationOTP.findUnique({
+      where: { email: normalizedEmail }
+  });
+
+  if (!storedOTP || storedOTP.code !== otpCode) {
+      throw new Error("Código de verificación inválido");
+  }
+
+  if (storedOTP.expiresAt < new Date()) {
+      await prisma.registrationOTP.delete({ where: { email: normalizedEmail } });
+      throw new Error("El código ha expirado. Solicita uno nuevo.");
+  }
+
+  const existingUser = await prisma.publisher.findUnique({ where: { email: normalizedEmail } });
 
   if (existingUser) throw new Error("El usuario ya existe");
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -44,9 +67,11 @@ export const register = async ({ email, password, name, birthdate, gender }) => 
 
   const user = await prisma.publisher.create({
     data: {
-      email,
+      email: normalizedEmail,
       password: hashedPassword,
-      name,
+      firstName,
+      lastName,
+      phone,
       birthdate: birthdate ? new Date(birthdate) : null,
       gender: gender || "MALE",
       age: calculatedAge || 18, // Default fallback if birthdate missing or error
@@ -55,12 +80,21 @@ export const register = async ({ email, password, name, birthdate, gender }) => 
 
   //CREATE JWT TOKEN
   const token = jwt.sign(
-    { id: user.id, email: user.email },
+    { 
+        id: user.id, 
+        email: user.email, 
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName
+    },
     JWT_SECRET,
-    { expiresIn: "1h" }
+    { expiresIn: "7d" }
   );
 
   //HIDE PASSWORD IN THE JSON
+  // Clear OTP
+  await prisma.registrationOTP.delete({ where: { email: normalizedEmail } });
+
   const { password: _, ...userWithoutPassword } = user;
   return { publisher: userWithoutPassword, token };
 };
@@ -69,9 +103,152 @@ export const getAllPublishers = async () => {
     return prisma.publisher.findMany({
         select: {
             id: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             email: true,
-            role: true
+            role: true,
+            gender: true,
+            age: true,
+            phone: true,
+            birthdate: true,
+            createdAt: true
         }
     });
+};
+
+export const deletePublisher = async (id) => {
+    return prisma.publisher.delete({
+        where: { id }
+    });
+};
+
+export const updatePublisherRole = async (id, role) => {
+    // Validate role
+    if (!['ADMIN', 'PUBLISHER'].includes(role)) {
+        throw new Error("Rol inválido");
+    }
+
+    return prisma.publisher.update({
+        where: { id },
+        data: { role }
+    });
+};
+
+export const updatePublisher = async (id, data) => {
+    const { firstName, lastName, phone, email, role, gender, age, birthdate, password } = data;
+    
+    const updateData = {
+        firstName,
+        lastName,
+        phone,
+        email,
+        role,
+        gender
+    };
+
+    if (password) {
+        updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    if (birthdate) {
+        const birth = new Date(birthdate);
+        updateData.birthdate = birth;
+        
+        // Recalculate age
+        const now = new Date();
+        let calculatedAge = now.getFullYear() - birth.getFullYear();
+        const m = now.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) {
+            calculatedAge--;
+        }
+        updateData.age = calculatedAge;
+    } else if (age) {
+        updateData.age = parseInt(age);
+    }
+
+    return prisma.publisher.update({
+        where: { id: parseInt(id) },
+        data: updateData
+    });
+};
+
+export const requestPasswordReset = async (email) => {
+    const normalizedEmail = email.toLowerCase();
+    const user = await prisma.publisher.findUnique({ where: { email: normalizedEmail } });
+    
+    // Security: Do not confirm if email exists to avoid enumeration, 
+    // but in this internal app we can be a bit more explicit or just return success always.
+    if (!user) {
+        console.log(`Password reset requested for non-existent email: ${email}`);
+        return { message: "Si el correo está registrado, recibirás instrucciones en breve." };
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 3600000); // 1 hour
+
+    // Clean up old tokens
+    await prisma.passwordResetToken.deleteMany({
+        where: { publisherId: user.id }
+    });
+
+    await prisma.passwordResetToken.create({
+        data: {
+            token,
+            expiresAt,
+            publisherId: user.id
+        }
+    });
+
+    await sendPasswordResetEmail(user.email, token, user.firstName);
+    return { message: "Correo de recuperación enviado exitosamente" };
+};
+
+export const resetPasswordWithToken = async (token, newPassword) => {
+    const resetToken = await prisma.passwordResetToken.findUnique({
+        where: { token },
+        include: { publisher: true }
+    });
+
+    if (!resetToken) {
+        throw new Error("El enlace es inválido o ya ha sido utilizado.");
+    }
+
+    if (resetToken.expiresAt < new Date()) {
+        await prisma.passwordResetToken.delete({ where: { id: resetToken.id } });
+        throw new Error("El enlace ha expirado. Por favor, solicita uno nuevo.");
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await prisma.$transaction([
+        prisma.publisher.update({
+            where: { id: resetToken.publisherId },
+            data: { password: hashedPassword }
+        }),
+        prisma.passwordResetToken.delete({ where: { id: resetToken.id } })
+    ]);
+
+    return { message: "Contraseña actualizada correctamente" };
+};
+
+export const requestOTP = async (email) => {
+    const normalizedEmail = email.toLowerCase();
+    
+    // Check if user already exists
+    const existingUser = await prisma.publisher.findUnique({ where: { email: normalizedEmail } });
+    if (existingUser) {
+        throw new Error("Este correo ya está registrado");
+    }
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 600000); // 10 minutes
+
+    await prisma.registrationOTP.upsert({
+        where: { email: normalizedEmail },
+        update: { code: otpCode, expiresAt },
+        create: { email: normalizedEmail, code: otpCode, expiresAt }
+    });
+
+    await sendRegistrationOTPEmail(normalizedEmail, otpCode);
+    return { message: "Código de verificación enviado" };
 };

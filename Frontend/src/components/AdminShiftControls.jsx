@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2, UserPlus, ShieldAlert, CheckCircle2, XCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, formatDisplayName } from "@/lib/utils";
 import { adminAddParticipant, adminRemoveParticipant, updateShiftStatus } from "../api/admin";
 import { ConfirmationDialog } from "./ConfirmationDialog";
+import { toast } from "sonner";
 
 export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onStatusChange }) {
     const [search, setSearch] = useState("");
@@ -17,7 +18,11 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
     // Filter publishers not already in the shift
     const availablePublishers = allPublishers.filter(p =>
         !shift.publishers.some(sp => sp.id === p.id) &&
-        (p.name.toLowerCase().includes(search.toLowerCase()) || p.email.toLowerCase().includes(search.toLowerCase()))
+        (
+            (p.firstName || "").toLowerCase().includes(search.toLowerCase()) ||
+            (p.lastName || "").toLowerCase().includes(search.toLowerCase()) ||
+            (p.email || "").toLowerCase().includes(search.toLowerCase())
+        )
     ).slice(0, 5);
 
     const handleAdd = async (publisherId) => {
@@ -32,6 +37,7 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
             await onUpdate();
         } catch (err) {
             console.error(err);
+            toast.error(err.message || "Error al añadir participante");
         } finally {
             setLoading(false);
         }
@@ -88,7 +94,7 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
                     <div className="space-y-2">
                         {shift.publishers.map((p) => (
                             <div key={p.id} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg group">
-                                <span className="text-sm font-medium text-gray-700">{p.name}</span>
+                                <span className="text-sm font-medium text-gray-700">{formatDisplayName(p.firstName, p.lastName)}</span>
                                 <Button
                                     variant="ghost"
                                     size="icon"
@@ -123,7 +129,7 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
                                         disabled={loading}
                                     >
                                         <div>
-                                            <p className="text-sm font-bold text-gray-800">{p.name}</p>
+                                            <p className="text-sm font-bold text-gray-800">{formatDisplayName(p.firstName, p.lastName)}</p>
                                             <p className="text-xs text-gray-500">{p.email}</p>
                                         </div>
                                         <UserPlus className="h-4 w-4 text-indigo-500" />
@@ -180,7 +186,7 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
                 requireReason={true}
                 reasonPlaceholder="Ej: El hermano avisó que no podrá asistir..."
                 title="¿Remover participante?"
-                description={`Estás a punto de quitar a ${targetPublisher?.name || 'este hermano'} del turno. Describe el motivo para el registro.`}
+                description={`Estás a punto de quitar a ${targetPublisher ? formatDisplayName(targetPublisher.firstName, targetPublisher.lastName) : 'este hermano'} del turno. Describe el motivo para el registro.`}
                 confirmText="Sí, remover"
                 cancelText="No, mantener"
                 variant="destructive"

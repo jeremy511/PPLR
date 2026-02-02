@@ -2,7 +2,19 @@
 import passport from "passport";
 import express from "express";
 import jwt from "jsonwebtoken";
-import { loginController, registerController, logoutController, getAllPublishers } from "../controllers/authController.js";
+import { 
+  loginController, 
+  registerController, 
+  logoutController, 
+  getAllPublishers, 
+  deletePublisherController, 
+  updatePublisherRoleController, 
+  updatePublisherController,
+  forgotPasswordController,
+  resetPasswordController,
+  requestOTPController,
+  updateProfileController
+} from "../controllers/authController.js";
 import { adminMiddleware, authMiddleware } from "../Middleware/authMiddleware.js";
 import { validateSchema } from "../Middleware/validateMiddleware.js";
 import { registerSchema, loginSchema } from "../validations/authValidations.js";
@@ -28,9 +40,15 @@ router.get(
   }),
   (req, res) => {
     const token = jwt.sign(
-      { id: req.user.id, email: req.user.email, name: req.user.name },
+      { 
+        id: req.user.id, 
+        email: req.user.email, 
+        firstName: req.user.firstName, 
+        lastName: req.user.lastName,
+        role: req.user.role || 'PUBLISHER'
+      },
       JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "7d" }
     );
 
     res.cookie("token", token, {
@@ -47,6 +65,9 @@ router.get(
 router.post("/login", validateSchema(loginSchema), loginController);
 router.post("/register", validateSchema(registerSchema), registerController);
 router.post("/logout", logoutController);
+router.post("/forgot-password", forgotPasswordController);
+router.post("/reset-password", resetPasswordController);
+router.post("/request-otp", requestOTPController);
 
 router.get("/me", authMiddleware, async (req, res) => {
   try {
@@ -54,9 +75,14 @@ router.get("/me", authMiddleware, async (req, res) => {
       where: { id: req.user.id },
       select: {
         id: true,
-        name: true,
+        firstName: true,
+        lastName: true,
         email: true,
         role: true,
+        phone: true,
+        gender: true,
+        birthdate: true,
+        age: true,
         createdAt: true,
       }
     });
@@ -74,6 +100,11 @@ router.get("/me", authMiddleware, async (req, res) => {
   }
 });
 
+router.put("/me", authMiddleware, updateProfileController);
+
 router.get("/publishers", authMiddleware, adminMiddleware, getAllPublishers);
+router.delete("/publishers/:id", authMiddleware, adminMiddleware, deletePublisherController);
+router.patch("/publishers/:id/role", authMiddleware, adminMiddleware, updatePublisherRoleController);
+router.put("/publishers/:id", authMiddleware, adminMiddleware, updatePublisherController);
 
 export default router;

@@ -8,6 +8,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 const ShiftModal = lazy(() => import("./ShiftModal").then(module => ({ default: module.ShiftModal })));
 
 // Sub-components
+import { toast } from "sonner";
 import { ZoneSelector } from "./ZoneSelector";
 import { CalendarControls } from "./CalendarControls";
 import ShiftGrid from "./ShiftGrid";
@@ -45,13 +46,12 @@ const getWeekDates = (offset = 0) => {
     return { name: dayName, date: d.getDate(), fullDate: d };
   });
 };
-export function ShiftScheduler() {
+export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneColor = "#6366f1" }) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
   // Navigation State
   const [weekOffset, setWeekOffset] = useState(0);
-  const [selectedZoneId, setSelectedZoneId] = useState(null);
   const [selectedShiftKey, setSelectedShiftKey] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -61,11 +61,7 @@ export function ShiftScheduler() {
   const startDate = weekDates[0].fullDate.toLocaleDateString('en-CA');
   const endDate = weekDates[6].fullDate.toLocaleDateString('en-CA');
 
-  // Queries
-  const { data: zones = [], isLoading: isLoadingZones } = useQuery({
-    queryKey: ["zones"],
-    queryFn: getZones,
-  });
+  // Queries (Zones are now passed as props)
 
   const { data: allPublishers = [], isLoading: isLoadingPubs } = useQuery({
     queryKey: ["publishers"],
@@ -86,7 +82,7 @@ export function ShiftScheduler() {
     rawShifts.forEach(shift => {
       const shiftDate = new Date(shift.date);
 
-      // We want to match the server UTC date with our displayed week day
+      // We want to match the server date (UTC Midnight) with our displayed week day
       const sYear = shiftDate.getUTCFullYear();
       const sMonth = shiftDate.getUTCMonth();
       const sDate = shiftDate.getUTCDate();
@@ -98,8 +94,8 @@ export function ShiftScheduler() {
 
       if (weekDay) {
         const startTime = new Date(shift.schedule.startTime);
-        const startHour = startTime.getUTCHours();
-        const startMinute = startTime.getUTCMinutes();
+        const startHour = startTime.getHours();
+        const startMinute = startTime.getMinutes();
         const slotIdx = TIME_SLOTS.findIndex(s => s.startHour === startHour && s.startMinute === startMinute);
 
         if (slotIdx !== -1) {
@@ -111,8 +107,10 @@ export function ShiftScheduler() {
             slotIndex: slotIdx,
             publishers: shift.publishers.map(p => ({
               id: p.publisher.id,
-              name: p.publisher.name,
+              firstName: p.publisher.firstName,
+              lastName: p.publisher.lastName,
               email: p.publisher.email,
+              phone: p.publisher.phone,
               age: p.publisher.age,
               gender: p.publisher.gender,
               createdAt: p.createdAt
@@ -124,14 +122,9 @@ export function ShiftScheduler() {
     return mappedShifts;
   }, [rawShifts, weekDates]);
 
-  // Set initial zone
-  useEffect(() => {
-    if (zones && zones.length > 0 && !selectedZoneId) {
-      setSelectedZoneId(zones[0].id);
-    }
-  }, [zones, selectedZoneId]);
+  // Initial zone setting is now handled by parent
 
-  const loading = isLoadingZones || isLoadingShifts || isLoadingPubs;
+  const loading = isLoadingShifts || isLoadingPubs;
 
   const invalidateShifts = async () => {
     return queryClient.invalidateQueries({ queryKey: ["shifts"] });
@@ -158,16 +151,21 @@ export function ShiftScheduler() {
         if (!dayData) throw new Error("Fecha inválida");
 
         const startTime = new Date(dayData.fullDate);
-        startTime.setUTCHours(slot.startHour, slot.startMinute, 0, 0);
+        startTime.setHours(slot.startHour, slot.startMinute, 0, 0);
         const endTime = new Date(dayData.fullDate);
-        endTime.setUTCHours(slot.endHour, slot.endMinute, 0, 0);
+        endTime.setHours(slot.endHour, slot.endMinute, 0, 0);
 
-        await createShift(startTime.toISOString(), endTime.toISOString(), selectedZoneId);
+        await createShift(
+          startTime.toISOString(),
+          endTime.toISOString(),
+          selectedZoneId,
+          dayData.fullDate.toLocaleDateString('en-CA')
+        );
       }
       await invalidateShifts();
       setIsModalOpen(false);
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -186,9 +184,9 @@ export function ShiftScheduler() {
         if (!dayData) throw new Error("Fecha inválida");
 
         const startTime = new Date(dayData.fullDate);
-        startTime.setUTCHours(slot.startHour, slot.startMinute, 0, 0);
+        startTime.setHours(slot.startHour, slot.startMinute, 0, 0);
         const endTime = new Date(dayData.fullDate);
-        endTime.setUTCHours(slot.endHour, slot.endMinute, 0, 0);
+        endTime.setHours(slot.endHour, slot.endMinute, 0, 0);
 
         const url = "http://localhost:3000/api/shifts";
         const res = await fetch(url, {
@@ -205,7 +203,7 @@ export function ShiftScheduler() {
 
         if (!res.ok) {
           const error = await res.json();
-          throw new Error(error.error || "Error al crear turno");
+          throw new Error(error.details || error.error || "Error al crear turno");
         }
       }
       invalidateShifts();
@@ -229,9 +227,9 @@ export function ShiftScheduler() {
         if (!dayData) throw new Error("Fecha inválida");
 
         const startTime = new Date(dayData.fullDate);
-        startTime.setUTCHours(slot.startHour, slot.startMinute, 0, 0);
+        startTime.setHours(slot.startHour, slot.startMinute, 0, 0);
         const endTime = new Date(dayData.fullDate);
-        endTime.setUTCHours(slot.endHour, slot.endMinute, 0, 0);
+        endTime.setHours(slot.endHour, slot.endMinute, 0, 0);
 
         const url = "http://localhost:3000/api/shifts";
         const res = await fetch(url, {
@@ -249,12 +247,12 @@ export function ShiftScheduler() {
 
         if (!res.ok) {
           const error = await res.json();
-          throw new Error(error.error || "Error al actualizar estado");
+          throw new Error(error.details || error.error || "Error al actualizar estado");
         }
       }
       invalidateShifts();
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -268,7 +266,7 @@ export function ShiftScheduler() {
       await invalidateShifts();
       setIsModalOpen(false);
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -327,13 +325,14 @@ export function ShiftScheduler() {
       <ZoneSelector
         zones={zones}
         selectedZoneId={selectedZoneId}
-        onSelect={setSelectedZoneId}
+        onSelect={onZoneSelect}
       />
 
       <CalendarControls
         weekOffset={weekOffset}
         setWeekOffset={setWeekOffset}
         weekInfo={weekInfo}
+        zoneColor={zoneColor}
       />
 
       <ShiftGrid
@@ -343,6 +342,7 @@ export function ShiftScheduler() {
         user={user}
         loading={loading}
         onSlotClick={handleSlotClick}
+        zoneColor={zoneColor}
       />
 
       <Suspense fallback={null}>

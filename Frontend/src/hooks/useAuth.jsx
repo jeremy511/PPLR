@@ -34,14 +34,14 @@ export const AuthProvider = ({ children }) => {
       setError(null);
       const data = await loginApi(email, password);
       console.log("LOGIN DESDE EL BACKEND:", data);
-      if (!data) return false;
-      if (!data.publisher) return false;
+      if (!data) return { success: false, message: "No data received" };
+      if (!data.publisher) return { success: false, message: "No publisher data" };
       setUser(data.publisher);
-      return true;
+      return { success: true };
     } catch (err) {
       console.error("ERROR EN LOGIN USEAUTH:", err);
-      setError("Credenciales inválidas o error de conexión");
-      return false;
+      setError(err.message);
+      return { success: false, message: err.message };
     }
   };
 

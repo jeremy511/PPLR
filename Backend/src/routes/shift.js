@@ -1,9 +1,10 @@
 import express from "express";
-import { getAllShifts, joinShift, leaveShift, createShift, adminAddPublisher, adminRemovePublisher, updateShiftStatus } from "../controllers/shiftController.js";
+import { getAllShifts, joinShift, leaveShift, createShift, adminAddPublisher, adminRemovePublisher, updateShiftStatus, getUserShifts } from "../controllers/shiftController.js";
 import { authMiddleware, adminMiddleware } from "../Middleware/authMiddleware.js";
 
 const router = express.Router();
 
+router.get("/my-shifts", authMiddleware, getUserShifts);
 router.get("/", getAllShifts);
 router.post("/:id/join", authMiddleware, joinShift);
 router.post("/:id/leave", authMiddleware, leaveShift);

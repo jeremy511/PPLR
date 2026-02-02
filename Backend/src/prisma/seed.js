@@ -7,10 +7,11 @@ async function main() {
   const publisherPassword = await bcrypt.hash("123456", 10);
 
   //Admin
-
   const admin = await prisma.publisher.create({
     data: {
-      name: "Admin",
+      firstName: "Admin",
+      lastName: "Principal",
+      phone: "+541122334455",
       email: "admin@example.com",
       password: adminPassword,
       role: "ADMIN",
@@ -20,7 +21,9 @@ async function main() {
   // Create regular publishers
   const publisher1 = await prisma.publisher.create({
     data: {
-      name: "Juan Pérez",
+      firstName: "Juan",
+      lastName: "Pérez",
+      phone: "+541122334466",
       email: "juan@example.com",
       password: publisherPassword,
       role: "PUBLISHER",
@@ -29,7 +32,9 @@ async function main() {
 
   const publisher2 = await prisma.publisher.create({
     data: {
-      name: "María López",
+      firstName: "María",
+      lastName: "López",
+      phone: "+541122334477",
       email: "maria@example.com",
       password: publisherPassword,
       role: "PUBLISHER",
