@@ -17,10 +17,10 @@ export const loginController = asyncHandler(async (req, res) => {
     // Guardar el token en una cookie segura
     res.cookie("token", result.token, {
       httpOnly: true, // evita acceso desde JS
-      secure: process.env.NODE_ENV === "production", // solo HTTPS en prod
-      sameSite: "lax", // previene CSRF
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días para coincidir con el JWT
-      path: "/", // accesible en toda la app
+      secure: true, // NECESARIO para SameSite=None
+      sameSite: "none", // Permite cross-site cookies (Vercel -> Railway)
+      maxAge: 7 * 24 * 60 * 60 * 1000, 
+      path: "/", 
     });
 
     // Mandar JSON con info del usuario
@@ -46,8 +46,8 @@ export const registerController = asyncHandler(async (req, res) => {
 export const logoutController = asyncHandler(async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
     path: "/",
   });
   res.json({ message: "Sesión cerrada exitosamente" });
