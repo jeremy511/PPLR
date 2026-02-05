@@ -4,6 +4,7 @@ import prisma from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 import * as AuthRepo from "../Repositories/authRepository.js";
 import { sendPasswordResetEmail, sendRegistrationOTPEmail } from "./serviceEmail.js";
+import { AppError, ValidationError, UnauthorizedError, NotFoundError } from "../utils/errors.js";
 
 import { JWT_SECRET } from "../config.js";
 
@@ -11,10 +12,10 @@ export const login = async (email, password) => {
   const normalizedEmail = email.toLowerCase();
   const publisher = await AuthRepo.findPublisherByEmail(normalizedEmail);
 
-  if (!publisher) throw new Error("Usuario no encontrado");
+  if (!publisher) throw new UnauthorizedError("Usuario no encontrado");
 
   const isMatch = await bcrypt.compare(password, publisher.password);
-  if (!isMatch) throw new Error("Contraseña incorrecta");
+  if (!isMatch) throw new UnauthorizedError("Contraseña incorrecta");
 
   const token = jwt.sign(
     { 
@@ -40,17 +41,17 @@ export const register = async ({ email, password, firstName, lastName, phone, bi
   });
 
   if (!storedOTP || storedOTP.code !== otpCode) {
-      throw new Error("Código de verificación inválido");
+      throw new ValidationError("Código de verificación inválido");
   }
 
   if (storedOTP.expiresAt < new Date()) {
       await prisma.registrationOTP.delete({ where: { email: normalizedEmail } });
-      throw new Error("El código ha expirado. Solicita uno nuevo.");
+      throw new ValidationError("El código ha expirado. Solicita uno nuevo.");
   }
 
   const existingUser = await prisma.publisher.findUnique({ where: { email: normalizedEmail } });
 
-  if (existingUser) throw new Error("El usuario ya existe");
+  if (existingUser) throw new ValidationError("El usuario ya existe");
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Age calculation
@@ -125,7 +126,7 @@ export const deletePublisher = async (id) => {
 export const updatePublisherRole = async (id, role) => {
     // Validate role
     if (!['ADMIN', 'PUBLISHER'].includes(role)) {
-        throw new Error("Rol inválido");
+        throw new ValidationError("Rol inválido");
     }
 
     return prisma.publisher.update({
@@ -210,12 +211,12 @@ export const resetPasswordWithToken = async (token, newPassword) => {
     });
 
     if (!resetToken) {
-        throw new Error("El enlace es inválido o ya ha sido utilizado.");
+        throw new ValidationError("El enlace es inválido o ya ha sido utilizado.");
     }
 
     if (resetToken.expiresAt < new Date()) {
         await prisma.passwordResetToken.delete({ where: { id: resetToken.id } });
-        throw new Error("El enlace ha expirado. Por favor, solicita uno nuevo.");
+        throw new ValidationError("El enlace ha expirado. Por favor, solicita uno nuevo.");
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -237,7 +238,7 @@ export const requestOTP = async (email) => {
     // Check if user already exists
     const existingUser = await prisma.publisher.findUnique({ where: { email: normalizedEmail } });
     if (existingUser) {
-        throw new Error("Este correo ya está registrado");
+        throw new ValidationError("Este correo ya está registrado");
     }
 
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();

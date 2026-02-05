@@ -24,7 +24,9 @@ class ApiClient {
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || errorData.details || `Error ${response.status}: ${response.statusText}`);
+        // Prioritize 'message' which is what AppError uses
+        const message = errorData.message || errorData.error || errorData.details || `Error ${response.status}: ${response.statusText}`;
+        throw new Error(message);
       }
 
       // Return null for 204 No Content, otherwise JSON
