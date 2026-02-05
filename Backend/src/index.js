@@ -33,7 +33,7 @@ app.use(
       const allowedOrigin = CLIENT_URL.endsWith('/') ? CLIENT_URL.slice(0, -1) : CLIENT_URL;
       
       if (origin === allowedOrigin || origin === CLIENT_URL) {
-        return callback(null, true);
+        return callback(null, allowedOrigin);
       } else {
         return callback(new Error('Not allowed by CORS'));
       }
