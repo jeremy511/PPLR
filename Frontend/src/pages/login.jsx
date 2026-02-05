@@ -25,9 +25,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import { toast } from "sonner";
+
 function Login() {
   const { login, user, loading: authLoading } = useAuth();
-  const [generalError, setGeneralError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -47,18 +48,19 @@ function Login() {
 
   const onSubmit = async (values) => {
     setLoading(true);
-    setGeneralError("");
 
     const { success, message } = await login(values.email, values.password);
     if (success) {
+      toast.success("Bienvenido de nuevo!");
       navigate("/dashboard");
     } else {
-      setGeneralError(message || "Credenciales inválidas");
+      toast.error(message || "Credenciales inválidas");
     }
     setLoading(false);
   };
 
   const handleGoogleLogin = () => {
+    toast.info("Redirigiendo a Google...");
     const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
     window.location.href = `${baseUrl}/auth/google`;
   };
@@ -84,12 +86,7 @@ function Login() {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-              {/* Error general */}
-              {generalError && (
-                <div className="mb-4 rounded border border-red-400 bg-red-50 p-3 text-red-700">
-                  {generalError}
-                </div>
-              )}
+
 
               <FormField
                 control={form.control}

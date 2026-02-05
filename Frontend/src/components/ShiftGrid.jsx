@@ -41,7 +41,7 @@ const ShiftCell = memo(({ day, index, shift, user, loading, onSlotClick, isUnava
             disabled={isUnavailable || loading}
             onClick={() => onSlotClick(day.name, index)}
             className={cn(
-                "min-h-[4.5rem] h-auto p-1.5 rounded-lg border transition-all duration-200 flex flex-col items-center justify-center text-xs group focus-visible:ring-2 focus-visible:ring-ring outline-none",
+                "min-h-[4.5rem] h-full w-full p-1.5 rounded-lg border transition-all duration-200 flex flex-col items-center justify-center text-xs group focus-visible:ring-2 focus-visible:ring-ring outline-none",
                 loading ? "bg-gray-50 border-gray-100 animate-pulse" : statusClass
             )}
             style={statusStyle}
