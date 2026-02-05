@@ -25,6 +25,13 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
+// DEBUGGING: Log incoming cookies
+app.use((req, res, next) => {
+  console.log("DEBUG COOKIES:", req.cookies);
+  console.log("DEBUG HEADERS:", req.headers);
+  next();
+});
+
 app.use(
   cors({
     origin: (origin, callback) => {
