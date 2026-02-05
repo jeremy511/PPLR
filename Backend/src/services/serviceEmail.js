@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import { RESEND_API_KEY, FRONTEND_URL } from '../config.js';
+import { RESEND_API_KEY, CLIENT_URL } from '../config.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -16,7 +16,7 @@ if (!RESEND_API_KEY) {
  * @param {string} firstName - User's first name for personalization.
  */
 export const sendPasswordResetEmail = async (email, token, firstName) => {
-    const resetLink = `${FRONTEND_URL}/reset-password?token=${token}`;
+    const resetLink = `${CLIENT_URL}/reset-password?token=${token}`;
     
     try {
         console.log(`Intentando enviar email de recuperación a: ${email}`);

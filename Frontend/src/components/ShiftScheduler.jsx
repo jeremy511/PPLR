@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { ZoneSelector } from "./ZoneSelector";
 import { CalendarControls } from "./CalendarControls";
 import ShiftGrid from "./ShiftGrid";
+import { apiClient } from "../lib/apiClient";
 
 const DISPLAY_DAYS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
@@ -188,23 +189,12 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
         const endTime = new Date(dayData.fullDate);
         endTime.setHours(slot.endHour, slot.endMinute, 0, 0);
 
-        const url = "http://localhost:3000/api/shifts";
-        const res = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            startTime: startTime.toISOString(),
-            endTime: endTime.toISOString(),
-            zoneId: selectedZoneId,
-            publisherId: publisherId
-          }),
-          credentials: "include",
+        await apiClient.post("/shifts", {
+          startTime: startTime.toISOString(),
+          endTime: endTime.toISOString(),
+          zoneId: selectedZoneId,
+          publisherId: publisherId
         });
-
-        if (!res.ok) {
-          const error = await res.json();
-          throw new Error(error.details || error.error || "Error al crear turno");
-        }
       }
       invalidateShifts();
     } catch (err) {
@@ -231,24 +221,13 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
         const endTime = new Date(dayData.fullDate);
         endTime.setHours(slot.endHour, slot.endMinute, 0, 0);
 
-        const url = "http://localhost:3000/api/shifts";
-        const res = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            startTime: startTime.toISOString(),
-            endTime: endTime.toISOString(),
-            zoneId: selectedZoneId,
-            publisherId: null,
-            status: status
-          }),
-          credentials: "include",
+        await apiClient.post("/shifts", {
+          startTime: startTime.toISOString(),
+          endTime: endTime.toISOString(),
+          zoneId: selectedZoneId,
+          publisherId: null,
+          status: status
         });
-
-        if (!res.ok) {
-          const error = await res.json();
-          throw new Error(error.details || error.error || "Error al actualizar estado");
-        }
       }
       invalidateShifts();
     } catch (err) {

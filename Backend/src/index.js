@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
 
-import { PORT } from "./config.js";
+import { PORT, CLIENT_URL } from "./config.js";
 import authRoutes from "./routes/authRoutes.js";
 import initGoogleAuth from "./routes/googleAuth.js";
 import shiftRoutes from "./routes/shift.js";
@@ -17,7 +17,7 @@ import errorHandler from "./Middleware/errorHandler.js";
 // 1) load env
 dotenv.config();
 
-const app = express();
+export const app = express();
 
 // 2) middlewares
 app.use(helmet());
@@ -26,14 +26,16 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: CLIENT_URL,
     credentials: true,
   })
 );
 
 // Request logging via pino (optional, can also use pino-http)
 app.use((req, res, next) => {
-  logger.info({ method: req.method, url: req.url }, "Incoming Request");
+  if (process.env.NODE_ENV !== 'test') {
+    logger.info({ method: req.method, url: req.url }, "Incoming Request");
+  }
   next();
 });
 
@@ -55,9 +57,11 @@ app.use("/api/zones", zoneRoutes);
 // Global Error Handler
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  logger.info(`Bienvenidos al himalaya ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    logger.info(`Bienvenidos al himalaya ${PORT}`);
+  });
+}
 
 process.on("uncaughtException", (err) => {
   logger.fatal(err, "UNCAUGHT EXCEPTION! 💥 Shutting down...");
