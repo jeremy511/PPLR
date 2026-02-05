@@ -17,8 +17,8 @@ export const loginController = asyncHandler(async (req, res) => {
     // Guardar el token en una cookie segura
     res.cookie("token", result.token, {
       httpOnly: true, // evita acceso desde JS
-      secure: true, // NECESARIO para SameSite=None
-      sameSite: "none", // Permite cross-site cookies (Vercel -> Railway)
+      secure: true, // Siempre HTTPS (Railway + Vercel)
+      sameSite: "lax", // Correcto para Proxy (First-Party)
       maxAge: 7 * 24 * 60 * 60 * 1000, 
       path: "/", 
     });
@@ -47,7 +47,7 @@ export const logoutController = asyncHandler(async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
+    sameSite: "lax",
     path: "/",
   });
   res.json({ message: "Sesión cerrada exitosamente" });
