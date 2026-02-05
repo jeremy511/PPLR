@@ -11,7 +11,7 @@ import initGoogleAuth from "./routes/googleAuth.js";
 import shiftRoutes from "./routes/shiftRoutes.js";
 import zoneRoutes from "./routes/zoneRoutes.js";
 
-import logger from "./utils/logger.js";
+import { logger } from "./utils/logger.js";
 import errorHandler from "./Middleware/errorHandler.js";
 
 // 1) load env

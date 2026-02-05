@@ -1,7 +1,7 @@
 import prisma from "../lib/prisma.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { AppError, NotFoundError, ValidationError, UnauthorizedError } from "../utils/errors.js";
-import logger from "../utils/logger.js";
+import { logger } from "../utils/logger.js";
 
 // Helper to calculate the current publication policy limits
 const getPublicationLimits = () => {

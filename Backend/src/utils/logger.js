@@ -14,5 +14,3 @@ export const logger = pino(
     },
   },
 });
-
-

@@ -1,4 +1,4 @@
-import logger from "../utils/logger.js";
+import { logger } from "../utils/logger.js";
 import { AppError } from "../utils/errors.js";
 
 const errorHandler = (err, req, res, next) => {
