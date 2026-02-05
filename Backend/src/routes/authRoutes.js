@@ -19,7 +19,7 @@ import { adminMiddleware, authMiddleware } from "../Middleware/authMiddleware.js
 import { validateSchema } from "../Middleware/validateMiddleware.js";
 import { registerSchema, loginSchema } from "../validations/authValidations.js";
 
-import { JWT_SECRET } from "../config.js";
+import { JWT_SECRET, CLIENT_URL } from "../config.js";
 import prisma from "../lib/prisma.js";
 
 const router = express.Router();
