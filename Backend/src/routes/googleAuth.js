@@ -4,7 +4,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import jwt from "jsonwebtoken";
 import prisma from "../lib/prisma.js";
 
-import { JWT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "../config.js";
+import { JWT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, API_URL } from "../config.js";
 
 export default function initGoogleAuth() {
   passport.use(
@@ -12,7 +12,7 @@ export default function initGoogleAuth() {
       {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://localhost:3000/api/auth/google/callback",
+        callbackURL: `${API_URL}/api/auth/google/callback`,
       },
       async (accessToken, refreshToken, profile, done) => {
         const email = profile.emails[0].value;

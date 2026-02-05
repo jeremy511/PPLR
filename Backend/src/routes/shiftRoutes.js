@@ -5,7 +5,7 @@ import { authMiddleware, adminMiddleware } from "../Middleware/authMiddleware.js
 const router = express.Router();
 
 router.get("/my-shifts", authMiddleware, getUserShifts);
-router.get("/", getAllShifts);
+router.get("/", authMiddleware, getAllShifts);
 router.post("/:id/join", authMiddleware, joinShift);
 router.post("/:id/leave", authMiddleware, leaveShift);
 router.post("/", authMiddleware, createShift);

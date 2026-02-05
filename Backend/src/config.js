@@ -6,5 +6,6 @@ export const {
   JWT_SECRET = "supersecret",
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  RESEND_API_KEY
+  RESEND_API_KEY,
+  API_URL = "http://localhost:3000"
 } = process.env;
