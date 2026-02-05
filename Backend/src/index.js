@@ -8,7 +8,7 @@ import helmet from "helmet";
 import { PORT, CLIENT_URL } from "./config.js";
 import authRoutes from "./routes/authRoutes.js";
 import initGoogleAuth from "./routes/googleAuth.js";
-import shiftRoutes from "./routes/shift.js";
+import shiftRoutes from "./routes/shiftRoutes.js";
 import zoneRoutes from "./routes/zoneRoutes.js";
 
 import logger from "./utils/logger.js";

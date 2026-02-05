@@ -1,4 +1,4 @@
-import {ParseStatus, z} from "zod"
+import {z} from "zod"
 
 export const registerSchema = z.object({
     firstName: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
