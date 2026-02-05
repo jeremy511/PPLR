@@ -1,13 +1,17 @@
-import { Resend } from 'resend';
-import { RESEND_API_KEY, CLIENT_URL } from '../config.js';
+import nodemailer from 'nodemailer';
+import { GMAIL_USER, GMAIL_PASS, CLIENT_URL } from '../config.js';
 
-const resend = new Resend(RESEND_API_KEY);
-
-if (!RESEND_API_KEY) {
-    console.error('CRITICAL: RESEND_API_KEY is missing from environment!');
-} else {
-    console.log('RESEND_API_KEY detected (starts with):', RESEND_API_KEY.substring(0, 6));
+if (!GMAIL_USER || !GMAIL_PASS) {
+    console.warn('WARNING: GMAIL_USER or GMAIL_PASS is missing. Email sending will fail.');
 }
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: GMAIL_USER,
+        pass: GMAIL_PASS
+    }
+});
 
 /**
  * Sends a password reset email to the user.
@@ -20,9 +24,10 @@ export const sendPasswordResetEmail = async (email, token, firstName) => {
     
     try {
         console.log(`Intentando enviar email de recuperación a: ${email}`);
-        const { data, error } = await resend.emails.send({
-            from: 'onboarding@resend.dev', // Strict sender for free tier
-            to: [email],
+        
+        await transporter.sendMail({
+            from: `"PPLR Support" <${GMAIL_USER}>`,
+            to: email,
             subject: 'Recupera tu contraseña - PPLR',
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -49,19 +54,11 @@ export const sendPasswordResetEmail = async (email, token, firstName) => {
             `
         });
 
-        if (error) {
-            console.error('Resend Error fully:', JSON.stringify(error, null, 2));
-            // Provide more specific error message based on Resend error
-            if (error.name === 'validation_error') {
-                throw new Error('Configuración de email inválida. El dominio remitente debe ser verificado.');
-            }
-            throw new Error(`Error de Resend (${error.name}): ${error.message || 'Fallo desconocido'}`);
-        }
-
-        return data;
+        console.log('Password reset email sent successfully via Nodemailer');
+        return { success: true };
     } catch (err) {
-        console.error('Detailed Resend Exception:', err);
-        throw new Error(err.message || 'Error crítico en el servicio de email');
+        console.error('Nodemailer Error:', err);
+        throw new Error('Error al enviar el email: ' + err.message);
     }
 };
 
@@ -73,9 +70,10 @@ export const sendPasswordResetEmail = async (email, token, firstName) => {
 export const sendRegistrationOTPEmail = async (email, code) => {
     try {
         console.log(`Enviando código OTP de registro a: ${email}`);
-        const { data, error } = await resend.emails.send({
-            from: 'onboarding@resend.dev',
-            to: [email],
+        
+        await transporter.sendMail({
+            from: `"PPLR Verify" <${GMAIL_USER}>`,
+            to: email,
             subject: `${code} es tu código de verificación - PPLR`,
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
@@ -99,14 +97,10 @@ export const sendRegistrationOTPEmail = async (email, code) => {
             `
         });
 
-        if (error) {
-            console.error('Resend OTP Error:', error);
-            throw new Error(`Error de Resend: ${error.message}`);
-        }
-
-        return data;
+        console.log('OTP email sent successfully via Nodemailer');
+        return { success: true };
     } catch (err) {
-        console.error('OTP delivery exception:', err);
-        throw new Error(err.message || 'Error al enviar el código de verificación');
+        console.error('Nodemailer Error:', err);
+        throw new Error('Error al enviar el email: ' + err.message);
     }
 };
