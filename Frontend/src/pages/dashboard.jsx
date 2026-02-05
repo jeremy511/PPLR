@@ -54,7 +54,7 @@ export default function Dashboard() {
         <Header />
 
         {/* Carousel Section */}
-        <section className="bg-card rounded-2xl shadow-sm border border-border p-6 md:p-8">
+        <section className="bg-card rounded-2xl shadow-sm border border-border p-2 md:p-8">
           <div className="flex justify-center">
             <Carousel
               plugins={[Autoplay({ delay: 5000 })]}
@@ -66,7 +66,7 @@ export default function Dashboard() {
                     <div className="p-1">
                       <Card className="border-0 shadow-none">
                         <CardContent className="flex flex-col gap-2 p-0">
-                          <div className="aspect-[32/9] w-full overflow-hidden rounded-xl relative">
+                          <div className="aspect-[16/9] md:aspect-[32/9] w-full overflow-hidden rounded-xl relative">
                             <img
                               src={`https://picsum.photos/seed/${index + 1}/1200/400`}
                               alt={`Slide ${index + 1}`}
@@ -92,7 +92,7 @@ export default function Dashboard() {
         </section>
 
         {/* Scheduler Section */}
-        <section className="bg-card rounded-2xl shadow-sm border border-border p-6 md:p-8">
+        <section className="bg-card rounded-2xl shadow-sm border border-border p-2 md:p-8">
           <div className="flex items-center justify-between mb-8">
             <div>
               <h3 className="text-2xl font-bold text-foreground">Cronograma de Turnos</h3>

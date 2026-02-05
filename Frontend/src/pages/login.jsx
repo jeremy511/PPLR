@@ -71,7 +71,7 @@ function Login() {
             htmlFor="account"
             className="justify-center font-bold text-5xl text-red-600"
           >
-            PPLR  a
+            PPLR
           </Label>
           <Separator className="my-4" />
           <CardTitle>Inicie sesión en su cuenta</CardTitle>

@@ -121,7 +121,7 @@ ShiftCell.displayName = "ShiftCell";
 
 export function ShiftGrid({ weekDates, timeSlots, shifts, user, loading, onSlotClick, zoneColor = "#6366f1" }) {
     return (
-        <div className="p-2 sm:p-4 bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto custom-scrollbar">
+        <div className="p-1 sm:p-4 bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto custom-scrollbar">
             <div className="min-w-[800px] md:min-w-0">
                 {/* Header Row */}
                 <div className="grid grid-cols-[100px_repeat(7,1fr)] gap-1 sm:gap-2 mb-4">
