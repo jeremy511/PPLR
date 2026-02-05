@@ -1,5 +1,11 @@
 import nodemailer from 'nodemailer';
+import dns from 'dns';
 import { GMAIL_USER, GMAIL_PASS, CLIENT_URL } from '../config.js';
+
+// Force IPV4 to solve Railway/Cloud ENETUNREACH issues with IPv6
+if (dns.setDefaultResultOrder) {
+    dns.setDefaultResultOrder('ipv4first');
+}
 
 if (!GMAIL_USER || !GMAIL_PASS) {
     console.warn('WARNING: GMAIL_USER or GMAIL_PASS is missing. Email sending will fail.');
