@@ -8,6 +8,10 @@ export const getAllReports = async () => {
     return apiClient.get("/reports");
 };
 
+export const getDashboardMetrics = async () => {
+    return apiClient.get("/metrics/dashboard");
+};
+
 // ZONES API
 
 export const createZone = async (data) => {

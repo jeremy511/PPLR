@@ -10,6 +10,7 @@ import authRoutes from "./routes/authRoutes.js";
 import initGoogleAuth from "./routes/googleAuth.js";
 import shiftRoutes from "./routes/shiftRoutes.js";
 import zoneRoutes from "./routes/zoneRoutes.js";
+import metricsRoutes from "./routes/metricsRoutes.js";
 
 import { logger } from "./utils/logger.js";
 import errorHandler from "./Middleware/errorHandler.js";
@@ -72,6 +73,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/shifts", shiftRoutes);
 app.use("/api/zones", zoneRoutes);
+app.use("/api/metrics", metricsRoutes);
 
 // Global Error Handler
 app.use(errorHandler);
