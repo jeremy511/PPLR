@@ -145,7 +145,7 @@
 .protected-loader {
   height: 30px;
   aspect-ratio: 6;
-  --c: #0000 64%, #e55146 66% 98%, #0000 101%;
+  --c: #0000 64%, #4f46e5 66% 98%, #0000 101%;
   background:
     radial-gradient(35% 146% at 50% 159%, var(--c)) 0 0,
     radial-gradient(35% 146% at 50% -59%, var(--c)) 25% 100%;

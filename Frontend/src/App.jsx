@@ -41,7 +41,11 @@ function App({ pageProps, Component }) {
             <Toaster position="top-right" richColors closeButton style={{ zIndex: 99999 }} />
             <div className="flex flex-col min-h-screen font-sans antialiased">
               <div className="flex-grow flex flex-col">
-                <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Cargando...</div>}>
+                <Suspense fallback={
+                  <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+                    <div className="loader" />
+                  </div>
+                }>
                   <Routes>
                     <Route path="/" element={<Navigate to="/login" />} />
                     <Route path="/login" element={<Login />} />
