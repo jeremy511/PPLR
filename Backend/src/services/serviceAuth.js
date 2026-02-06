@@ -118,8 +118,26 @@ export const getAllPublishers = async () => {
 };
 
 export const deletePublisher = async (id) => {
-    return prisma.publisher.delete({
-        where: { id }
+    // Transaction to safely delete user and all their relationships
+    return prisma.$transaction(async (tx) => {
+        // 1. Remove user from all shifts (ShiftPublisher)
+        await tx.shiftPublisher.deleteMany({
+            where: { publisherId: id }
+        });
+
+        // 2. Unlink user from shifts where they are responsible
+        await tx.shift.updateMany({
+            where: { responsableId: id },
+            data: { responsableId: null }
+        });
+
+        // 3. Delete reset tokens (handled by Cascade in schema, but good to be explicit or if schema changes)
+        // Schema has onDelete: Cascade for tokens, so this is automatic.
+
+        // 4. Finally delete the user
+        return tx.publisher.delete({
+            where: { id }
+        });
     });
 };
 
