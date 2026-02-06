@@ -7,7 +7,7 @@ export const {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   RESEND_API_KEY,
-  GMAIL_USER,
-  GMAIL_PASS,
+  BREVO_API_KEY,
+  SENDER_EMAIL,
   API_URL = "http://localhost:3000"
 } = process.env;
