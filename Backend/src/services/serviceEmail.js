@@ -11,16 +11,30 @@ if (!GMAIL_USER || !GMAIL_PASS) {
     console.warn('WARNING: GMAIL_USER or GMAIL_PASS is missing. Email sending will fail.');
 }
 
+// Custom lookup to strictly force IPv4
+const ipv4Lookup = (hostname, options, callback) => {
+    dns.resolve4(hostname, (err, addresses) => {
+        if (err || !addresses.length) {
+            return callback(err || new Error('No IPv4 addresses found'), null, 4);
+        }
+        callback(null, addresses[0], 4);
+    });
+};
+
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    port: 465, // Try SSL instead of STARTTLS
+    secure: true, 
     auth: {
         user: GMAIL_USER,
         pass: GMAIL_PASS
     },
-    // Force IPv4 to avoid ENETUNREACH in environments with poor IPv6 support
-    family: 4 
+    tls: {
+        rejectUnauthorized: false // Reduce strictness for testing
+    },
+    // Aggressive IPv4 enforcement
+    family: 4,
+    lookup: ipv4Lookup 
 });
 
 /**
