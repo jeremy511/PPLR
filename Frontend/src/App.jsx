@@ -7,6 +7,7 @@ const GoogleCallback = React.lazy(() => import("./pages/GoogleCallback"));
 const GoogleSuccess = React.lazy(() => import("./pages/success"));
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
+import { LoadingScreen } from "./components/ui/LoadingScreen";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,11 +42,7 @@ function App({ pageProps, Component }) {
             <Toaster position="top-right" richColors closeButton style={{ zIndex: 99999 }} />
             <div className="flex flex-col min-h-screen font-sans antialiased">
               <div className="flex-grow flex flex-col">
-                <Suspense fallback={
-                  <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-                    <div className="loader" />
-                  </div>
-                }>
+                <Suspense fallback={<LoadingScreen text="Cargando..." />}>
                   <Routes>
                     <Route path="/" element={<Navigate to="/login" />} />
                     <Route path="/login" element={<Login />} />

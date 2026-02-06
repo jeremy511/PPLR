@@ -13,8 +13,10 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
+  CarouselNext,
   CarouselPrevious,
 } from "../components/ui/carousel";
+import { LoadingScreen } from "../components/ui/LoadingScreen";
 
 export default function Dashboard() {
   const { loading: authLoading } = useAuth();
@@ -40,12 +42,7 @@ export default function Dashboard() {
   const selectedZone = zones.find(z => z.id === selectedZoneId) || null;
 
   if (authLoading || zonesLoading) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-6">
-        <div className="loader" />
-        <p className="text-muted-foreground font-medium animate-pulse tracking-wide">Cargando tablero...</p>
-      </div>
-    )
+    return <LoadingScreen text="Cargando tablero..." />;
   }
 
   return (
