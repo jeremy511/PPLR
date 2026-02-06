@@ -13,7 +13,6 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselNext,
   CarouselPrevious,
 } from "../components/ui/carousel";
 import { LoadingScreen } from "../components/ui/LoadingScreen";
