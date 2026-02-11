@@ -97,8 +97,8 @@ export function Header() {
                                     <NavigationMenuTrigger>Información</NavigationMenuTrigger>
                                     <NavigationMenuContent>
                                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                            <ListItem title="Zonas Disponibles" href="/zones">
-                                                Consulta los puntos de predicación activos.
+                                            <ListItem title="Recordatorios" href="/recordatorios">
+                                                Consulta los recordatorios y anuncios importantes.
                                             </ListItem>
                                             <ListItem title="Guía de Predicación" href="/guide">
                                                 Instrucciones y recordatorios de seguridad.

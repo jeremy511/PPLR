@@ -30,6 +30,7 @@ const ForgotPassword = React.lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = React.lazy(() => import("./pages/ResetPassword"));
 const MyShifts = React.lazy(() => import("./pages/MyShifts"));
 const Profile = React.lazy(() => import("./pages/Profile"));
+const Reminders = React.lazy(() => import("./pages/Reminders"));
 
 const Footer = React.lazy(() => import("./components/Footer").then(module => ({ default: module.Footer })));
 
@@ -94,6 +95,14 @@ function App({ pageProps, Component }) {
                       element={
                         <ProtectedRoute>
                           <Profile />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/recordatorios"
+                      element={
+                        <ProtectedRoute>
+                          <Reminders />
                         </ProtectedRoute>
                       }
                     />
