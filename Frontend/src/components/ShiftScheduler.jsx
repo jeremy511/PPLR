@@ -23,6 +23,13 @@ const TIME_SLOTS = [
   { label: "6:00 - 7:30 PM", startHour: 18, startMinute: 0, endHour: 19, endMinute: 30 },
 ];
 
+const SPECIAL_TIME_SLOTS = [
+  { label: "9:00 - 11:30 AM", startHour: 9, startMinute: 0, endHour: 11, endMinute: 30 },
+  { label: "11:30 - 2:00 PM", startHour: 11, startMinute: 30, endHour: 14, endMinute: 0 },
+  { label: "2:00 - 4:30 PM", startHour: 14, startMinute: 0, endHour: 16, endMinute: 30 },
+  { label: "4:30 - 6:00 PM", startHour: 16, startMinute: 30, endHour: 18, endMinute: 0 },
+];
+
 const getWeekOfMonth = (date) => {
   const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
   const dayOfWeek = firstDayOfMonth.getDay() || 7;
@@ -74,6 +81,8 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
   const SPECIAL_EVENT_MONTH = 2; // March (0-indexed)
   const SPECIAL_EVENT_DAYS = [5, 6, 7, 8];
 
+  const currentTimeSlots = isSpecialZone ? SPECIAL_TIME_SLOTS : TIME_SLOTS;
+
   // Memoized date calculation
   const weekDates = useMemo(() => {
     if (isSpecialZone) {
@@ -123,7 +132,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
         const startTime = new Date(shift.schedule.startTime);
         const startHour = startTime.getHours();
         const startMinute = startTime.getMinutes();
-        const slotIdx = TIME_SLOTS.findIndex(s => s.startHour === startHour && s.startMinute === startMinute);
+        const slotIdx = currentTimeSlots.findIndex(s => s.startHour === startHour && s.startMinute === startMinute);
 
         if (slotIdx !== -1) {
           const key = `${weekDay.name}-${slotIdx}`;
@@ -147,7 +156,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
       }
     });
     return mappedShifts;
-  }, [rawShifts, weekDates]);
+  }, [rawShifts, weekDates, currentTimeSlots]);
 
   // Initial zone setting is now handled by parent
 
@@ -223,7 +232,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
       } else {
         const [dayName, slotIdxStr] = selectedShiftKey.split("-");
         const slotIdx = parseInt(slotIdxStr, 10);
-        const slot = TIME_SLOTS[slotIdx];
+        const slot = currentTimeSlots[slotIdx];
         const dayData = weekDates.find(d => d.name === dayName);
         if (!dayData) throw new Error("Fecha inválida");
 
@@ -256,7 +265,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
       } else {
         const [dayName, slotIdxStr] = selectedShiftKey.split("-");
         const slotIdx = parseInt(slotIdxStr, 10);
-        const slot = TIME_SLOTS[slotIdx];
+        const slot = currentTimeSlots[slotIdx];
         const dayData = weekDates.find(d => d.name === dayName);
         if (!dayData) throw new Error("Fecha inválida");
 
@@ -288,7 +297,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
       } else {
         const [dayName, slotIdxStr] = selectedShiftKey.split("-");
         const slotIdx = parseInt(slotIdxStr, 10);
-        const slot = TIME_SLOTS[slotIdx];
+        const slot = currentTimeSlots[slotIdx];
         const dayData = weekDates.find(d => d.name === dayName);
         if (!dayData) throw new Error("Fecha inválida");
 
@@ -356,7 +365,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
     const dayData = weekDates.find(d => d.name === dayName);
     if (!dayData) return false;
 
-    const slot = TIME_SLOTS[parseInt(slotIdx)];
+    const slot = currentTimeSlots[parseInt(slotIdx)];
     const today = new Date();
 
     // Create a date object for the shift slot in local time to compare
@@ -366,7 +375,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
     shiftDate.setHours(slot.startHour, slot.startMinute, 0, 0);
 
     return shiftDate < today;
-  }, [selectedShiftKey, weekDates]);
+  }, [selectedShiftKey, weekDates, currentTimeSlots]);
 
   const isJoined = useMemo(() =>
     selectedShiftDetails?.publishers.some(p => p.email === user?.email),
@@ -410,7 +419,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
 
       <ShiftGrid
         weekDates={weekDates}
-        timeSlots={TIME_SLOTS}
+        timeSlots={currentTimeSlots}
         shifts={shifts}
         user={user}
         loading={loading}
@@ -430,7 +439,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
           user={user}
           onJoin={handleJoin}
           onLeave={handleLeave}
-          timeSlots={TIME_SLOTS}
+          timeSlots={currentTimeSlots}
           allPublishers={allPublishers}
           onAdminUpdate={invalidateShifts}
           onAdminAdd={handleAdminAdd}
