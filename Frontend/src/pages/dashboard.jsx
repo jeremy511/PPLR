@@ -46,16 +46,21 @@ export default function Dashboard() {
     return <LoadingScreen text="Cargando tablero..." />;
   }
 
+  const isJardinBotanico = selectedZone?.name === "Jardin Botanico";
+  const glassEffect = isJardinBotanico
+    ? "bg-white/60 backdrop-blur-md border-white/40 shadow-lg"
+    : "bg-card border-border shadow-sm";
+
   return (
-    <div className={`min-h-screen py-10 px-4 md:px-8 transition-colors duration-500 relative ${selectedZone?.name === "Jardin Botanico" ? "" : "bg-background"
+    <div className={`min-h-screen py-10 px-4 md:px-8 transition-colors duration-500 relative ${isJardinBotanico ? "" : "bg-background"
       }`}>
-      {selectedZone?.name === "Jardin Botanico" && <BlossomBackground />}
+      {isJardinBotanico && <BlossomBackground />}
 
       <div className="max-w-5xl mx-auto space-y-8 relative z-10">
         <Header />
 
         {/* Carousel Section */}
-        <section className="bg-card rounded-2xl shadow-sm border border-border p-2 md:p-8">
+        <section className={`${glassEffect} rounded-2xl p-2 md:p-8 border transition-all duration-300`}>
           <div className="flex justify-center">
             <Carousel
               plugins={[Autoplay({ delay: 5000 })]}
@@ -65,7 +70,7 @@ export default function Dashboard() {
                 {Array.from({ length: 5 }).map((_, index) => (
                   <CarouselItem key={index}>
                     <div className="p-1">
-                      <Card className="border-0 shadow-none">
+                      <Card className="border-0 shadow-none bg-transparent">
                         <CardContent className="flex flex-col gap-2 p-0">
                           <div className="aspect-[16/9] md:aspect-[32/9] w-full overflow-hidden rounded-xl relative">
                             <img
@@ -93,7 +98,7 @@ export default function Dashboard() {
         </section>
 
         {/* Scheduler Section */}
-        <section className="bg-card rounded-2xl shadow-sm border border-border p-2 md:p-8">
+        <section className={`${glassEffect} rounded-2xl p-2 md:p-8 border transition-all duration-300`}>
           <div className="flex items-center justify-between mb-8">
             <div>
               <h3 className="text-2xl font-bold text-foreground">Cronograma de Turnos</h3>
@@ -104,7 +109,7 @@ export default function Dashboard() {
             zones={zones}
             selectedZoneId={selectedZoneId}
             onZoneSelect={setSelectedZoneId}
-            zoneColor={selectedZone?.color}
+            zoneColor={isJardinBotanico ? "#00731B" : selectedZone?.color}
           />
         </section>
 
