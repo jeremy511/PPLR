@@ -31,6 +31,17 @@ const getWeekOfMonth = (date) => {
   return Math.ceil((date.getDate() - firstMonday.getDate() + 1) / 7) + (dayOfWeek === 1 ? 0 : 1);
 };
 
+// Helper for special week logic
+const getSpecialWeek = () => {
+  // March 2, 2026 is a Monday
+  const start = new Date(2026, 2, 2); // Month is 0-indexed: 2 = March
+  return DISPLAY_DAYS.map((dayName, index) => {
+    const d = new Date(start);
+    d.setDate(start.getDate() + index);
+    return { name: dayName, date: d.getDate(), fullDate: d };
+  });
+};
+
 const getWeekDates = (offset = 0) => {
   const today = new Date();
   const currentDay = today.getDay() || 7;
@@ -56,8 +67,18 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
   const [selectedShiftKey, setSelectedShiftKey] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Special Zone Logic
+  const SPECIAL_EVENT_ZONE_NAME = "Jardin Botanico";
+  const currentZone = zones.find(z => z.id === selectedZoneId);
+  const isSpecialZone = currentZone?.name === SPECIAL_EVENT_ZONE_NAME;
+
   // Memoized date calculation
-  const weekDates = useMemo(() => getWeekDates(weekOffset), [weekOffset]);
+  const weekDates = useMemo(() => {
+    if (isSpecialZone) {
+      return getSpecialWeek();
+    }
+    return getWeekDates(weekOffset);
+  }, [weekOffset, isSpecialZone]);
 
   const startDate = weekDates[0].fullDate.toLocaleDateString('en-CA');
   const endDate = weekDates[6].fullDate.toLocaleDateString('en-CA');
@@ -125,8 +146,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
 
   // Initial zone setting is now handled by parent
 
-  // Special Zone Logic
-  const SPECIAL_EVENT_ZONE_NAME = "Jardin Botanico";
+  // Special Zone Logic (Constants moved to top of component or reused)
   const SPECIAL_EVENT_MONTH = 2; // March (0-indexed)
   const SPECIAL_EVENT_DAYS = [5, 6, 7, 8];
 
@@ -150,7 +170,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
       }
       return true;
     });
-  }, [zones, weekDates]);
+  }, [zones, weekDates, SPECIAL_EVENT_ZONE_NAME]);
 
   // Adjust selected zone if it disappears from the list
   useEffect(() => {
@@ -378,7 +398,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
         setWeekOffset={setWeekOffset}
         weekInfo={weekInfo}
         zoneColor={zoneColor}
-
+        disabled={isSpecialZone}
       />
 
       <ShiftGrid
