@@ -365,6 +365,11 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
 
   return (
     <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-8 animate-in fade-in duration-500">
+      {/* TEMP DEBUG */}
+      <div className="text-xs text-center text-gray-400 font-mono">
+        Zones: {zones.length} ({zones.map(z => z.name).join(", ")}) | SpecialWeek: {weekDates.some(d => d.fullDate.getMonth() === 2 && [5, 6, 7, 8].includes(d.fullDate.getDate())) ? "YES" : "NO"}
+      </div>
+
       <ZoneSelector
         zones={filteredZones}
         selectedZoneId={selectedZoneId}
