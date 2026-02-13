@@ -20,9 +20,9 @@ import { BlossomBackground } from "../components/ui/BlossomBackground";
 
 
 const CAROUSEL_IMAGES = [
-  "/1cc62d0c-f9f3-4950-a755-baca09d4afa5.JPEG",
-  "/80126ea7-4480-4ccb-9a27-a6b48c795a6b.JPEG",
-  "/aaac4dd2-31a0-4097-9372-2934bdbc5378.JPEG",
+  "/Group1.JPG",
+  "/Group2.JPG",
+  "/Group3.JPG",
 ];
 
 export default function Dashboard() {
