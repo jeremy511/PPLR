@@ -71,6 +71,8 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
   const SPECIAL_EVENT_ZONE_NAME = "Jardin Botanico";
   const currentZone = zones.find(z => z.id === selectedZoneId);
   const isSpecialZone = currentZone?.name === SPECIAL_EVENT_ZONE_NAME;
+  const SPECIAL_EVENT_MONTH = 2; // March (0-indexed)
+  const SPECIAL_EVENT_DAYS = [5, 6, 7, 8];
 
   // Memoized date calculation
   const weekDates = useMemo(() => {
@@ -148,9 +150,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
 
   // Initial zone setting is now handled by parent
 
-  // Special Zone Logic (Constants moved to top of component or reused)
-  const SPECIAL_EVENT_MONTH = 2; // March (0-indexed)
-  const SPECIAL_EVENT_DAYS = [5, 6, 7, 8];
+
 
   const filteredZones = useMemo(() => {
     if (!zones.length) return [];
