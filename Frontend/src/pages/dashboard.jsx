@@ -16,8 +16,8 @@ import {
   CarouselPrevious,
 } from "../components/ui/carousel";
 import { LoadingScreen } from "../components/ui/LoadingScreen";
+import { BlossomBackground } from "../components/ui/BlossomBackground";
 
-import { CherryBlossomBackground } from "../components/ui/CherryBlossomBackground";
 
 export default function Dashboard() {
   const { loading: authLoading } = useAuth();
@@ -49,7 +49,7 @@ export default function Dashboard() {
   return (
     <div className={`min-h-screen py-10 px-4 md:px-8 transition-colors duration-500 relative ${selectedZone?.name === "Jardin Botanico" ? "" : "bg-background"
       }`}>
-      {selectedZone?.name === "Jardin Botanico" && <CherryBlossomBackground />}
+      {selectedZone?.name === "Jardin Botanico" && <BlossomBackground />}
 
       <div className="max-w-5xl mx-auto space-y-8 relative z-10">
         <Header />
