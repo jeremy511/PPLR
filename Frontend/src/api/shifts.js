@@ -22,7 +22,7 @@ export const createShift = async (startTime, endTime, zoneId, date) => {
 };
 
 export const getZones = async (includeHidden = false) => {
-  return apiClient.get("/zones", includeHidden ? { includeHidden: "true" } : {});
+  return apiClient.get("/zones", { includeHidden });
 };
 
 export const getMyShifts = async () => {

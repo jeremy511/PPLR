@@ -64,6 +64,33 @@ async function main() {
     },
   });
 
+  // Special Zone: Jardin Botanico
+  const specialZoneName = "Jardin Botanico";
+  const existingSpecialZone = await prisma.zone.findFirst({
+    where: { name: specialZoneName }
+  });
+
+  if (!existingSpecialZone) {
+    await prisma.zone.create({
+      data: {
+        name: specialZoneName,
+        description: "Zona especial para la reunión anual (5-8 Marzo)",
+        color: "#10b981", // Emerald-500
+        active: true,
+        location: "Jardin Botanico",
+        warehouse: "N/A",
+        instructions: "Solo disponible del 5 al 8 de Marzo."
+      }
+    });
+    console.log(`Zone '${specialZoneName}' created.`);
+  } else if (!existingSpecialZone.active) {
+      await prisma.zone.update({
+          where: { id: existingSpecialZone.id },
+          data: { active: true }
+      });
+      console.log(`Zone '${specialZoneName}' activated.`);
+  }
+
   // Relacionar carrito con zona
   await prisma.cartZone.create({
     data: {
