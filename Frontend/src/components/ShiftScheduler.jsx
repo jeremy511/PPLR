@@ -75,7 +75,9 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
   // Memoized date calculation
   const weekDates = useMemo(() => {
     if (isSpecialZone) {
-      return getSpecialWeek();
+      const allDays = getSpecialWeek();
+      // Filter only 5, 6, 7, 8
+      return allDays.filter(d => SPECIAL_EVENT_DAYS.includes(d.date));
     }
     return getWeekDates(weekOffset);
   }, [weekOffset, isSpecialZone]);
