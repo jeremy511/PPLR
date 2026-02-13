@@ -16,7 +16,7 @@ import {
   CarouselPrevious,
 } from "../components/ui/carousel";
 import { LoadingScreen } from "../components/ui/LoadingScreen";
-import { LoadingScreen } from "../components/ui/LoadingScreen";
+
 import { CherryBlossomBackground } from "../components/ui/CherryBlossomBackground";
 
 export default function Dashboard() {
