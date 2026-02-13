@@ -42,6 +42,13 @@ export function MobileNav() {
 
           {user?.role === 'ADMIN' ? (
             <>
+              <Link
+                to="/my-shifts"
+                onClick={() => setOpen(false)}
+                className="text-lg font-medium hover:text-indigo-600"
+              >
+                Mis Turnos
+              </Link>
               <div className="border-t pt-4 mt-2">
                 <h4 className="font-semibold mb-2 text-gray-500 uppercase text-xs tracking-wider">Administración</h4>
                 <Link to="/admin/users" onClick={() => setOpen(false)} className="block py-2 text-lg font-medium hover:text-indigo-600">
