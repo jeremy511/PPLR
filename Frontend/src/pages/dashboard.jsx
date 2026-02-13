@@ -19,6 +19,12 @@ import { LoadingScreen } from "../components/ui/LoadingScreen";
 import { BlossomBackground } from "../components/ui/BlossomBackground";
 
 
+const CAROUSEL_IMAGES = [
+  "/1cc62d0c-f9f3-4950-a755-baca09d4afa5.JPEG",
+  "/80126ea7-4480-4ccb-9a27-a6b48c795a6b.JPEG",
+  "/aaac4dd2-31a0-4097-9372-2934bdbc5378.JPEG",
+];
+
 export default function Dashboard() {
   const { loading: authLoading } = useAuth();
   const [selectedZoneId, setSelectedZoneId] = useState(null);
@@ -66,64 +72,65 @@ export default function Dashboard() {
               plugins={[Autoplay({ delay: 5000 })]}
               className="w-full max-w-5xl"
             >
-              <CarouselContent>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <CarouselItem key={index}>
-                    <div className="p-1">
-                      <Card className="border-0 shadow-none bg-transparent">
-                        <CardContent className="flex flex-col gap-2 p-0">
-                          <div className="aspect-[16/9] md:aspect-[32/9] w-full overflow-hidden rounded-xl relative">
-                            <img
-                              src={`https://picsum.photos/seed/${index + 1}/1200/400`}
-                              alt={`Slide ${index + 1}`}
-                              loading={index === 0 ? "eager" : "lazy"}
-                              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                            />
-                            <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-3 backdrop-blur-sm">
-                              <p className="text-white text-xs md:text-sm font-medium text-center">
-                                Momento destacado de la congregación #{index + 1} - Reunión especial
-                              </p>
-                            </div>
+              {CAROUSEL_IMAGES.map((src, index) => (
+                <CarouselItem key={index}>
+                  <div className="p-1">
+                    <Card className="border-0 shadow-none bg-transparent">
+                      <CardContent className="flex flex-col gap-2 p-0">
+                        <div className="aspect-[16/9] md:aspect-[32/9] w-full overflow-hidden rounded-xl relative">
+                          <img
+                            src={src}
+                            alt={`Slide ${index + 1}`}
+                            loading={index === 0 ? "eager" : "lazy"}
+                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                          />
+                          <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-3 backdrop-blur-sm">
+                            <p className="text-white text-xs md:text-sm font-medium text-center">
+                              Momento destacado de la congregación #{index + 1}
+                            </p>
                           </div>
-                        </CardContent>
-                      </Card>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="left-4" />
-              <CarouselNext className="right-4" />
-            </Carousel>
-          </div>
-        </section>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+                  ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-4" />
+            <CarouselNext className="right-4" />
+          </Carousel>
+      </div>
+    </section>
 
-        {/* Scheduler Section */}
-        <section className={`${glassEffect} rounded-2xl p-2 md:p-8 border transition-all duration-300`}>
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h3 className="text-2xl font-bold text-foreground">Cronograma de Turnos</h3>
-              <p className="text-muted-foreground text-sm mt-1">Gestiona y visualiza las asignaciones semanales.</p>
-            </div>
-          </div>
-          <ShiftScheduler
-            zones={zones}
-            selectedZoneId={selectedZoneId}
-            onZoneSelect={setSelectedZoneId}
-            zoneColor={isJardinBotanico ? "#00731B" : selectedZone?.color}
-          />
-        </section>
-
-        {/* Zone Info Cards Section */}
-        {selectedZone && (
-          <section>
-            <div className="flex items-center justify-between mb-4 px-2">
-              <h3 className="text-xl font-bold text-foreground">Información de {selectedZone.name}</h3>
-            </div>
-            <ZoneInfoCard zone={selectedZone} />
-          </section>
-        )}
+        {/* Scheduler Section */ }
+  <section className={`${glassEffect} rounded-2xl p-2 md:p-8 border transition-all duration-300`}>
+    <div className="flex items-center justify-between mb-8">
+      <div>
+        <h3 className="text-2xl font-bold text-foreground">Cronograma de Turnos</h3>
+        <p className="text-muted-foreground text-sm mt-1">Gestiona y visualiza las asignaciones semanales.</p>
       </div>
     </div>
+    <ShiftScheduler
+      zones={zones}
+      selectedZoneId={selectedZoneId}
+      onZoneSelect={setSelectedZoneId}
+      zoneColor={isJardinBotanico ? "#00731B" : selectedZone?.color}
+    />
+  </section>
+
+  {/* Zone Info Cards Section */ }
+  {
+    selectedZone && (
+      <section>
+        <div className="flex items-center justify-between mb-4 px-2">
+          <h3 className="text-xl font-bold text-foreground">Información de {selectedZone.name}</h3>
+        </div>
+        <ZoneInfoCard zone={selectedZone} />
+      </section>
+    )
+  }
+      </div >
+    </div >
   );
 };
 
