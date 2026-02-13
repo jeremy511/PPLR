@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react";
 
-export function CalendarControls({ weekOffset, setWeekOffset, weekInfo, zoneColor = "#6366f1" }) {
+export function CalendarControls({ weekOffset, setWeekOffset, weekInfo, zoneColor = "#6366f1", disabled = false }) {
     return (
         <div className="flex items-center justify-between bg-white p-2 rounded-xl border border-gray-100 shadow-sm sm:flex-row flex-col gap-3 sm:gap-0">
             <div className="flex items-center gap-2">
@@ -10,6 +10,7 @@ export function CalendarControls({ weekOffset, setWeekOffset, weekInfo, zoneColo
                     variant="outline"
                     size="icon"
                     onClick={() => setWeekOffset(prev => prev - 1)}
+                    disabled={disabled}
                     aria-label="Semana anterior"
                     className="h-9 w-9"
                 >
@@ -19,7 +20,7 @@ export function CalendarControls({ weekOffset, setWeekOffset, weekInfo, zoneColo
                     variant="outline"
                     size="sm"
                     onClick={() => setWeekOffset(0)}
-                    disabled={weekOffset === 0}
+                    disabled={disabled || weekOffset === 0}
                     className="hidden sm:flex font-medium"
                 >
                     Hoy
@@ -28,7 +29,7 @@ export function CalendarControls({ weekOffset, setWeekOffset, weekInfo, zoneColo
                     variant="outline"
                     size="icon"
                     onClick={() => setWeekOffset(prev => prev + 1)}
-                    disabled={weekOffset >= 1}
+                    disabled={disabled || weekOffset >= 1}
                     aria-label={weekOffset >= 1 ? "Límite futuro alcanzado" : "Siguiente semana"}
                     className="h-9 w-9 disabled:opacity-30"
                 >
@@ -53,7 +54,7 @@ export function CalendarControls({ weekOffset, setWeekOffset, weekInfo, zoneColo
                 variant="outline"
                 size="sm"
                 onClick={() => setWeekOffset(0)}
-                disabled={weekOffset === 0}
+                disabled={disabled || weekOffset === 0}
                 className="sm:hidden w-full font-medium"
             >
                 Ir a Hoy

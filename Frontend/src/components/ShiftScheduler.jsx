@@ -378,6 +378,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
         setWeekOffset={setWeekOffset}
         weekInfo={weekInfo}
         zoneColor={zoneColor}
+        disabled={isNavigationLocked}
       />
 
       <ShiftGrid
