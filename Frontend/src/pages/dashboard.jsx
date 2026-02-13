@@ -16,6 +16,7 @@ import {
   CarouselPrevious,
 } from "../components/ui/carousel";
 import { LoadingScreen } from "../components/ui/LoadingScreen";
+import { FirefliesBackground } from "../components/ui/FirefliesBackground";
 
 export default function Dashboard() {
   const { loading: authLoading } = useAuth();
@@ -112,8 +113,10 @@ export default function Dashboard() {
             <ZoneInfoCard zone={selectedZone} />
           </section>
         )}
+
       </div>
-    </div>
+      {selectedZone?.name === "Jardin Botanico" && <FirefliesBackground />}
+    </div >
   );
 };
 
