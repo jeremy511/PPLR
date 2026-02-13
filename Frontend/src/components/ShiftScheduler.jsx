@@ -84,8 +84,9 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
     return getWeekDates(weekOffset);
   }, [weekOffset, isSpecialZone]);
 
-  const startDate = weekDates[0].fullDate.toLocaleDateString('en-CA');
-  const endDate = weekDates[6].fullDate.toLocaleDateString('en-CA');
+  // Check if weekDates is populated
+  const startDate = weekDates.length > 0 ? weekDates[0].fullDate.toLocaleDateString('en-CA') : "";
+  const endDate = weekDates.length > 0 ? weekDates[weekDates.length - 1].fullDate.toLocaleDateString('en-CA') : "";
 
   // Queries (Zones are now passed as props)
 
@@ -323,6 +324,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
 
   // Memoized status info
   const weekInfo = useMemo(() => {
+    if (!weekDates.length) return "";
     const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
     const firstDate = weekDates[0].fullDate;
     return `Semana ${getWeekOfMonth(firstDate)} de ${months[firstDate.getMonth()]} ${firstDate.getFullYear()}`;

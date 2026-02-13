@@ -124,7 +124,7 @@ export function ShiftGrid({ weekDates, timeSlots, shifts, user, loading, onSlotC
         <div className="p-1 sm:p-4 bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto custom-scrollbar">
             <div className="min-w-[800px] md:min-w-0">
                 {/* Header Row */}
-                <div className="grid grid-cols-[100px_repeat(7,1fr)] gap-1 sm:gap-2 mb-4">
+                <div className="grid gap-1 sm:gap-2 mb-4" style={{ gridTemplateColumns: `100px repeat(${weekDates.length}, 1fr)` }}>
                     <div className="font-bold text-gray-400 text-[10px] uppercase flex items-center justify-center tracking-widest">Hora</div>
                     {weekDates.map((day) => (
                         <div key={day.name} className="flex flex-col items-center pb-2 border-b-2 border-transparent">
@@ -137,7 +137,7 @@ export function ShiftGrid({ weekDates, timeSlots, shifts, user, loading, onSlotC
                 {/* Time Slots */}
                 <div className="grid gap-1 sm:gap-2">
                     {timeSlots.map((slot, index) => (
-                        <div key={index} className="grid grid-cols-[100px_repeat(7,1fr)] gap-1 sm:gap-2">
+                        <div key={index} className="grid gap-1 sm:gap-2" style={{ gridTemplateColumns: `100px repeat(${weekDates.length}, 1fr)` }}>
                             {/* Time Label */}
                             <div className="text-gray-400 font-bold text-[10px] flex items-center justify-center text-center px-1 tabular-nums leading-tight">
                                 {slot.label.split(" ").map((p, i) => <span key={i} className="block">{p}</span>)}
