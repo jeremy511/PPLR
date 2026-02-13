@@ -156,9 +156,12 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
   const filteredZones = useMemo(() => {
     if (!zones.length) return [];
 
+    if (!weekDates.length) return [];
+
     // Check if the current week view includes any of the special event days
-    const weekStartMonth = weekDates[0].fullDate.getMonth();
-    const weekEndMonth = weekDates[6].fullDate.getMonth();
+    // Use optional chaining or array length check
+    const weekStartMonth = weekDates[0]?.fullDate.getMonth();
+    const weekEndMonth = weekDates[weekDates.length - 1]?.fullDate.getMonth();
 
     // Simple check: if any day in the current view is in March and is one of the special days
     const isSpecialWeek = weekDates.some(d =>
