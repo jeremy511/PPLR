@@ -125,6 +125,42 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
 
   // Initial zone setting is now handled by parent
 
+  // Special Zone Logic
+  const SPECIAL_EVENT_ZONE_NAME = "Jardin Botanico";
+  const SPECIAL_EVENT_MONTH = 2; // March (0-indexed)
+  const SPECIAL_EVENT_DAYS = [5, 6, 7, 8];
+
+  const filteredZones = useMemo(() => {
+    if (!zones.length) return [];
+
+    // Check if the current week view includes any of the special event days
+    const weekStartMonth = weekDates[0].fullDate.getMonth();
+    const weekEndMonth = weekDates[6].fullDate.getMonth();
+
+    // Simple check: if any day in the current view is in March and is one of the special days
+    const isSpecialWeek = weekDates.some(d =>
+      d.fullDate.getMonth() === SPECIAL_EVENT_MONTH &&
+      SPECIAL_EVENT_DAYS.includes(d.fullDate.getDate())
+    );
+
+    return zones.filter(z => {
+      if (z.name === SPECIAL_EVENT_ZONE_NAME) {
+        return isSpecialWeek;
+      }
+      return true;
+    });
+  }, [zones, weekDates]);
+
+  // Adjust selected zone if it disappears from the list
+  useEffect(() => {
+    if (selectedZoneId && filteredZones.length > 0) {
+      const stillExists = filteredZones.find(z => z.id === selectedZoneId);
+      if (!stillExists) {
+        onZoneSelect(filteredZones[0].id);
+      }
+    }
+  }, [filteredZones, selectedZoneId, onZoneSelect]);
+
   const loading = isLoadingShifts || isLoadingPubs;
 
   const invalidateShifts = async () => {
@@ -133,9 +169,22 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
 
   // Handlers
   const handleSlotClick = useCallback((day, slotIdx) => {
+    // Prevent clicking on non-special days for the special zone
+    const currentZone = zones.find(z => z.id === selectedZoneId);
+    if (currentZone?.name === SPECIAL_EVENT_ZONE_NAME) {
+      const dayDate = weekDates.find(d => d.name === day)?.fullDate;
+      if (dayDate) {
+        const isSpecialDay = dayDate.getMonth() === SPECIAL_EVENT_MONTH && SPECIAL_EVENT_DAYS.includes(dayDate.getDate());
+        if (!isSpecialDay) {
+          toast.error("Este turno solo está habilitado para la reunión especial (5-8 de Marzo).");
+          return;
+        }
+      }
+    }
+
     setSelectedShiftKey(`${day}-${slotIdx}`);
     setIsModalOpen(true);
-  }, []);
+  }, [zones, selectedZoneId, weekDates]);
 
   const handleJoin = async () => {
     if (!selectedShiftKey || !user || !selectedZoneId) return;
@@ -299,10 +348,25 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
     selectedShiftDetails?.publishers.length >= 4,
     [selectedShiftDetails]);
 
+  // Check if grid should be partially disabled/dimmed for non-special days
+  // We can pass a function to ShiftGrid to determine availability per day
+  const isDateUnavailable = useCallback((dayName) => {
+    const currentZone = zones.find(z => z.id === selectedZoneId);
+    if (currentZone?.name === SPECIAL_EVENT_ZONE_NAME) {
+      const dayDate = weekDates.find(d => d.name === dayName)?.fullDate;
+      if (dayDate) {
+        const isSpecialDay = dayDate.getMonth() === SPECIAL_EVENT_MONTH && SPECIAL_EVENT_DAYS.includes(dayDate.getDate());
+        return !isSpecialDay;
+      }
+    }
+    return false;
+  }, [zones, selectedZoneId, weekDates]);
+
+
   return (
     <div className="space-y-4 sm:space-y-6 max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-8 animate-in fade-in duration-500">
       <ZoneSelector
-        zones={zones}
+        zones={filteredZones}
         selectedZoneId={selectedZoneId}
         onSelect={onZoneSelect}
       />
@@ -322,6 +386,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
         loading={loading}
         onSlotClick={handleSlotClick}
         zoneColor={zoneColor}
+        isDateUnavailable={isDateUnavailable}
       />
 
       <Suspense fallback={null}>

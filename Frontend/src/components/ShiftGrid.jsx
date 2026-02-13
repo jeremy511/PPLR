@@ -119,7 +119,7 @@ const ShiftCell = memo(({ day, index, shift, user, loading, onSlotClick, isUnava
 
 ShiftCell.displayName = "ShiftCell";
 
-export function ShiftGrid({ weekDates, timeSlots, shifts, user, loading, onSlotClick, zoneColor = "#6366f1" }) {
+export function ShiftGrid({ weekDates, timeSlots, shifts, user, loading, onSlotClick, zoneColor = "#6366f1", isDateUnavailable }) {
     return (
         <div className="p-1 sm:p-4 bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto custom-scrollbar">
             <div className="min-w-[800px] md:min-w-0">
@@ -146,7 +146,7 @@ export function ShiftGrid({ weekDates, timeSlots, shifts, user, loading, onSlotC
                             {/* Day Slots */}
                             {weekDates.map((day) => {
                                 const key = `${day.name}-${index}`;
-                                const isUnavailable = false;
+                                const isUnavailable = isDateUnavailable ? isDateUnavailable(day.name) : false;
                                 return (
                                     <ShiftCell
                                         key={key}
