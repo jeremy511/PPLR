@@ -46,8 +46,11 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="bg-background py-10 px-4 md:px-8">
-      <div className="max-w-5xl mx-auto space-y-8">
+    <div className={`min-h-screen py-10 px-4 md:px-8 transition-colors duration-500 relative ${selectedZone?.name === "Jardin Botanico" ? "" : "bg-background"
+      }`}>
+      {selectedZone?.name === "Jardin Botanico" && <FirefliesBackground />}
+
+      <div className="max-w-5xl mx-auto space-y-8 relative z-10">
         <Header />
 
         {/* Carousel Section */}
@@ -113,10 +116,8 @@ export default function Dashboard() {
             <ZoneInfoCard zone={selectedZone} />
           </section>
         )}
-
       </div>
-      {selectedZone?.name === "Jardin Botanico" && <FirefliesBackground />}
-    </div >
+    </div>
   );
 };
 
