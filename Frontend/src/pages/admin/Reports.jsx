@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getDashboardMetrics } from "../../api/admin";
-import { Header } from "../../components/Header";
+import { Layout } from "../../components/Layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { Users, CalendarCheck, AlertCircle, TrendingUp } from "lucide-react";
@@ -10,27 +10,36 @@ import Skeleton from "react-loading-skeleton";
 const COLORS = ['#4f46e5', '#e5e7eb']; // Indigo vs Gray
 
 export default function Reports() {
-    const { data, isLoading, error } = useQuery({
+    const { data, isLoading, error, refetch } = useQuery({
         queryKey: ["dashboardMetrics"],
         queryFn: getDashboardMetrics,
     });
 
     if (isLoading) return (
-        <div className="bg-background min-h-screen py-10 px-4 md:px-8">
-            <div className="max-w-6xl mx-auto space-y-6">
-                <Header />
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    {[1, 2, 3, 4].map(i => <Skeleton key={i} height={120} className="rounded-xl" />)}
-                </div>
-                <Skeleton height={400} className="rounded-xl" />
+        <Layout>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                {[1, 2, 3, 4].map(i => <Skeleton key={i} height={120} className="rounded-xl" />)}
             </div>
-        </div>
+            <Skeleton height={400} className="rounded-xl" />
+        </Layout>
     );
 
-    if (error) return (
-        <div className="p-10 text-center text-red-500">
-            Error cargando métricas: {error.message}
-        </div>
+    if (error || !data) return (
+        <Layout>
+            <div className="p-8 text-center bg-red-50 dark:bg-red-950/20 rounded-2xl border border-red-200 dark:border-red-900/40 max-w-lg mx-auto my-12">
+                <AlertCircle className="h-10 w-10 text-red-500 mx-auto mb-3" />
+                <h2 className="text-lg font-bold text-red-900 dark:text-red-300">No se pudieron cargar las estadísticas</h2>
+                <p className="text-sm text-red-700 dark:text-red-400 mt-2">
+                    {error?.message || "Ocurrió un problema al obtener las métricas del servidor."}
+                </p>
+                <button
+                    onClick={() => refetch()}
+                    className="mt-5 px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-medium text-sm transition-colors"
+                >
+                    Reintentar
+                </button>
+            </div>
+        </Layout>
     );
 
     const { stats, topZones, recentActivity } = data;
@@ -42,9 +51,7 @@ export default function Reports() {
     ];
 
     return (
-        <div className="bg-background min-h-screen py-10 px-4 md:px-8">
-            <div className="max-w-6xl mx-auto space-y-8">
-                <Header />
+        <Layout>
 
                 <div className="flex flex-col gap-2">
                     <h1 className="text-3xl font-bold tracking-tight">Reportes y Estadísticas</h1>
@@ -91,7 +98,7 @@ export default function Reports() {
                             <CalendarCheck className="h-4 w-4 text-indigo-500" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold text-indigo-600">{stats.coveredShiftsThisWeek}</div>
+                            <div className="text-2xl font-bold text-primary">{stats.coveredShiftsThisWeek}</div>
                             <p className="text-xs text-muted-foreground">Hermanos asignados</p>
                         </CardContent>
                     </Card>
@@ -165,7 +172,7 @@ export default function Reports() {
                                     <span>Cubiertos</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <div className="w-3 h-3 rounded-full bg-gray-200"></div>
+                                    <div className="w-3 h-3 rounded-full bg-muted-foreground/30"></div>
                                     <span>Libres</span>
                                 </div>
                             </div>
@@ -181,9 +188,9 @@ export default function Reports() {
                                                 <AlertCircle className="h-4 w-4 text-muted-foreground" />
                                             </div>
                                             <div>
-                                                <p className="font-medium text-gray-900">{log.action.replace('_', ' ')}</p>
+                                                <p className="font-medium text-foreground">{log.action.replace('_', ' ')}</p>
                                                 <p className="text-xs text-muted-foreground">{log.reason}</p>
-                                                <p className="text-[10px] text-gray-400 mt-1">
+                                                <p className="text-[10px] text-muted-foreground mt-1">
                                                     {new Date(log.createdAt).toLocaleString()}
                                                 </p>
                                             </div>
@@ -194,7 +201,6 @@ export default function Reports() {
                         </CardContent>
                     </Card>
                 </div>
-            </div>
-        </div>
+        </Layout>
     );
 }

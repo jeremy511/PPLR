@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 import { MobileNav } from "./MobileNav";
+import { ModeToggle } from "./mode-toggle";
 import { CircleAlert as CircleAlertIcon, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -100,30 +101,21 @@ export function Header() {
                                             <ListItem title="Recordatorios" href="/recordatorios">
                                                 Consulta los recordatorios y anuncios importantes.
                                             </ListItem>
-                                            <ListItem title="Guía de Predicación" href="/guide">
-                                                Instrucciones y recordatorios de seguridad.
-                                            </ListItem>
                                         </ul>
                                     </NavigationMenuContent>
                                 </NavigationMenuItem>
                             </>
                         )}
-
-                        <NavigationMenuItem>
-                            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                <Link to="/help">Ayuda</Link>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
                     </NavigationMenuList>
                 </NavigationMenu>
             </div>
 
             {/* Right: User Menu */}
             <div className="flex items-center gap-4">
+                <ModeToggle />
 
-
-                <span className="text-gray-600 text-sm hidden md:inline-block font-medium">
-                    Hola, <span className="text-gray-900">{formatDisplayName(user?.firstName, user?.lastName) || "Usuario"}</span>
+                <span className="text-muted-foreground text-sm hidden md:inline-block font-medium">
+                    Hola, <span className="text-foreground">{formatDisplayName(user?.firstName, user?.lastName) || "Usuario"}</span>
                 </span>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>

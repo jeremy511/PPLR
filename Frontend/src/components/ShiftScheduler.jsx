@@ -65,6 +65,8 @@ const getWeekDates = (offset = 0) => {
     return { name: dayName, date: d.getDate(), fullDate: d };
   });
 };
+import { getZoneCustomRules } from "../pages/admin/Zones";
+
 export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneColor = "#6366f1" }) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -78,20 +80,42 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
   const SPECIAL_EVENT_ZONE_NAME = "Jardin Botanico";
   const currentZone = zones.find(z => z.id === selectedZoneId);
   const isSpecialZone = currentZone?.name === SPECIAL_EVENT_ZONE_NAME;
+
+  // Dynamic Custom Zone Rules (Per Station, backed by API)
+  const zoneRules = useMemo(() => getZoneCustomRules(currentZone || selectedZoneId), [currentZone, selectedZoneId]);
   const SPECIAL_EVENT_MONTH = 2; // March (0-indexed)
   const SPECIAL_EVENT_DAYS = [5, 6, 7, 8];
 
-  const currentTimeSlots = isSpecialZone ? SPECIAL_TIME_SLOTS : TIME_SLOTS;
+  const currentTimeSlots = useMemo(() => {
+    if (zoneRules.isCustom && zoneRules.useCustomSlots && zoneRules.customSlots?.length > 0) {
+      return zoneRules.customSlots.map((s) => {
+        const [startHour, startMinute] = (s.startTime || "08:00").split(":").map(Number);
+        const [endHour, endMinute] = (s.endTime || "10:00").split(":").map(Number);
+        return {
+          label: s.label || `${s.startTime} - ${s.endTime}`,
+          startHour: isNaN(startHour) ? 8 : startHour,
+          startMinute: isNaN(startMinute) ? 0 : startMinute,
+          endHour: isNaN(endHour) ? 10 : endHour,
+          endMinute: isNaN(endMinute) ? 0 : endMinute,
+        };
+      });
+    }
+    return isSpecialZone ? SPECIAL_TIME_SLOTS : TIME_SLOTS;
+  }, [zoneRules, isSpecialZone]);
 
   // Memoized date calculation
   const weekDates = useMemo(() => {
     if (isSpecialZone) {
       const allDays = getSpecialWeek();
-      // Filter only 5, 6, 7, 8
       return allDays.filter(d => SPECIAL_EVENT_DAYS.includes(d.date));
     }
-    return getWeekDates(weekOffset);
-  }, [weekOffset, isSpecialZone]);
+    const allWeekDates = getWeekDates(weekOffset);
+    if (zoneRules.isCustom && zoneRules.operatingDays?.length > 0 && zoneRules.operatingDays.length < 7) {
+      const filtered = allWeekDates.filter(d => zoneRules.operatingDays.includes(d.name));
+      return filtered.length > 0 ? filtered : allWeekDates;
+    }
+    return allWeekDates;
+  }, [weekOffset, isSpecialZone, zoneRules]);
 
   // Check if weekDates is populated
   const startDate = weekDates.length > 0 ? weekDates[0].fullDate.toLocaleDateString('en-CA') : "";
@@ -415,6 +439,7 @@ export function ShiftScheduler({ zones = [], selectedZoneId, onZoneSelect, zoneC
         weekInfo={weekInfo}
         zoneColor={zoneColor}
         disabled={isSpecialZone}
+        maxWeeks={user?.role === "ADMIN" ? 8 : 2}
       />
 
       <ShiftGrid

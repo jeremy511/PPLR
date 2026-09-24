@@ -53,9 +53,13 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
         try {
             setLoading(true);
             await adminRemoveParticipant(shift.id, confirmId, reason);
+            toast.success("Participante removido correctamente");
             await onUpdate();
         } catch (err) {
-            console.error(err);
+            if (import.meta.env.DEV) {
+                console.warn("[AdminShiftControls removeParticipant Failed]:", err);
+            }
+            toast.error(err.message || "No se pudo remover al participante. Intenta nuevamente.");
         } finally {
             setLoading(false);
             setConfirmId(null);
@@ -70,9 +74,13 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
             } else {
                 await updateShiftStatus(shift.id, status);
             }
+            toast.success(status === 'CANCELLED' ? "Turno cancelado" : "Turno activado");
             await onUpdate();
         } catch (err) {
-            console.error(err);
+            if (import.meta.env.DEV) {
+                console.warn("[AdminShiftControls statusChange Failed]:", err);
+            }
+            toast.error(err.message || "No se pudo actualizar el estado del turno. Intenta nuevamente.");
         } finally {
             setLoading(false);
         }
@@ -82,7 +90,7 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
 
     return (
         <>
-            <div className="space-y-6 pt-6 border-t border-gray-100">
+            <div className="space-y-6 pt-6 border-t border-border">
                 {/* Participant Management */}
                 <div className="space-y-4">
                     <h4 className="text-xs font-bold text-indigo-600 uppercase tracking-widest flex items-center gap-2">
@@ -93,8 +101,8 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
                     {/* Current List with Remove button */}
                     <div className="space-y-2">
                         {shift.publishers.map((p) => (
-                            <div key={p.id} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg group">
-                                <span className="text-sm font-medium text-gray-700">{formatDisplayName(p.firstName, p.lastName)}</span>
+                            <div key={p.id} className="flex items-center justify-between p-2 bg-muted/50 rounded-lg group">
+                                <span className="text-sm font-medium text-foreground">{formatDisplayName(p.firstName, p.lastName)}</span>
                                 <Button
                                     variant="ghost"
                                     size="icon"
@@ -120,17 +128,17 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
                         </div>
 
                         {search && availablePublishers.length > 0 && (
-                            <div className="absolute z-50 w-full mt-1 bg-white border border-gray-100 shadow-xl rounded-xl overflow-hidden animate-in fade-in slide-in-from-top-2">
+                            <div className="absolute z-50 w-full mt-1 bg-popover border border-border shadow-xl rounded-xl overflow-hidden animate-in fade-in slide-in-from-top-2">
                                 {availablePublishers.map((p) => (
                                     <button
                                         key={p.id}
-                                        className="w-full flex items-center justify-between px-4 py-3 hover:bg-indigo-50 text-left transition-colors"
+                                        className="w-full flex items-center justify-between px-4 py-3 hover:bg-primary/5 text-left transition-colors"
                                         onClick={() => handleAdd(p.id)}
                                         disabled={loading}
                                     >
                                         <div>
-                                            <p className="text-sm font-bold text-gray-800">{formatDisplayName(p.firstName, p.lastName)}</p>
-                                            <p className="text-xs text-gray-500">{p.email}</p>
+                                            <p className="text-sm font-bold text-foreground">{formatDisplayName(p.firstName, p.lastName)}</p>
+                                            <p className="text-xs text-muted-foreground">{p.email}</p>
                                         </div>
                                         <UserPlus className="h-4 w-4 text-indigo-500" />
                                     </button>
@@ -142,7 +150,7 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
 
                 {/* Shift Status */}
                 <div className="space-y-4 pt-2">
-                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2 px-1">
+                    <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2 px-1">
                         Gestión de Acceso
                     </h4>
 
@@ -168,8 +176,8 @@ export function AdminShiftControls({ shift, allPublishers, onUpdate, onAdd, onSt
                         </Button>
                     )}
 
-                    <div className="px-3 py-2 bg-gray-50/50 rounded-lg border border-gray-100">
-                        <p className="text-[11px] text-gray-500 leading-relaxed italic">
+                    <div className="px-3 py-2 bg-muted/30 rounded-lg border border-border">
+                        <p className="text-[11px] text-muted-foreground leading-relaxed italic">
                             {shift.status === 'CANCELLED'
                                 ? "Actualmente cancelado. Los publicadores no pueden verlo ni inscribirse."
                                 : "Actualmente disponible. Puedes cancelarlo para evitar nuevas inscripciones o cerrar el punto."}

@@ -1,15 +1,12 @@
 import React from "react";
-import { Header } from "../components/Header";
+import { Layout } from "../components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bell } from "lucide-react";
 
 export default function Reminders() {
     return (
-        <div className="bg-background min-h-screen py-10 px-4 md:px-8">
-            <div className="max-w-5xl mx-auto space-y-8">
-                <Header />
-
-                <section className="bg-card rounded-2xl shadow-sm border border-border p-6 md:p-8">
+        <Layout>
+            <section className="bg-card rounded-2xl shadow-sm border border-border p-6 md:p-8">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="p-2 bg-indigo-100 rounded-lg">
                             <Bell className="h-6 w-6 text-indigo-600" />
@@ -35,7 +32,6 @@ export default function Reminders() {
                         </Card>
                     </div>
                 </section>
-            </div>
-        </div>
+        </Layout>
     );
 }

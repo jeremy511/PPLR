@@ -6,7 +6,7 @@ export function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="w-full bg-white border-t border-border mt-auto py-6">
+        <footer className="w-full bg-card/80 backdrop-blur-md border-t border-border/60 mt-auto py-6 transition-colors duration-200">
             <div className="container max-w-5xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
                 <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
                     <span className="font-semibold text-foreground">PPLR System</span>
@@ -15,9 +15,6 @@ export function Footer() {
                 </div>
 
                 <div className="flex items-center gap-6">
-                    <Link to="/help" className="hover:text-foreground transition-colors">
-                        Ayuda
-                    </Link>
                     <Link to="/privacy" className="hover:text-foreground transition-colors">
                         Privacidad
                     </Link>

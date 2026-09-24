@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { updateProfile } from "../api/auth";
-import { Header } from "../components/Header";
+import { Layout } from "../components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -69,11 +69,8 @@ export default function Profile() {
     };
 
     return (
-        <div className="bg-background py-10 px-4 md:px-8">
-            <div className="max-w-3xl mx-auto space-y-8">
-                <Header />
-
-                <div className="flex justify-center">
+        <Layout>
+            <div className="flex justify-center">
                     <Card className="w-full max-w-2xl">
                         <CardHeader>
                             <CardTitle>Mi Perfil</CardTitle>
@@ -166,7 +163,6 @@ export default function Profile() {
                         </form>
                     </Card>
                 </div>
-            </div>
-        </div>
+        </Layout>
     );
 }

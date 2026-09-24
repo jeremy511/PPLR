@@ -61,16 +61,24 @@ export const deletePublisherController = catchAsync(async (req, res) => {
 
 export const updatePublisherRoleController = catchAsync(async (req, res) => {
   const { id } = req.params;
+  const idInt = parseInt(id);
+  if (isNaN(idInt)) {
+    throw new ValidationError("ID de usuario inválido");
+  }
   const { role } = req.body;
-  const updatedUser = await AuthService.updatePublisherRole(id, role);
+  const updatedUser = await AuthService.updatePublisherRole(idInt, role);
   res.json(updatedUser);
 });
 
 export const updatePublisherController = catchAsync(async (req, res) => {
   const { id } = req.params;
+  const idInt = parseInt(id);
+  if (isNaN(idInt)) {
+    throw new ValidationError("ID de usuario inválido");
+  }
   const data = req.body;
   
-  const updatedUser = await AuthService.updatePublisher(id, data);
+  const updatedUser = await AuthService.updatePublisher(idInt, data);
   const { password: _, ...userWithoutPassword } = updatedUser;
   res.json(userWithoutPassword);
 });

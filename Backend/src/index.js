@@ -11,6 +11,8 @@ import initGoogleAuth from "./routes/googleAuth.js";
 import shiftRoutes from "./routes/shiftRoutes.js";
 import zoneRoutes from "./routes/zoneRoutes.js";
 import metricsRoutes from "./routes/metricsRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import settingsRoutes from "./routes/settingsRoutes.js";
 
 import { logger } from "./utils/logger.js";
 import errorHandler from "./Middleware/errorHandler.js";
@@ -26,13 +28,6 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 
-// DEBUGGING: Log incoming cookies
-app.use((req, res, next) => {
-  console.log("DEBUG COOKIES:", req.cookies);
-  console.log("DEBUG HEADERS:", req.headers);
-  next();
-});
-
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -41,8 +36,8 @@ app.use(
       
       const allowedOrigin = CLIENT_URL.endsWith('/') ? CLIENT_URL.slice(0, -1) : CLIENT_URL;
       
-      if (origin === allowedOrigin || origin === CLIENT_URL) {
-        return callback(null, allowedOrigin);
+      if (origin === allowedOrigin || origin === CLIENT_URL || origin.startsWith("http://localhost:")) {
+        return callback(null, origin);
       } else {
         return callback(new Error('Not allowed by CORS'));
       }
@@ -74,6 +69,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/shifts", shiftRoutes);
 app.use("/api/zones", zoneRoutes);
 app.use("/api/metrics", metricsRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/settings", settingsRoutes);
 
 // Global Error Handler
 app.use(errorHandler);

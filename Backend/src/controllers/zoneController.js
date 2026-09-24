@@ -1,6 +1,7 @@
 import prisma from "../lib/prisma.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { AppError } from "../utils/errors.js";
+import * as SettingsService from "../services/serviceSettings.js";
 
 export const getAllZones = asyncHandler(async (req, res) => {
   const isAdmin = req.user?.role === "ADMIN";
@@ -8,22 +9,31 @@ export const getAllZones = asyncHandler(async (req, res) => {
   // Only show hidden zones if user is Admin AND explicitly asks for them
   const whereClause = (isAdmin && includeHidden) ? {} : { active: true };
 
-  const zones = await prisma.zone.findMany({
-    where: whereClause,
-    include: {
-      carts: {
-        include: {
-          cart: true
+  const [zones, zoneRulesMap] = await Promise.all([
+    prisma.zone.findMany({
+      where: whereClause,
+      include: {
+        carts: {
+          include: {
+            cart: true
+          }
         }
-      }
-    },
-    orderBy: { name: 'asc' }
-  });
-  res.json(zones);
+      },
+      orderBy: { name: 'asc' }
+    }),
+    SettingsService.getAllZoneRules()
+  ]);
+
+  const zonesWithRules = zones.map(zone => ({
+    ...zone,
+    customRules: zoneRulesMap[String(zone.id)] || null
+  }));
+
+  res.json(zonesWithRules);
 });
 
 export const createZone = asyncHandler(async (req, res) => {
-  const { name, description, color, active, location, warehouse, instructions } = req.body;
+  const { name, description, color, active, location, warehouse, instructions, customRules } = req.body;
   const zone = await prisma.zone.create({
     data: { 
       name, 
@@ -35,15 +45,22 @@ export const createZone = asyncHandler(async (req, res) => {
       instructions
     }
   });
-  res.status(201).json(zone);
+
+  let savedRules = null;
+  if (customRules) {
+    savedRules = await SettingsService.saveZoneRules(zone.id, customRules);
+  }
+
+  res.status(201).json({ ...zone, customRules: savedRules });
 });
 
 export const updateZone = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { name, description, color, active, location, warehouse, instructions } = req.body;
+  const { name, description, color, active, location, warehouse, instructions, customRules } = req.body;
+  const parsedId = parseInt(id);
   
   const zone = await prisma.zone.update({
-    where: { id: parseInt(id) },
+    where: { id: parsedId },
     data: { 
       name, 
       description, 
@@ -54,15 +71,25 @@ export const updateZone = asyncHandler(async (req, res) => {
       instructions
     }
   });
-  res.json(zone);
+
+  let savedRules = null;
+  if (customRules !== undefined) {
+    savedRules = await SettingsService.saveZoneRules(parsedId, customRules);
+  } else {
+    savedRules = await SettingsService.getZoneRules(parsedId);
+  }
+
+  res.json({ ...zone, customRules: savedRules });
 });
 
 export const deleteZone = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const parsedId = parseInt(id);
   try {
     await prisma.zone.delete({
-      where: { id: parseInt(id) }
+      where: { id: parsedId }
     });
+    await SettingsService.deleteZoneRules(parsedId);
     res.json({ message: "Zona eliminada correctamente" });
   } catch (error) {
     if (error.code === 'P2003') {
@@ -71,3 +98,4 @@ export const deleteZone = asyncHandler(async (req, res) => {
     throw error;
   }
 });
+

@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";
 import * as AuthRepo from "../Repositories/authRepository.js";
 import { sendPasswordResetEmail, sendRegistrationOTPEmail } from "./serviceEmail.js";
 import { AppError, ValidationError, UnauthorizedError, NotFoundError } from "../utils/errors.js";
+import { logger } from "../utils/logger.js";
+import { getSettings } from "./serviceSettings.js";
 
 import { JWT_SECRET } from "../config.js";
 
@@ -33,6 +35,11 @@ export const login = async (email, password) => {
 };
 
 export const register = async ({ email, password, firstName, lastName, phone, birthdate, gender, otpCode }) => {
+  const settings = await getSettings();
+  if (settings.allowPublicRegistration === false) {
+    throw new ValidationError("El registro público se encuentra temporalmente cerrado. Por favor, comunícate con un administrador.");
+  }
+
   const normalizedEmail = email.toLowerCase();
   
   // Verify OTP
@@ -192,39 +199,55 @@ export const updatePublisher = async (id, data) => {
 };
 
 export const requestPasswordReset = async (email) => {
-    const normalizedEmail = email.toLowerCase();
+    const normalizedEmail = email ? email.toLowerCase().trim() : "";
+    if (!normalizedEmail) {
+        throw new ValidationError("Correo electrónico requerido");
+    }
+
     const user = await prisma.publisher.findUnique({ where: { email: normalizedEmail } });
     
-    // Security: Do not confirm if email exists to avoid enumeration, 
-    // but in this internal app we can be a bit more explicit or just return success always.
+    // Security: Do not confirm if email exists to avoid enumeration
     if (!user) {
-        console.log(`Password reset requested for non-existent email: ${email}`);
+        logger.info({ email: normalizedEmail }, "Password reset requested for non-existent email");
         return { message: "Si el correo está registrado, recibirás instrucciones en breve." };
     }
 
-    const token = crypto.randomBytes(32).toString('hex');
+    const rawToken = crypto.randomBytes(32).toString('hex');
+    const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
     const expiresAt = new Date(Date.now() + 3600000); // 1 hour
 
-    // Clean up old tokens
+    // Clean up old tokens for this user
     await prisma.passwordResetToken.deleteMany({
         where: { publisherId: user.id }
     });
 
+    // Store only the SHA-256 hash in database
     await prisma.passwordResetToken.create({
         data: {
-            token,
+            token: hashedToken,
             expiresAt,
             publisherId: user.id
         }
     });
 
-    await sendPasswordResetEmail(user.email, token, user.firstName);
-    return { message: "Correo de recuperación enviado exitosamente" };
+    // Send original rawToken in the email
+    await sendPasswordResetEmail(user.email, rawToken, user.firstName);
+    return { message: "Si el correo está registrado, recibirás instrucciones en breve." };
 };
 
 export const resetPasswordWithToken = async (token, newPassword) => {
+    if (!token || typeof token !== "string") {
+        throw new ValidationError("El enlace es inválido o ya ha sido utilizado.");
+    }
+
+    if (!newPassword || typeof newPassword !== "string" || newPassword.length < 6) {
+        throw new ValidationError("La contraseña debe tener al menos 6 caracteres.");
+    }
+
+    const hashedToken = crypto.createHash('sha256').update(token.trim()).digest('hex');
+
     const resetToken = await prisma.passwordResetToken.findUnique({
-        where: { token },
+        where: { token: hashedToken },
         include: { publisher: true }
     });
 
@@ -233,7 +256,7 @@ export const resetPasswordWithToken = async (token, newPassword) => {
     }
 
     if (resetToken.expiresAt < new Date()) {
-        await prisma.passwordResetToken.delete({ where: { id: resetToken.id } });
+        await prisma.passwordResetToken.deleteMany({ where: { publisherId: resetToken.publisherId } });
         throw new ValidationError("El enlace ha expirado. Por favor, solicita uno nuevo.");
     }
 
@@ -244,13 +267,19 @@ export const resetPasswordWithToken = async (token, newPassword) => {
             where: { id: resetToken.publisherId },
             data: { password: hashedPassword }
         }),
-        prisma.passwordResetToken.delete({ where: { id: resetToken.id } })
+        prisma.passwordResetToken.deleteMany({ where: { publisherId: resetToken.publisherId } })
     ]);
 
+    logger.info({ publisherId: resetToken.publisherId }, "Password reset successfully completed");
     return { message: "Contraseña actualizada correctamente" };
 };
 
 export const requestOTP = async (email) => {
+    const settings = await getSettings();
+    if (settings.allowPublicRegistration === false) {
+        throw new ValidationError("El registro público se encuentra temporalmente cerrado. Por favor, comunícate con un administrador.");
+    }
+
     const normalizedEmail = email.toLowerCase();
     
     // Check if user already exists

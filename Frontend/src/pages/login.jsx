@@ -13,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginSchema } from "@/schemas/auth";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -32,6 +32,7 @@ function Login() {
   const [generalError, setGeneralError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -40,6 +41,15 @@ function Login() {
       password: "",
     },
   });
+
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+    if (errorParam === "registration_closed") {
+      setGeneralError("El registro público se encuentra cerrado para nuevas cuentas. Si perteneces a la congregación, comunícate con un administrador.");
+    } else if (errorParam === "auth_failed") {
+      setGeneralError("No se pudo completar el inicio de sesión con Google. Por favor, intenta de nuevo.");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (user && !authLoading) {
@@ -55,14 +65,7 @@ function Login() {
     if (success) {
       navigate("/dashboard");
     } else {
-      // User Friendly Error Mapping
-      if (message && message.includes("401")) {
-        setGeneralError("Correo o contraseña incorrectos.");
-      } else if (message && message.includes("404")) {
-        setGeneralError("Usuario no encontrado.");
-      } else {
-        setGeneralError(message || "Ocurrió un error al iniciar sesión.");
-      }
+      setGeneralError(message || "Correo o contraseña incorrectos.");
     }
     setLoading(false);
   };

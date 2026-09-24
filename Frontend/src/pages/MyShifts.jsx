@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Header } from "../components/Header";
+import { Layout } from "../components/Layout";
+import { LoadingScreen } from "../components/ui/LoadingScreen";
 import { getMyShifts } from "../api/shifts";
 import { useAuth } from "../hooks/useAuth";
 import {
@@ -33,39 +34,31 @@ export default function MyShifts() {
 
     const fetchShifts = async () => {
         setLoading(true);
-        console.log("Fetching shifts for frontend user:", user);
+        setError(null);
         try {
             const data = await getMyShifts();
-            console.log("API Response (My Shifts):", data);
-
             // Client-side safety: ensure only unique shifts are shown
-            const uniqueShifts = Array.from(new Map(data.map(item => [item.id, item])).values());
-            console.log("Unique Shifts (Deduped):", uniqueShifts);
+            const uniqueShifts = Array.from(new Map((data || []).map(item => [item.id, item])).values());
             setShifts(uniqueShifts);
         } catch (err) {
-            console.error(err);
-            setError(err.message);
-            toast.error("No se pudieron cargar tus turnos");
+            if (import.meta.env.DEV) {
+                console.warn("[MyShifts fetchShifts Failed]:", err);
+            }
+            const friendlyMsg = err?.message || "No se pudieron cargar tus turnos. Por favor, intenta de nuevo.";
+            setError(friendlyMsg);
+            toast.error(friendlyMsg);
         } finally {
             setLoading(false);
         }
     };
 
     if (loading) {
-        return (
-            <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-6">
-                <div className="loader" />
-                <p className="text-muted-foreground font-medium animate-pulse tracking-wide">Cargando tus turnos...</p>
-            </div>
-        );
+        return <LoadingScreen text="Cargando tus turnos..." />;
     }
 
     return (
-        <div className="bg-background py-10 px-4 md:px-8">
-            <div className="max-w-5xl mx-auto space-y-8">
-                <Header />
-
-                {/* Main Content Section */}
+        <Layout>
+            {/* Main Content Section */}
                 <section className="bg-card rounded-2xl shadow-sm border border-border p-6 md:p-8">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                         <div>
@@ -75,7 +68,7 @@ export default function MyShifts() {
                             </p>
                         </div>
                         {shifts.length > 0 && (
-                            <Badge variant="outline" className="w-fit h-7 px-3 border-indigo-200 text-indigo-700 bg-indigo-50/50">
+                            <Badge variant="outline" className="w-fit h-7 px-3 border-primary/30 text-primary bg-primary/5">
                                 {shifts.length} {shifts.length === 1 ? 'Turno' : 'Turnos'}
                             </Badge>
                         )}
@@ -113,8 +106,7 @@ export default function MyShifts() {
                         </div>
                     )}
                 </section>
-            </div>
-        </div>
+        </Layout>
     );
 }
 
@@ -151,11 +143,11 @@ function ShiftCard({ shift, currentUser }) {
 
     return (
         <Card
-            className="overflow-hidden border-border/40 hover:shadow-md transition-all duration-300 rounded-xl group flex flex-col border-l-4 bg-white"
+            className="overflow-hidden border-border/40 hover:shadow-md transition-all duration-300 rounded-xl group flex flex-col border-l-4 bg-card"
             style={{ borderLeftColor: zoneColor, borderColor: `${zoneColor}30` }}
         >
             {/* Header with Date and Status */}
-            <div className="px-4 py-3 border-b border-border/30 flex justify-between items-center bg-gray-50/50">
+            <div className="px-4 py-3 border-b border-border/30 flex justify-between items-center bg-muted/30">
                 <div className="flex items-center gap-2">
                     <div className="flex flex-col">
                         <span
@@ -164,12 +156,12 @@ function ShiftCard({ shift, currentUser }) {
                         >
                             {dayName}
                         </span>
-                        <span className="text-xs font-bold text-gray-500 mt-0.5">
+                        <span className="text-xs font-bold text-muted-foreground mt-0.5">
                             {formattedDate}
                         </span>
                     </div>
                 </div>
-                <Badge variant="ghost" className="text-[9px] h-4 px-1.5 text-gray-400 border-none uppercase font-black tracking-tighter">
+                <Badge variant="ghost" className="text-[9px] h-4 px-1.5 text-muted-foreground border-none uppercase font-black tracking-tighter">
                     {shift.status === 'CONFIRMED' ? 'Confirmado' : 'Asignado'}
                 </Badge>
             </div>
@@ -184,7 +176,7 @@ function ShiftCard({ shift, currentUser }) {
                         >
                             <Clock className="h-4 w-4" style={{ color: zoneColor }} />
                         </div>
-                        <span className="text-[13px] font-bold text-gray-700">
+                        <span className="text-[13px] font-bold text-foreground">
                             {timeRange}
                         </span>
                     </div>
@@ -195,16 +187,16 @@ function ShiftCard({ shift, currentUser }) {
                         >
                             <MapPin className="h-4 w-4" style={{ color: zoneColor }} />
                         </div>
-                        <span className="text-[13px] font-bold text-gray-700 text-right truncate max-w-[100px]">
+                        <span className="text-[13px] font-bold text-foreground text-right truncate max-w-[100px]">
                             {shift.zone.name}
                         </span>
                     </div>
                 </div>
 
                 {/* Teammates Section */}
-                <div className="pt-2 border-t border-dashed border-gray-100 flex-grow">
+                <div className="pt-2 border-t border-dashed border-border flex-grow">
                     <div className="flex items-center justify-between mb-3">
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                             Compañeros
                         </span>
                         {isResponsable && (
@@ -215,11 +207,11 @@ function ShiftCard({ shift, currentUser }) {
                     </div>
 
                     {teammates.length === 0 ? (
-                        <p className="text-[11px] text-gray-400 italic py-1">Sin compañeros asignados aún</p>
+                        <p className="text-[11px] text-muted-foreground italic py-1">Sin compañeros asignados aún</p>
                     ) : (
                         <div className="space-y-2">
                             {teammates.map((teammate) => (
-                                <div key={teammate.id} className="flex items-center justify-between p-2 rounded-lg bg-gray-50 group-hover:bg-white transition-colors border border-transparent group-hover:border-gray-100">
+                                <div key={teammate.id} className="flex items-center justify-between p-2 rounded-lg bg-muted/40 group-hover:bg-muted/60 transition-colors border border-border/50">
                                     <div className="flex items-center gap-2 min-w-0">
                                         <div
                                             className="h-7 w-7 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0"
@@ -228,10 +220,10 @@ function ShiftCard({ shift, currentUser }) {
                                             {teammate.firstName[0]}
                                         </div>
                                         <div className="flex flex-col min-w-0">
-                                            <span className="text-[12px] font-bold text-gray-900 leading-tight truncate">
+                                            <span className="text-[12px] font-bold text-foreground leading-tight truncate">
                                                 {formatDisplayName(teammate.firstName, teammate.lastName)}
                                             </span>
-                                            <span className="text-[10px] text-gray-400">{teammate.phone}</span>
+                                            <span className="text-[10px] text-muted-foreground">{teammate.phone}</span>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-1 shrink-0">

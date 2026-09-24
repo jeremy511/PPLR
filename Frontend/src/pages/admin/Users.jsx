@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllPublishers, deletePublisher, updatePublisher } from "../../api/admin";
 import { useAuth } from "../../hooks/useAuth";
-import { Header } from "../../components/Header";
+import { Layout } from "../../components/Layout";
 import { formatDisplayName } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -49,7 +49,7 @@ export default function Users() {
     const [tempPasswords, setTempPasswords] = useState({ new: "", confirm: "" });
     const [sortConfig, setSortConfig] = useState({ key: 'createdAt', direction: 'desc' });
 
-    const { data: users, isLoading, error } = useQuery({
+    const { data: users, isLoading, error, refetch } = useQuery({
         queryKey: ["users"],
         queryFn: getAllPublishers,
     });
@@ -174,14 +174,35 @@ export default function Users() {
             : <ChevronDown className="ml-2 h-3 w-3 text-primary" />;
     };
 
-    if (isLoading) return <div className="p-8 text-center">Cargando usuarios...</div>;
-    if (error) return <div className="p-8 text-center text-red-500">Error: {error.message}</div>;
+    if (isLoading) {
+        return (
+            <Layout>
+                <div className="py-24 flex flex-col items-center justify-center gap-6">
+                    <div className="loader" />
+                    <p className="text-muted-foreground font-medium animate-pulse tracking-wide">Cargando usuarios...</p>
+                </div>
+            </Layout>
+        );
+    }
+    if (error) {
+        return (
+            <Layout>
+                <div className="p-8 text-center bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 rounded-2xl max-w-lg mx-auto my-12">
+                    <h2 className="text-lg font-bold text-red-900 dark:text-red-300">No se pudieron cargar los usuarios</h2>
+                    <p className="text-sm text-red-700 dark:text-red-400 mt-2">
+                        {error.message || "Ocurrió un problema de comunicación con el servidor."}
+                    </p>
+                    <Button onClick={() => refetch()} className="mt-5 bg-red-600 hover:bg-red-700 text-white">
+                        Reintentar
+                    </Button>
+                </div>
+            </Layout>
+        );
+    }
 
     return (
-        <div className="bg-background py-10 px-4 md:px-8">
-            <div className="max-w-5xl mx-auto space-y-6">
-                <Header />
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <Layout>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">Gestión de Usuarios</h1>
                         <p className="text-muted-foreground mt-1">
@@ -406,8 +427,8 @@ export default function Users() {
                                             <TableCell>
                                                 <span
                                                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${u.role === "ADMIN"
-                                                        ? "bg-purple-100 text-purple-800"
-                                                        : "bg-gray-100 text-gray-800"
+                                                        ? "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400"
+                                                        : "bg-muted text-muted-foreground"
                                                         }`}
                                                 >
                                                     {u.role}
@@ -495,7 +516,6 @@ export default function Users() {
                         )}
                     </div>
                 </div>
-            </div>
 
             {/* Password Change Modal */}
             <AlertDialog open={passwordModalOpen} onOpenChange={setPasswordModalOpen}>
@@ -561,6 +581,7 @@ export default function Users() {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-        </div>
+
+        </Layout>
     );
 }

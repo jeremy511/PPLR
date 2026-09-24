@@ -34,10 +34,19 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", {
-    session: false,
-    failureRedirect: `${CLIENT_URL}/login`,
-  }),
+  (req, res, next) => {
+    passport.authenticate("google", { session: false }, (err, user, info) => {
+      if (err) {
+        return res.redirect(`${CLIENT_URL}/login?error=auth_failed`);
+      }
+      if (!user) {
+        const reason = info?.message === "registration_closed" ? "registration_closed" : "auth_failed";
+        return res.redirect(`${CLIENT_URL}/login?error=${reason}`);
+      }
+      req.user = user;
+      next();
+    })(req, res, next);
+  },
   (req, res) => {
     const token = jwt.sign(
       { 

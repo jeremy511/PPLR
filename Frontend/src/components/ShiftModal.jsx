@@ -44,7 +44,7 @@ export function ShiftModal({
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
             <DialogContent className={cn(
                 "sm:max-w-[425px] rounded-2xl max-h-[90vh] overflow-y-auto custom-scrollbar transition-all",
-                isAdmin ? "border-indigo-500/50 shadow-indigo-100 border-2" : "border-gray-200"
+                isAdmin ? "border-primary/50 shadow-primary/10 border-2" : "border-border"
             )}>
                 <DialogHeader>
                     {isAdmin && (
@@ -55,14 +55,14 @@ export function ShiftModal({
                             </span>
                         </div>
                     )}
-                    <DialogTitle className="flex items-center gap-2 text-xl capitalize text-gray-800">
+                    <DialogTitle className="flex items-center gap-2 text-xl capitalize text-foreground">
                         <CalendarIcon className="h-5 w-5 text-indigo-500" />
                         {formatDate(selectedShift.fullDate)}
                     </DialogTitle>
                     <div className="font-semibold text-indigo-600/80 flex flex-col gap-1 mt-2">
                         <span className="text-base">{selectedShift.slotIndex !== undefined ? timeSlots[selectedShift.slotIndex]?.label : ""}</span>
                         <div className="flex items-center justify-between">
-                            <span className="flex items-center gap-1.5 text-gray-500 text-sm font-medium">
+                            <span className="flex items-center gap-1.5 text-muted-foreground text-sm font-medium">
                                 <MapPin className="h-3.5 w-3.5 text-indigo-400" />
                                 {selectedShift.zoneName}
                             </span>
@@ -82,14 +82,14 @@ export function ShiftModal({
                     )}
 
                     <div className="space-y-4">
-                        <h4 className="text-sm font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                        <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                             <UserCheck className="h-4 w-4" />
                             Participantes ({selectedShift.publishers.length}/4)
                         </h4>
 
                         {selectedShift.publishers.length === 0 ? (
-                            <div className="text-center py-8 bg-gray-50/50 rounded-xl border border-dashed border-gray-200">
-                                <p className="text-sm text-gray-400 italic">No hay nadie anotado aún.</p>
+                            <div className="text-center py-8 bg-muted/30 rounded-xl border border-dashed border-border">
+                                <p className="text-sm text-muted-foreground italic">No hay nadie anotado aún.</p>
                             </div>
                         ) : (
                             <ul className="space-y-2">
@@ -120,8 +120,8 @@ export function ShiftModal({
                                             <li
                                                 key={i}
                                                 className={cn(
-                                                    "flex items-center justify-between gap-3 text-sm p-3 bg-white border rounded-xl shadow-sm group hover:border-indigo-100 transition-colors",
-                                                    isResp ? "border-indigo-100 bg-indigo-50/10" : "border-gray-100"
+                                                    "flex items-center justify-between gap-3 text-sm p-3 bg-card border rounded-xl shadow-sm group hover:border-primary/20 transition-colors",
+                                                    isResp ? "border-primary/20 bg-primary/5" : "border-border"
                                                 )}
                                             >
                                                 <div className="flex items-center gap-3">
@@ -129,7 +129,7 @@ export function ShiftModal({
                                                         "h-2 w-2 rounded-full",
                                                         isResp ? "bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.3)]" : "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.3)]"
                                                     )} />
-                                                    <span className={cn("text-gray-700", isResp ? "font-black" : "font-semibold")}>
+                                                    <span className={cn("text-foreground", isResp ? "font-black" : "font-semibold")}>
                                                         {formatDisplayName(p.firstName, p.lastName)}
                                                         {isMinor && <span className="ml-1 text-[10px] text-amber-500 font-bold">(Menor)</span>}
                                                     </span>
@@ -207,7 +207,7 @@ export function ShiftModal({
                         <Button
                             onClick={onJoin}
                             disabled={isFull || selectedShift.status === 'CANCELLED'}
-                            className="w-full h-11 rounded-xl font-bold bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-200 border-none disabled:bg-gray-100 disabled:text-gray-400 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                            className="w-full h-11 rounded-xl font-bold bg-primary hover:bg-primary/90 shadow-md shadow-primary/20 border-none disabled:bg-muted disabled:text-muted-foreground transition-all hover:scale-[1.02] active:scale-[0.98]"
                         >
                             {selectedShift.status === 'CANCELLED' ? "Turno Cancelado" : isFull ? "Cupo Completo" : "Inscribirme Ahora"}
                         </Button>

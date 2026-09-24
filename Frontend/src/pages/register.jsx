@@ -110,9 +110,12 @@ const Register = () => {
       await login(values.email, values.password);
       navigate("/dashboard");
     } catch (err) {
-      console.error(err);
-      setServerError(err.message);
-      toast.error(err.message);
+      if (import.meta.env.DEV) {
+        console.warn("[Register Error]:", err);
+      }
+      const message = err.message || "No se pudo completar el registro. Por favor, verifica tus datos e intenta nuevamente.";
+      setServerError(message);
+      toast.error(message);
     }
   };
 
@@ -328,7 +331,7 @@ const Register = () => {
 
                   <Button
                     variant="link"
-                    className="w-full text-xs text-gray-500"
+                    className="w-full text-xs text-muted-foreground"
                     type="button"
                     onClick={() => setIsOtpSent(false)}
                   >

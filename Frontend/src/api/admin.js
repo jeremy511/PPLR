@@ -55,3 +55,11 @@ export const updateShiftStatus = async (shiftId, status) => {
     body: JSON.stringify({ status }),
   });
 };
+
+export const getSystemSettings = async () => {
+  return apiClient.get("/admin/settings");
+};
+
+export const updateSystemSettings = async (settings) => {
+  return apiClient.put("/admin/settings", settings);
+};

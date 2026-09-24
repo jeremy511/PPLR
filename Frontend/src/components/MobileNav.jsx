@@ -50,7 +50,7 @@ export function MobileNav() {
                 Mis Turnos
               </Link>
               <div className="border-t pt-4 mt-2">
-                <h4 className="font-semibold mb-2 text-gray-500 uppercase text-xs tracking-wider">Administración</h4>
+                <h4 className="font-semibold mb-2 text-muted-foreground uppercase text-xs tracking-wider">Administración</h4>
                 <Link to="/admin/users" onClick={() => setOpen(false)} className="block py-2 text-lg font-medium hover:text-indigo-600">
                   Gestión de Usuarios
                 </Link>
@@ -75,26 +75,13 @@ export function MobileNav() {
                 Mis Turnos
               </Link>
               <div className="border-t pt-4 mt-2">
-                <h4 className="font-semibold mb-2 text-gray-500 uppercase text-xs tracking-wider">Información</h4>
-                <Link to="/zones" onClick={() => setOpen(false)} className="block py-2 text-lg font-medium hover:text-indigo-600">
-                  Zonas Disponibles
-                </Link>
-                <Link to="/guide" onClick={() => setOpen(false)} className="block py-2 text-lg font-medium hover:text-indigo-600">
-                  Guía de Predicación
+                <h4 className="font-semibold mb-2 text-muted-foreground uppercase text-xs tracking-wider">Información</h4>
+                <Link to="/recordatorios" onClick={() => setOpen(false)} className="block py-2 text-lg font-medium hover:text-indigo-600">
+                  Recordatorios
                 </Link>
               </div>
             </>
           )}
-
-          <div className="border-t pt-4 mt-2">
-            <Link
-              to="/help"
-              onClick={() => setOpen(false)}
-              className="text-lg font-medium hover:text-indigo-600"
-            >
-              Ayuda
-            </Link>
-          </div>
         </nav>
       </SheetContent>
     </Sheet>

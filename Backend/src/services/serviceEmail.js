@@ -1,7 +1,9 @@
 import { BREVO_API_KEY, SENDER_EMAIL, CLIENT_URL } from '../config.js';
+import { logger } from '../utils/logger.js';
+import { AppError } from '../utils/errors.js';
 
 if (!BREVO_API_KEY) {
-    console.warn('WARNING: BREVO_API_KEY is missing. Email sending will fail.');
+    logger.warn('WARNING: BREVO_API_KEY is missing. Email sending will fail.');
 }
 
 /**
@@ -22,7 +24,7 @@ const sendEmail = async ({ to, subject, htmlContent }) => {
     };
 
     try {
-        console.log(`Sending email to ${to} via Brevo API...`);
+        logger.info({ to, subject }, "Sending email via Brevo API");
         
         const response = await fetch(url, {
             method: 'POST',
@@ -35,16 +37,20 @@ const sendEmail = async ({ to, subject, htmlContent }) => {
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`Brevo API Error ${response.status}: ${JSON.stringify(errorData)}`);
+            const errorData = await response.json().catch(() => ({}));
+            logger.error({ status: response.status, errorData, to }, "Brevo API returned error");
+            throw new AppError("No se pudo enviar el correo en este momento. Por favor intenta de nuevo más tarde.", 500);
         }
 
         const data = await response.json();
-        console.log('Email sent successfully:', data);
+        logger.info({ to }, "Email sent successfully");
         return data;
     } catch (error) {
-        console.error('Failed to send email:', error);
-        throw error; // Re-throw to be caught by the service wrapper
+        if (error instanceof AppError) {
+            throw error;
+        }
+        logger.error({ err: error.message, to }, "Failed to send email");
+        throw new AppError("No se pudo enviar el correo en este momento. Por favor intenta de nuevo más tarde.", 500);
     }
 };
 
@@ -53,10 +59,16 @@ const sendEmail = async ({ to, subject, htmlContent }) => {
  */
 export const sendPasswordResetEmail = async (email, token, firstName) => {
     const resetLink = `${CLIENT_URL}/reset-password?token=${token}`;
+    const safeFirstName = String(firstName || "Hermano/a")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     
     const html = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
-            <h2 style="color: #4f46e5;">Hola, ${firstName}</h2>
+            <h2 style="color: #4f46e5;">Hola, ${safeFirstName}</h2>
             <p style="color: #374151; line-height: 1.6;">
                 Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en PPLR. 
                 Si no hiciste esta solicitud, puedes ignorar este correo de forma segura.

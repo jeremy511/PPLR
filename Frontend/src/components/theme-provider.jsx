@@ -11,33 +11,48 @@ export function ThemeProvider({
     storageKey = "vite-ui-theme",
     ...props
 }) {
-    const [theme, setTheme] = useState(
+    const [theme, setThemeState] = useState(
         () => localStorage.getItem(storageKey) || defaultTheme
     )
 
+    const [resolvedTheme, setResolvedTheme] = useState(() => {
+        if (typeof window === "undefined") return "light"
+        const stored = localStorage.getItem(storageKey)
+        if (stored === "dark" || stored === "light") return stored
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+    })
+
     useEffect(() => {
         const root = window.document.documentElement
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
 
-        root.classList.remove("light", "dark")
+        const applyTheme = () => {
+            root.classList.remove("light", "dark")
+            const currentSystem = mediaQuery.matches ? "dark" : "light"
+            const effective = theme === "system" ? currentSystem : theme
 
-        if (theme === "system") {
-            const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-                .matches
-                ? "dark"
-                : "light"
-
-            root.classList.add(systemTheme)
-            return
+            root.classList.add(effective)
+            setResolvedTheme(effective)
         }
 
-        root.classList.add(theme)
+        applyTheme()
+
+        const handleMediaChange = () => {
+            if (theme === "system") {
+                applyTheme()
+            }
+        }
+
+        mediaQuery.addEventListener("change", handleMediaChange)
+        return () => mediaQuery.removeEventListener("change", handleMediaChange)
     }, [theme])
 
     const value = {
         theme,
-        setTheme: (theme) => {
-            localStorage.setItem(storageKey, theme)
-            setTheme(theme)
+        resolvedTheme,
+        setTheme: (newTheme) => {
+            localStorage.setItem(storageKey, newTheme)
+            setThemeState(newTheme)
         },
     }
 

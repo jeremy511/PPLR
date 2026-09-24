@@ -26,6 +26,7 @@ const Dashboard = React.lazy(() => import("./pages/dashboard"));
 const AdminUsers = React.lazy(() => import("./pages/admin/Users"));
 const AdminZones = React.lazy(() => import("./pages/admin/Zones"));
 const Reports = React.lazy(() => import("./pages/admin/Reports"));
+const AdminSettings = React.lazy(() => import("./pages/admin/Settings"));
 const ForgotPassword = React.lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = React.lazy(() => import("./pages/ResetPassword"));
 const MyShifts = React.lazy(() => import("./pages/MyShifts"));
@@ -79,6 +80,14 @@ function App({ pageProps, Component }) {
                       element={
                         <ProtectedRoute>
                           <Reports />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/settings"
+                      element={
+                        <ProtectedRoute>
+                          <AdminSettings />
                         </ProtectedRoute>
                       }
                     />

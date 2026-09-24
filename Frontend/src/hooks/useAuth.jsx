@@ -18,10 +18,12 @@ export const AuthProvider = ({ children }) => {
     (async () => {
       try {
         const data = await getProfile();
-        console.log("PERFIL DESDE EL BACKEND:", data);
-        setUser(data.user || null);
+        setUser(data?.user || null);
       } catch (err) {
-        console.error("ERROR AL OBTENER PERFIL:", err);
+        // Un 401 en la carga inicial es el comportamiento normal cuando no hay sesión iniciada
+        if (import.meta.env.DEV && err.statusCode && err.statusCode !== 401) {
+          console.warn("[Auth] No active session or profile check failed:", err.message);
+        }
         setUser(null);
       } finally {
         setLoading(false);
@@ -33,15 +35,18 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       const data = await loginApi(email, password);
-      console.log("LOGIN DESDE EL BACKEND:", data);
-      if (!data) return { success: false, message: "No data received" };
-      if (!data.publisher) return { success: false, message: "No publisher data" };
+      if (!data?.publisher) {
+        return { success: false, message: "No se pudieron obtener los datos de la cuenta." };
+      }
       setUser(data.publisher);
       return { success: true };
     } catch (err) {
-      console.error("ERROR EN LOGIN USEAUTH:", err);
-      setError(err.message);
-      return { success: false, message: err.message };
+      if (import.meta.env.DEV) {
+        console.warn("[Auth Login Failed]:", err);
+      }
+      const message = err.message || "No se pudo iniciar sesión. Verifica tus credenciales.";
+      setError(message);
+      return { success: false, message };
     }
   };
 
@@ -56,10 +61,11 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = async () => {
     try {
       const data = await getProfile();
-      console.log("CHECK AUTH DESDE EL BACKEND:", data);
-      setUser(data.user || null);
+      setUser(data?.user || null);
     } catch (err) {
-      console.error("ERROR EN CHECK AUTH:", err);
+      if (import.meta.env.DEV && err.statusCode !== 401) {
+        console.warn("[Auth checkAuth Failed]:", err.message);
+      }
       setUser(null);
     }
   };

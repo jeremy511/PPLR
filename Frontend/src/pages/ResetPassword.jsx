@@ -54,8 +54,8 @@ export default function ResetPassword() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
-            <Card className="w-full max-w-md shadow-xl border-t-4 border-t-indigo-500">
+        <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
+            <Card className="w-full max-w-md shadow-xl border-t-4 border-t-primary">
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl font-bold text-center">Nueva Contraseña</CardTitle>
                     <CardDescription className="text-center">
@@ -72,8 +72,8 @@ export default function ResetPassword() {
                                 <CheckCircle2 className="h-10 w-10 text-green-500" />
                             </div>
                             <div className="space-y-2">
-                                <p className="font-medium text-gray-900">¡Contraseña Cambiada!</p>
-                                <p className="text-sm text-gray-500">
+                                <p className="font-medium text-foreground">¡Contraseña Cambiada!</p>
+                                <p className="text-sm text-muted-foreground">
                                     Serás redirigido al login en unos segundos...
                                 </p>
                             </div>
@@ -93,7 +93,7 @@ export default function ResetPassword() {
                             <div className="space-y-2">
                                 <Label htmlFor="password">Nueva Contraseña</Label>
                                 <div className="relative">
-                                    <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                                    <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                     <Input
                                         id="password"
                                         type="password"
@@ -110,7 +110,7 @@ export default function ResetPassword() {
                             <div className="space-y-2">
                                 <Label htmlFor="confirm-password">Confirmar Contraseña</Label>
                                 <div className="relative">
-                                    <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                                    <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                     <Input
                                         id="confirm-password"
                                         type="password"

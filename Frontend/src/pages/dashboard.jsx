@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { Header } from "../components/Header";
+import { Layout } from "../components/Layout";
 import { ShiftScheduler } from "../components/ShiftScheduler";
 import { ZoneInfoCard } from "../components/ZoneInfoCard";
 import { getZones } from "../api/shifts";
@@ -30,7 +30,7 @@ export default function Dashboard() {
   const [selectedZoneId, setSelectedZoneId] = useState(null);
 
   // Fetch Zones (Only active ones)
-  const { data: zones = [], isLoading: zonesLoading } = useQuery({
+  const { data: zones = [], isLoading: zonesLoading, error: zonesError, refetch: refetchZones } = useQuery({
     queryKey: ["zones", "active"],
     queryFn: () => getZones(false),
   });
@@ -52,19 +52,35 @@ export default function Dashboard() {
     return <LoadingScreen text="Cargando tablero..." />;
   }
 
+  if (zonesError) {
+    return (
+      <Layout>
+        <div className="p-8 text-center bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 rounded-2xl max-w-lg mx-auto my-12">
+          <h2 className="text-lg font-bold text-red-900 dark:text-red-300">No se pudo cargar la información del tablero</h2>
+          <p className="text-sm text-red-700 dark:text-red-400 mt-2">
+            {zonesError.message || "Ocurrió un problema al conectar con el servidor."}
+          </p>
+          <button
+            onClick={() => refetchZones()}
+            className="mt-5 px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-medium text-sm transition-colors"
+          >
+            Reintentar
+          </button>
+        </div>
+      </Layout>
+    );
+  }
+
   const isJardinBotanico = selectedZone?.name === "Jardin Botanico";
   const glassEffect = isJardinBotanico
     ? "bg-white/60 backdrop-blur-md border-white/40 shadow-lg"
     : "bg-card border-border shadow-sm";
 
   return (
-    <div className={`min-h-screen py-10 px-4 md:px-8 transition-colors duration-500 relative ${isJardinBotanico ? "" : "bg-background"
-      }`}>
-      {isJardinBotanico && <BlossomBackground />}
-
-      <div className="max-w-5xl mx-auto space-y-8 relative z-10">
-        <Header />
-
+    <Layout
+      className={isJardinBotanico ? "!bg-transparent" : ""}
+      background={isJardinBotanico ? <BlossomBackground /> : null}
+    >
         {/* Carousel Section */}
         <section className={`${glassEffect} rounded-2xl p-2 md:p-8 border transition-all duration-300`}>
           <div className="flex justify-center">
@@ -130,8 +146,6 @@ export default function Dashboard() {
             </section>
           )
         }
-      </div >
-    </div >
+    </Layout>
   );
 };
-

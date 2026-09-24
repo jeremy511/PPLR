@@ -1,0 +1,50 @@
+{
+  "advanceWeeks": 2,
+  "maxWeeklyShiftsPerUser": 2,
+  "defaultCapacityPerShift": 3,
+  "minCancellationHours": 24,
+  "timeSlots": [
+    {
+      "id": "1",
+      "label": "7:30 - 9:30 AM",
+      "startHour": 7,
+      "startMinute": 30,
+      "endHour": 9,
+      "endMinute": 30,
+      "active": true
+    },
+    {
+      "id": "2",
+      "label": "9:30 - 11:00 AM",
+      "startHour": 9,
+      "startMinute": 30,
+      "endHour": 11,
+      "endMinute": 0,
+      "active": true
+    },
+    {
+      "id": "3",
+      "label": "4:00 - 6:00 PM",
+      "startHour": 16,
+      "startMinute": 0,
+      "endHour": 18,
+      "endMinute": 0,
+      "active": true
+    },
+    {
+      "id": "4",
+      "label": "6:00 - 7:30 PM",
+      "startHour": 18,
+      "startMinute": 0,
+      "endHour": 19,
+      "endMinute": 30,
+      "active": true
+    }
+  ],
+  "congregationName": "Congregación Central",
+  "allowPublicRegistration": true,
+  "requireAdminApproval": false,
+  "announcementBanner": "Recuerden revisar el estado de su turno y reportar cualquier novedad a su compañero.",
+  "showAnnouncementBanner": true,
+  "zoneOverrides": {}
+}

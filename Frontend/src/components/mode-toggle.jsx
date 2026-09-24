@@ -3,7 +3,7 @@ import { useTheme } from "@/components/theme-provider"
 import { useEffect, useState } from "react"
 
 export function ModeToggle() {
-    const { theme, setTheme } = useTheme()
+    const { setTheme, resolvedTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
 
     // Avoid hydration mismatch
@@ -17,7 +17,7 @@ export function ModeToggle() {
         )
     }
 
-    const isDark = theme === "dark"
+    const isDark = resolvedTheme === "dark"
 
     const toggleTheme = () => {
         setTheme(isDark ? "light" : "dark")

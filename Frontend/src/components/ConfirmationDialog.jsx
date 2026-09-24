@@ -36,25 +36,25 @@ export function ConfirmationDialog({
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[400px] rounded-2xl border-none shadow-2xl">
                 <DialogHeader className="flex flex-col items-center text-center space-y-3">
-                    <div className={`p-3 rounded-full ${variant === 'destructive' ? 'bg-red-50' : 'bg-amber-50'}`}>
-                        <AlertTriangle className={`h-6 w-6 ${variant === 'destructive' ? 'text-red-500' : 'text-amber-500'}`} />
+                    <div className={`p-3 rounded-full ${variant === 'destructive' ? 'bg-destructive/10' : 'bg-amber-500/10'}`}>
+                        <AlertTriangle className={`h-6 w-6 ${variant === 'destructive' ? 'text-destructive' : 'text-amber-500'}`} />
                     </div>
-                    <DialogTitle className="text-xl font-bold text-gray-800">
+                    <DialogTitle className="text-xl font-bold text-foreground">
                         {title}
                     </DialogTitle>
-                    <DialogDescription className="text-gray-500 max-w-[280px]">
+                    <DialogDescription className="text-muted-foreground max-w-[280px]">
                         {description}
                     </DialogDescription>
                 </DialogHeader>
 
                 {requireReason && (
                     <div className="py-2 space-y-2">
-                        <label className="text-xs font-bold text-gray-400 uppercase tracking-widest px-1">Motivo requerido</label>
+                        <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest px-1">Motivo requerido</label>
                         <Input
                             placeholder={reasonPlaceholder}
                             value={reason}
                             onChange={(e) => setReason(e.target.value)}
-                            className="rounded-xl h-11 border-gray-100 focus:border-indigo-300"
+                            className="rounded-xl h-11 border-border focus:border-primary/50"
                             autoFocus
                         />
                     </div>
@@ -67,7 +67,7 @@ export function ConfirmationDialog({
                             setReason("");
                             onOpenChange(false);
                         }}
-                        className="flex-1 rounded-xl h-11 font-semibold border-gray-100"
+                        className="flex-1 rounded-xl h-11 font-semibold border-border"
                     >
                         {cancelText}
                     </Button>

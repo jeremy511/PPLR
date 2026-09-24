@@ -29,8 +29,8 @@ export default function ForgotPassword() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
-            <Card className="w-full max-w-md shadow-xl border-t-4 border-t-indigo-500">
+        <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
+            <Card className="w-full max-w-md shadow-xl border-t-4 border-t-primary">
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl font-bold text-center">Recuperar Contraseña</CardTitle>
                     <CardDescription className="text-center">
@@ -47,8 +47,8 @@ export default function ForgotPassword() {
                                 <CheckCircle2 className="h-10 w-10 text-green-500" />
                             </div>
                             <div className="space-y-2">
-                                <p className="font-medium text-gray-900">¡Correo enviado!</p>
-                                <p className="text-sm text-gray-500">
+                                <p className="font-medium text-foreground">¡Correo enviado!</p>
+                                <p className="text-sm text-muted-foreground">
                                     Si <b>{email}</b> está registrado, recibirás un enlace en los próximos minutos.
                                 </p>
                             </div>
@@ -58,7 +58,7 @@ export default function ForgotPassword() {
                             <div className="space-y-2">
                                 <Label htmlFor="email">Correo Electrónico</Label>
                                 <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                     <Input
                                         id="email"
                                         type="email"
@@ -95,7 +95,7 @@ export default function ForgotPassword() {
                 <CardFooter>
                     <Link
                         to="/login"
-                        className="flex items-center justify-center w-full text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+                        className="flex items-center justify-center w-full text-sm font-medium text-primary hover:text-primary/80 transition-colors"
                     >
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Volver al inicio de sesión
